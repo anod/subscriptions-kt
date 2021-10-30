@@ -6,12 +6,14 @@ plugins {
     application
     id("org.jetbrains.compose")
     kotlin("plugin.serialization")
+    id("co.uzzu.dotenv.gradle") version "1.2.0"
 }
-
 kotlin {
+
     jvm {
         withJava()
     }
+
     js(IR) {
         browser {
             useCommonJs()
@@ -63,6 +65,13 @@ tasks.named<Copy>("jvmProcessResources") {
 tasks.named<JavaExec>("run") {
     dependsOn(tasks.named<Jar>("jvmJar"))
     classpath(tasks.named<Jar>("jvmJar"))
+    doFirst {
+        environment("SBS_JWT_SECRET", env.SBS_JWT_SECRET.value)
+        environment("SBS_JWT_AUDIENCE", env.SBS_JWT_SECRET.value)
+        environment("SBS_ENV", env.SBS_ENV.value)
+        environment("SBS_ENV_DEV", env.SBS_ENV.orNull() == "dev")
+        environment("SBS_WEB_PORT", env.SBS_WEB_PORT.value.toInt())
+    }
 }
 
 // a temporary workaround for a bug in jsRun invocation - see https://youtrack.jetbrains.com/issue/KT-48273

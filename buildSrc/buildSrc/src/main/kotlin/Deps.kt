@@ -86,4 +86,8 @@ object Deps {
         const val jwt = "io.ktor:ktor-auth-jwt:$VERSION"
         const val serialization = "io.ktor:ktor-serialization:$VERSION"
     }
+
+    object Uzzu {
+        const val dotenv = "co.uzzu.dotenv.gradle:1.2.0"
+    }
 }
