@@ -14,3 +14,7 @@
 /app/common/utils/build/
 /app/desktop/build/
 /app/web/build/
+app/buildSrc/buildSrc/.gradle/7.1.1/executionHistory/executionHistory.bin
+app/buildSrc/buildSrc/.gradle/7.1.1/executionHistory/executionHistory.lock
+app/buildSrc/buildSrc/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+app/buildSrc/buildSrc/.gradle/buildOutputCleanup/outputFiles.bin
