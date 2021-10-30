@@ -1,0 +1,50 @@
+enum ChargePeriod {
+    DAY
+    WEEK
+    MONTH
+    YEAR
+}
+
+type Payments {
+    price: Float
+    currency: String!
+    period: ChargePeriod
+    date: Date
+}
+
+type SubscriptionEntry {
+    name: String!
+    link: String!
+    payments: Charge!
+    started: Date
+}
+
+type UserEntry {
+    name: String!
+    email: String!
+}
+
+type Query {
+  subscriptions: [SubscriptionEntry!]
+  user: UserEntry
+}
+
+# mutation {
+#   createSubscriptionEntry(
+#     data: { 
+#       name: "Netflix", 
+#       link: "",
+#       started: null, 
+#       charge: {
+#         create: {
+#           price: 66.51,
+#           currency: "ILS",
+#           period: MONTH,
+#           date: "2021-02-21"
+#         }
+#       }
+#     }
+#   ) {
+#     _id
+#   }
+# }

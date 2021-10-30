@@ -1,0 +1,16 @@
+# Project exclude paths
+/app/.idea/
+/app/.gradle/
+/app/build/
+/app/buildSrc/.gradle/
+/app/buildSrc/build/
+/app/buildSrc/buildSrc/build/
+/app/buildSrc/buildSrc/.gradle/
+/app/common/compose-ui/build/
+/app/common/database/build/
+/app/common/edit/build/
+/app/common/main/build/
+/app/common/root/build/
+/app/common/utils/build/
+/app/desktop/build/
+/app/web/build/
