@@ -5,6 +5,7 @@ plugins {
     kotlin("multiplatform")
     application
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization")
 }
 
 kotlin {
@@ -22,9 +23,12 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.runtime)
-                implementation("io.ktor:ktor-server-core:1.6.1")
-                implementation("io.ktor:ktor-server-netty:1.6.1")
-                implementation("io.ktor:ktor-html-builder:1.6.1")
+                implementation(Deps.Ktor.core)
+                implementation(Deps.Ktor.netty)
+                implementation(Deps.Ktor.html)
+                implementation(Deps.Ktor.auth)
+                implementation(Deps.Ktor.jwt)
+                implementation(Deps.Ktor.serialization)
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
             }
         }
@@ -48,7 +52,7 @@ kotlin {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("io.ktor.server.netty.EngineMain")
 }
 
 tasks.named<Copy>("jvmProcessResources") {

@@ -5,6 +5,7 @@ object Deps {
             // __KOTLIN_COMPOSE_VERSION__
             private const val VERSION = "1.5.31"
             const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$VERSION"
+            const val serializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$VERSION"
             const val testCommon = "org.jetbrains.kotlin:kotlin-test-common:$VERSION"
             const val testJunit = "org.jetbrains.kotlin:kotlin-test-junit:$VERSION"
             const val testJs = "org.jetbrains.kotlin:kotlin-test-js:$VERSION"
@@ -21,7 +22,7 @@ object Deps {
     object Android {
         object Tools {
             object Build {
-                const val gradlePlugin = "com.android.tools.build:gradle:4.1.0"
+                const val gradlePlugin = "com.android.tools.build:gradle:4.2.0"
             }
         }
     }
@@ -74,5 +75,15 @@ object Deps {
             const val nativeDriver = "com.squareup.sqldelight:native-driver:$VERSION"
             const val sqljsDriver = "com.squareup.sqldelight:sqljs-driver:$VERSION"
         }
+    }
+
+    object Ktor {
+        private const val VERSION = "1.6.1"
+        const val core = "io.ktor:ktor-server-core:$VERSION"
+        const val netty = "io.ktor:ktor-server-netty:$VERSION"
+        const val html = "io.ktor:ktor-html-builder:$VERSION"
+        const val auth = "io.ktor:ktor-auth:$VERSION"
+        const val jwt = "io.ktor:ktor-auth-jwt:$VERSION"
+        const val serialization = "io.ktor:ktor-serialization:$VERSION"
     }
 }
