@@ -6,7 +6,6 @@ plugins {
 kotlin {
     jvm("desktop")
     android()
-    ios()
 
     js(IR) {
         browser()

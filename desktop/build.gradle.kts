@@ -18,6 +18,7 @@ kotlin {
                 implementation(project(":common:app"))
                 implementation(Deps.Ktor.client)
                 implementation(Deps.Ktor.cio)
+                implementation(Deps.Ktor.clientSerialization)
                 implementation(Deps.Koin.core)
             }
         }

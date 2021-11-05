@@ -73,9 +73,9 @@ private fun TodoList(
         val listState = rememberLazyListState()
 
         LazyColumn(state = listState) {
-            items(items) {
+            items(items.size) {
                 Item(
-                    item = it,
+                    item = items[it],
                     onItemClicked = onItemClicked,
                     onDoneChanged = onDoneChanged,
                     onDeleteItemClicked = onDeleteItemClicked

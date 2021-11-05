@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import info.anodsplace.subscriptions.app.MainViewModel
-import info.anodsplace.subscriptions.database.Subscription
+import info.anodsplace.subscriptions.database.SubscriptionEntity
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.FlexDirection
@@ -90,7 +90,7 @@ fun TodoMainUi(viewModel: MainViewModel) {
 
 @Composable
 private fun DOMScope<HTMLUListElement>.Item(
-    item: Subscription,
+    item: SubscriptionEntity,
     onClicked: (id: Long) -> Unit,
     onDoneChanged: (id: Long, isDone: Boolean) -> Unit,
     onDeleteClicked: (id: Long) -> Unit

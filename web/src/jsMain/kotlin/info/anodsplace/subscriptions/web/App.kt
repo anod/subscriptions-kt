@@ -14,6 +14,7 @@ import org.jetbrains.compose.web.ui.Styles
 import org.w3c.dom.HTMLElement
 import io.ktor.client.*
 import io.ktor.client.engine.js.*
+import io.ktor.client.features.json.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filterNotNull
@@ -29,13 +30,15 @@ fun main() {
     startKoin {
         koin.loadModules(listOf(module {
             single { appCoroutineScope } bind AppCoroutineScope::class
-            single { HttpClient(Js.create()) } bind HttpClient::class
+            single { HttpClient(Js.create()) {
+                install(JsonFeature) { }
+            } } bind HttpClient::class
             single { DefaultAppDatabase(appDatabaseDriverFactory()
                 .stateIn(get<AppCoroutineScope>(), SharingStarted.Eagerly, initialValue = null)
                 .filterNotNull(),
                 get<AppCoroutineScope>())
             } bind AppDatabase::class
-            single { DefaultSubscriptionsStore(get(), get()) } bind SubscriptionsStore::class
+            single { DefaultSubscriptionsStore(get(), get(), get()) } bind SubscriptionsStore::class
         }))
     }
 

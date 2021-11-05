@@ -10,7 +10,7 @@ plugins {
 }
 kotlin {
 
-    jvm {
+    jvm("server") {
         withJava()
     }
 
@@ -22,9 +22,10 @@ kotlin {
     }
 
     sourceSets {
-        named("jvmMain") {
+        named("serverMain") {
             dependencies {
                 implementation(compose.runtime)
+                implementation(project(":common:server-contract"))
                 implementation(Deps.Ktor.server)
                 implementation(Deps.Ktor.netty)
                 implementation(Deps.Ktor.html)
@@ -53,14 +54,14 @@ application {
     mainClass.set("io.ktor.server.netty.EngineMain")
 }
 
-tasks.named<Copy>("jvmProcessResources") {
+tasks.named<Copy>("serverProcessResources") {
     val jsBrowserDistribution = tasks.named("jsBrowserDistribution")
     from(jsBrowserDistribution)
 }
 
 tasks.named<JavaExec>("run") {
-    dependsOn(tasks.named<Jar>("jvmJar"))
-    classpath(tasks.named<Jar>("jvmJar"))
+    dependsOn(tasks.named<Jar>("serverJar"))
+    classpath(tasks.named<Jar>("serverJar"))
     doFirst {
         environment("SBS_JWT_SECRET", env.SBS_JWT_SECRET.value)
         environment("SBS_JWT_AUDIENCE", env.SBS_JWT_SECRET.value)

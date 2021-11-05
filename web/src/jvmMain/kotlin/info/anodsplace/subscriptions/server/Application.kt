@@ -1,6 +1,5 @@
-import auth.JwtToken
-import auth.LoginCredentials
-import auth.PasswordAuthenticator
+package info.anodsplace.subscriptions.server
+
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
@@ -55,10 +54,10 @@ fun Application.module(testing: Boolean = false) {
             call.respondHtml(HttpStatusCode.OK, HTML::index)
         }
         post("/login") {
-            val credentials = call.receive<LoginCredentials>()
+            val credentials = call.receive<LoginRequest>()
             val user = PasswordAuthenticator(credentials).authenticate()
             val token = jwtToken.forUser(user)
-            call.respond(hashMapOf("token" to token))
+            call.respond(LoginResponse(token = token))
         }
         static("/static") {
             resources()

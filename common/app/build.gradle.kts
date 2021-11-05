@@ -14,8 +14,10 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
+                implementation(project(":common:server-contract"))
                 implementation(Deps.JetBrains.Coroutines.core)
                 implementation(Deps.Koin.core)
+                implementation(Deps.Ktor.client)
                 implementation(Deps.SquareUp.SQLDelight.coroutines)
             }
         }
@@ -30,12 +32,6 @@ kotlin {
         desktopMain {
             dependencies {
                 implementation(Deps.SquareUp.SQLDelight.sqliteDriver)
-            }
-        }
-
-        iosMain {
-            dependencies {
-                implementation(Deps.SquareUp.SQLDelight.nativeDriver)
             }
         }
 

@@ -3,6 +3,11 @@ package info.anodsplace.subscriptions.app.store
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.database.AppDatabase
 import info.anodsplace.subscriptions.database.SubscriptionEntity
+import info.anodsplace.subscriptions.server.contract.LoginRequest
+import info.anodsplace.subscriptions.server.contract.LoginResponse
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +21,8 @@ data class SubscriptionsState(
 ) : State
 
 sealed class SubscriptionAction : Action {
+    data class Login(val username: String, val password: String) : SubscriptionAction()
+    data class LoggedIn(val username: String, val graphQlToken: String) : SubscriptionAction()
     data class Refresh(val forceLoad: Boolean) : SubscriptionAction()
     data class Add(val subscription: SubscriptionEntity) : SubscriptionAction()
     data class Delete(val id: Long) : SubscriptionAction()
@@ -34,7 +41,8 @@ interface SubscriptionsStore : Store<SubscriptionsState, SubscriptionAction, Sub
 
 class DefaultSubscriptionsStore(
     private val appDatabase: AppDatabase,
-    private val appScope: AppCoroutineScope
+    private val appScope: AppCoroutineScope,
+    private val httpClient: HttpClient
 ) : SubscriptionsStore {
     private val state = MutableStateFlow(SubscriptionsState())
     private val sideEffect = MutableSharedFlow<SubscriptionSideEffect>()
@@ -108,11 +116,30 @@ class DefaultSubscriptionsStore(
                     oldState
                 }
             }
+            is SubscriptionAction.Login -> {
+                appScope.launch { login(action) }
+                oldState.copy(progress = true)
+            }
+            is SubscriptionAction.LoggedIn -> {
+                oldState.copy(progress = false, graphQlToken = action.graphQlToken)
+            }
         }
 
         if (newState != oldState) {
             // Napier.d(tag = "FeedStore", message = "NewState: $newState")
             state.value = newState
+        }
+    }
+
+    private suspend fun login(action: SubscriptionAction.Login) {
+        try {
+            val response = httpClient.request<LoginResponse>("/login") {
+                method = HttpMethod.Post
+                body = LoginRequest(username = action.username, password = action.password)
+            }
+            dispatch(SubscriptionAction.LoggedIn(username = action.username, graphQlToken = response.token))
+        } catch (e: Exception) {
+            dispatch(SubscriptionAction.Error(e))
         }
     }
 

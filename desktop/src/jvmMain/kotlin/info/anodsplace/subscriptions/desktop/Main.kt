@@ -31,9 +31,11 @@ fun main() {
     startKoin {
         koin.loadModules(listOf(module {
             single { appCoroutineScope } bind AppCoroutineScope::class
-            single { HttpClient(CIO) } bind HttpClient::class
+            single { HttpClient(CIO) {
+                install(JsonFeature) { }
+            } } bind HttpClient::class
             single { DefaultAppDatabase(appDatabaseDriverFactory(), get<AppCoroutineScope>()) } bind AppDatabase::class
-            single { DefaultSubscriptionsStore(get(), get()) } bind SubscriptionsStore::class
+            single { DefaultSubscriptionsStore(get(), get(), get()) } bind SubscriptionsStore::class
         }))
     }
 
