@@ -10,6 +10,12 @@ object Deps {
             const val testJunit = "org.jetbrains.kotlin:kotlin-test-junit:$VERSION"
             const val testJs = "org.jetbrains.kotlin:kotlin-test-js:$VERSION"
             const val testAnnotationsCommon = "org.jetbrains.kotlin:kotlin-test-annotations-common:$VERSION"
+
+        }
+
+        object Coroutines {
+            private const val VERSION = "1.5.2"
+            const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$VERSION"
         }
 
         object Compose {
@@ -37,54 +43,36 @@ object Deps {
         }
     }
 
-    object ArkIvanov {
-        object MVIKotlin {
-            private const val VERSION = "3.0.0-alpha01"
-            const val rx = "com.arkivanov.mvikotlin:rx:$VERSION"
-            const val mvikotlin = "com.arkivanov.mvikotlin:mvikotlin:$VERSION"
-            const val mvikotlinMain = "com.arkivanov.mvikotlin:mvikotlin-main:$VERSION"
-            const val mvikotlinLogging = "com.arkivanov.mvikotlin:mvikotlin-logging:$VERSION"
-            const val mvikotlinTimeTravel = "com.arkivanov.mvikotlin:mvikotlin-timetravel:$VERSION"
-            const val mvikotlinExtensionsReaktive = "com.arkivanov.mvikotlin:mvikotlin-extensions-reaktive:$VERSION"
-        }
-
-        object Decompose {
-            private const val VERSION = "0.3.1"
-            const val decompose = "com.arkivanov.decompose:decompose:$VERSION"
-            const val extensionsCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
-        }
-    }
-
-    object Badoo {
-        object Reaktive {
-            private const val VERSION = "1.1.22"
-            const val reaktive = "com.badoo.reaktive:reaktive:$VERSION"
-            const val reaktiveTesting = "com.badoo.reaktive:reaktive-testing:$VERSION"
-            const val utils = "com.badoo.reaktive:utils:$VERSION"
-            const val coroutinesInterop = "com.badoo.reaktive:coroutines-interop:$VERSION"
-        }
-    }
-
-    object Squareup {
+    object SquareUp {
         object SQLDelight {
-            private const val VERSION = "1.5.0"
+            private const val VERSION = "1.5.2"
 
             const val gradlePlugin = "com.squareup.sqldelight:gradle-plugin:$VERSION"
             const val androidDriver = "com.squareup.sqldelight:android-driver:$VERSION"
             const val sqliteDriver = "com.squareup.sqldelight:sqlite-driver:$VERSION"
             const val nativeDriver = "com.squareup.sqldelight:native-driver:$VERSION"
             const val sqljsDriver = "com.squareup.sqldelight:sqljs-driver:$VERSION"
+            const val coroutines = "com.squareup.sqldelight:coroutines-extensions:$VERSION"
         }
     }
 
     object Ktor {
         private const val VERSION = "1.6.1"
-        const val core = "io.ktor:ktor-server-core:$VERSION"
+        const val server = "io.ktor:ktor-server-core:$VERSION"
+        const val client = "io.ktor:ktor-client-core:$VERSION"
         const val netty = "io.ktor:ktor-server-netty:$VERSION"
         const val html = "io.ktor:ktor-html-builder:$VERSION"
         const val auth = "io.ktor:ktor-auth:$VERSION"
         const val jwt = "io.ktor:ktor-auth-jwt:$VERSION"
         const val serialization = "io.ktor:ktor-serialization:$VERSION"
+        const val js = "io.ktor:ktor-client-js:$VERSION"
+        const val cio = "io.ktor:ktor-client-cio:$VERSION"
+        const val ios = "io.ktor:ktor-client-ios:$VERSION"
+    }
+
+    object Koin {
+        private const val VERSION = "3.1.3"
+        const val core = "io.insert-koin:koin-core:$VERSION"
     }
 
     object Uzzu {

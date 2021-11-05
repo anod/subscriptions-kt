@@ -25,7 +25,7 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.runtime)
-                implementation(Deps.Ktor.core)
+                implementation(Deps.Ktor.server)
                 implementation(Deps.Ktor.netty)
                 implementation(Deps.Ktor.html)
                 implementation(Deps.Ktor.auth)
@@ -38,14 +38,10 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.web.widgets)
-                implementation(project(":common:utils"))
-                implementation(project(":common:database"))
-                implementation(project(":common:root"))
-                implementation(project(":common:main"))
-                implementation(project(":common:edit"))
-                implementation(Deps.ArkIvanov.Decompose.decompose)
-                implementation(Deps.ArkIvanov.MVIKotlin.mvikotlin)
-                implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinMain)
+                implementation(project(":common:app"))
+                implementation(Deps.Ktor.client)
+                implementation(Deps.Ktor.js)
+                implementation(Deps.Koin.core)
                 implementation(npm("copy-webpack-plugin", "9.0.0"))
                 implementation(npm("@material-ui/icons", "4.11.2"))
             }

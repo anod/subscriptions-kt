@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(31)
 
     defaultConfig {
         minSdkVersion(23)
-        targetSdkVersion(30)
+        targetSdkVersion(31)
         versionCode = 1
         versionName = "1.0"
     }
@@ -27,17 +27,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":common:database"))
-    implementation(project(":common:utils"))
-    implementation(project(":common:root"))
+    implementation(project(":common:app"))
     implementation(project(":common:compose-ui"))
     implementation(compose.material)
-    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlin)
-    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinMain)
-    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinLogging)
-    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinTimeTravel)
-    implementation(Deps.ArkIvanov.Decompose.decompose)
-    implementation(Deps.ArkIvanov.Decompose.extensionsCompose)
     implementation(Deps.AndroidX.AppCompat.appCompat)
     implementation(Deps.AndroidX.Activity.activityCompose)
+    implementation(Deps.Ktor.client)
+    implementation(Deps.Ktor.cio)
+    implementation(Deps.Koin.core)
 }
