@@ -17,7 +17,7 @@ kotlin {
                 implementation(project(":common:server-contract"))
                 implementation(Deps.JetBrains.Coroutines.core)
                 implementation(Deps.Koin.core)
-                implementation(Deps.Ktor.client)
+                implementation(Deps.Ktor.Client.core)
                 implementation(Deps.SquareUp.SQLDelight.coroutines)
             }
         }

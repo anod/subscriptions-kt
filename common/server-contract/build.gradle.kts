@@ -12,8 +12,8 @@ kotlin {
         named("commonMain") {
             dependencies {
                 implementation(Deps.JetBrains.Serialization.json)
-                implementation(Deps.Ktor.client)
-                implementation(Deps.Ktor.clientSerialization)
+                implementation(Deps.Ktor.Client.core)
+                implementation(Deps.Ktor.Client.serialization)
             }
         }
     }

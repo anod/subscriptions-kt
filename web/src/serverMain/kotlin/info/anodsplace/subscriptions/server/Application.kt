@@ -13,6 +13,8 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import kotlinx.html.*
+import info.anodsplace.subscriptions.server.contract.LoginRequest
+import info.anodsplace.subscriptions.server.contract.LoginResponse
 
 fun HTML.index() {
     head {

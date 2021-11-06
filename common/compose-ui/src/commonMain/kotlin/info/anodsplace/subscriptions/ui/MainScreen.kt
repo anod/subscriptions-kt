@@ -1,4 +1,4 @@
-package info.anodsplace.subscriptions.ui.main
+package info.anodsplace.subscriptions.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -33,13 +33,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import info.anodsplace.subscriptions.app.MainViewModel
 import info.anodsplace.subscriptions.database.SubscriptionEntity
-import info.anodsplace.subscriptions.ui.MARGIN_SCROLLBAR
-import info.anodsplace.subscriptions.ui.VerticalScrollbar
-import info.anodsplace.subscriptions.ui.onKeyUp
-import info.anodsplace.subscriptions.ui.rememberScrollbarAdapter
 
 @Composable
-fun TodoMainContent(viewModel: MainViewModel) {
+fun MainScreen(viewModel: MainViewModel) {
     val subscriptions by viewModel.subscriptions.collectAsState(emptyList())
 
     Column {

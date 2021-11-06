@@ -17,9 +17,10 @@ interface MainViewModel : ViewModel {
     fun onInputTextChanged(value: String)
 }
 
-class CommonMainViewModel(private val action: MutableSharedFlow<UiAction>, private val currentScope: CoroutineScope) :
-    MainViewModel {
-    private val store: SubscriptionsStore by inject()
+class CommonMainViewModel(
+    override val store: SubscriptionsStore,
+    override val currentScope: CoroutineScope,
+) : MainViewModel {
 
     override val subscriptions: Flow<List<SubscriptionEntity>>
         get() = store.subscriptions

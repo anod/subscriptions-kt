@@ -32,8 +32,8 @@ dependencies {
     implementation(compose.material)
     implementation(Deps.AndroidX.AppCompat.appCompat)
     implementation(Deps.AndroidX.Activity.activityCompose)
-    implementation(Deps.Ktor.client)
-    implementation(Deps.Ktor.cio)
-    implementation(Deps.Ktor.clientSerialization)
+    implementation(Deps.Ktor.Client.core)
+    implementation(Deps.Ktor.Client.cio)
+    implementation(Deps.Ktor.Client.serialization)
     implementation(Deps.Koin.core)
 }

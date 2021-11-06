@@ -13,13 +13,14 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import info.anodsplace.subscriptions.database.DefaultAppDatabase
 import info.anodsplace.subscriptions.database.appDatabaseDriverFactory
-import info.anodsplace.subscriptions.app.CommonRootViewModel
 import info.anodsplace.subscriptions.app.AppCoroutineScope
+import info.anodsplace.subscriptions.app.CommonRouter
 import info.anodsplace.subscriptions.database.AppDatabase
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.swing.Swing
 import org.koin.core.context.startKoin
@@ -39,7 +40,7 @@ fun main() {
         }))
     }
 
-    val root = CommonRootViewModel()
+    val root = CommonRouter(appCoroutineScope)
     application {
         val windowState = rememberWindowState()
 
@@ -60,7 +61,7 @@ fun main() {
                             hoverColor = MaterialTheme.colors.onSurface.copy(alpha = 0.50f)
                         )
                     ) {
-                        TodoRootContent(root)
+                        RootScreen(root)
                     }
                 }
             }

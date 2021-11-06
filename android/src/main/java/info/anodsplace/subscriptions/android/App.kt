@@ -10,6 +10,7 @@ import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.context.startKoin
 import org.koin.dsl.bind

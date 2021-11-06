@@ -11,7 +11,6 @@ import io.ktor.http.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 data class SubscriptionsState(
@@ -33,10 +32,12 @@ sealed class SubscriptionAction : Action {
 
 sealed class SubscriptionSideEffect : Effect {
     data class Error(val error: Exception) : SubscriptionSideEffect()
+    data class Action(val action: SubscriptionAction) : SubscriptionSideEffect()
 }
 
 interface SubscriptionsStore : Store<SubscriptionsState, SubscriptionAction, SubscriptionSideEffect> {
     val subscriptions: Flow<List<SubscriptionEntity>>
+    val isLoggedIn: Boolean
 }
 
 class DefaultSubscriptionsStore(
@@ -44,15 +45,14 @@ class DefaultSubscriptionsStore(
     private val appScope: AppCoroutineScope,
     private val httpClient: HttpClient
 ) : SubscriptionsStore {
-    private val state = MutableStateFlow(SubscriptionsState())
-    private val sideEffect = MutableSharedFlow<SubscriptionSideEffect>()
+    override val state = MutableStateFlow(SubscriptionsState())
+    override val sideEffect = MutableSharedFlow<SubscriptionSideEffect>()
 
     override val subscriptions: Flow<List<SubscriptionEntity>>
         get() = appDatabase.observeAll()
 
-    override fun observeState(): StateFlow<SubscriptionsState> = state
-
-    override fun observeSideEffect(): Flow<SubscriptionSideEffect> = sideEffect
+    override val isLoggedIn: Boolean
+        get() = state.value.graphQlToken.isNotEmpty()
 
     override fun dispatch(action: SubscriptionAction) {
         // Napier.d(tag = "FeedStore", message = "Action: $action")
@@ -129,11 +129,14 @@ class DefaultSubscriptionsStore(
             // Napier.d(tag = "FeedStore", message = "NewState: $newState")
             state.value = newState
         }
+
+        appScope.launch { sideEffect.emit(SubscriptionSideEffect.Action(action)) }
     }
 
     private suspend fun login(action: SubscriptionAction.Login) {
         try {
-            val response = httpClient.request<LoginResponse>("/login") {
+            val response = httpClient.request<LoginResponse>("http://localhost:9090/login") {
+                contentType(ContentType.Application.Json)
                 method = HttpMethod.Post
                 body = LoginRequest(username = action.username, password = action.password)
             }

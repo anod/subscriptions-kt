@@ -8,7 +8,7 @@ interface Action
 interface Effect
 
 interface Store<S : State, A : Action, E : Effect> {
-    fun observeState(): StateFlow<S>
-    fun observeSideEffect(): Flow<E>
+    val state: StateFlow<S>
+    val sideEffect: Flow<E>
     fun dispatch(action: A)
 }

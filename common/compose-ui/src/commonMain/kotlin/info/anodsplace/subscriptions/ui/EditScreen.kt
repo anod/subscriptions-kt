@@ -1,4 +1,4 @@
-package info.anodsplace.subscriptions.ui.edit
+package info.anodsplace.subscriptions.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import info.anodsplace.subscriptions.app.EditViewModel
 
 @Composable
-fun TodoEditContent(viewModel: EditViewModel) {
+fun EditScreen(viewModel: EditViewModel) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         TopAppBar(

@@ -62,17 +62,21 @@ object Deps {
 
     object Ktor {
         private const val VERSION = "1.6.1"
-        const val server = "io.ktor:ktor-server-core:$VERSION"
-        const val client = "io.ktor:ktor-client-core:$VERSION"
-        const val netty = "io.ktor:ktor-server-netty:$VERSION"
-        const val html = "io.ktor:ktor-html-builder:$VERSION"
-        const val auth = "io.ktor:ktor-auth:$VERSION"
-        const val jwt = "io.ktor:ktor-auth-jwt:$VERSION"
-        const val serialization = "io.ktor:ktor-serialization:$VERSION"
-        const val clientSerialization = "io.ktor:ktor-client-serialization:$VERSION"
-        const val js = "io.ktor:ktor-client-js:$VERSION"
-        const val cio = "io.ktor:ktor-client-cio:$VERSION"
-        const val ios = "io.ktor:ktor-client-ios:$VERSION"
+        object Client {
+            const val core = "io.ktor:ktor-client-core:$VERSION"
+            const val logging = "io.ktor:ktor-client-logging:$VERSION"
+            const val serialization = "io.ktor:ktor-client-serialization:$VERSION"
+            const val js = "io.ktor:ktor-client-js:$VERSION"
+            const val cio = "io.ktor:ktor-client-cio:$VERSION"
+        }
+        object Server {
+            const val core = "io.ktor:ktor-server-core:$VERSION"
+            const val netty = "io.ktor:ktor-server-netty:$VERSION"
+            const val html = "io.ktor:ktor-html-builder:$VERSION"
+            const val auth = "io.ktor:ktor-auth:$VERSION"
+            const val jwt = "io.ktor:ktor-auth-jwt:$VERSION"
+            const val serialization = "io.ktor:ktor-serialization:$VERSION"
+        }
     }
 
     object Koin {

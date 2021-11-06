@@ -2,7 +2,7 @@ package info.anodsplace.subscriptions.web
 
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.database.AppDatabase
-import info.anodsplace.subscriptions.app.CommonRootViewModel
+import info.anodsplace.subscriptions.app.CommonRouter
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import info.anodsplace.subscriptions.database.DefaultAppDatabase
@@ -42,10 +42,10 @@ fun main() {
         }))
     }
 
-    val root = CommonRootViewModel()
+    val router = CommonRouter(appCoroutineScope)
     renderComposable(root = rootElement) {
         Style(Styles)
 
-        TodoRootUi(root)
+        TodoRootUi(router)
     }
 }

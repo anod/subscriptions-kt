@@ -2,6 +2,8 @@ package info.anodsplace.subscriptions.server
 
 import io.ktor.auth.*
 import kotlinx.serialization.*
+import info.anodsplace.subscriptions.server.contract.LoginRequest
+import info.anodsplace.subscriptions.server.contract.LoginResponse
 
 @Serializable
 data class UserIdPrincipal(val username: String, val id: Int): Principal

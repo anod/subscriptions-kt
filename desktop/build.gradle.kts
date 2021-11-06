@@ -16,9 +16,10 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":common:app"))
-                implementation(Deps.Ktor.client)
-                implementation(Deps.Ktor.cio)
-                implementation(Deps.Ktor.clientSerialization)
+                implementation(project(":common:compose-ui"))
+                implementation(Deps.Ktor.Client.core)
+                implementation(Deps.Ktor.Client.cio)
+                implementation(Deps.Ktor.Client.serialization)
                 implementation(Deps.Koin.core)
             }
         }

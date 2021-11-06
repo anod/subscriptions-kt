@@ -1,8 +1,10 @@
 package info.anodsplace.subscriptions.web
 
 import androidx.compose.runtime.Composable
-import info.anodsplace.subscriptions.app.Child
-import info.anodsplace.subscriptions.app.RootViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import info.anodsplace.subscriptions.app.Route
+import info.anodsplace.subscriptions.app.Router
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.keywords.auto
 import org.jetbrains.compose.web.css.bottom
@@ -16,7 +18,7 @@ import org.jetbrains.compose.web.css.top
 import org.jetbrains.compose.web.css.width
 
 @Composable
-fun TodoRootUi(viewModel: RootViewModel) {
+fun TodoRootUi(router: Router) {
     Card(
         attrs = {
             style {
@@ -31,9 +33,9 @@ fun TodoRootUi(viewModel: RootViewModel) {
             }
         }
     ) {
-
+        val current by router.route.collectAsState(Route.Initial)
         Crossfade(
-            target = viewModel.instance,
+            target = current,
             attrs = {
                 style {
                     width(100.percent)
@@ -43,10 +45,12 @@ fun TodoRootUi(viewModel: RootViewModel) {
                     top(0.px)
                 }
             }
-        ) { child ->
-            when (child) {
-                is Child.Main -> TodoMainUi(child.viewModel)
-                is Child.Edit -> TodoEditUi(child.viewModel)
+        ) { route ->
+            when (route) {
+                Route.Initial -> { }
+                is Route.Main -> MainUi(route.viewModel)
+                is Route.Edit -> EditUi(route.viewModel)
+                is Route.LogIn -> LoginUi(route.viewModel)
             }
         }
     }

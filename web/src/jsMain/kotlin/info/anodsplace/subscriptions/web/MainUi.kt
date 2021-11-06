@@ -27,7 +27,7 @@ import org.w3c.dom.HTMLUListElement
 
 
 @Composable
-fun TodoMainUi(viewModel: MainViewModel) {
+fun MainUi(viewModel: MainViewModel) {
     val items by viewModel.subscriptions.collectAsState(emptyList())
 
     Div(

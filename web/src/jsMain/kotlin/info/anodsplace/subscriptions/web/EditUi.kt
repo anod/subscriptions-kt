@@ -16,7 +16,7 @@ import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun TodoEditUi(viewModel: EditViewModel) {
+fun EditUi(viewModel: EditViewModel) {
 
     Div(
         attrs = {
