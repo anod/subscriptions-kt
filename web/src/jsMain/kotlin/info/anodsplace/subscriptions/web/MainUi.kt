@@ -30,59 +30,20 @@ import org.w3c.dom.HTMLUListElement
 fun MainUi(viewModel: MainViewModel) {
     val items by viewModel.subscriptions.collectAsState(emptyList())
 
-    Div(
+    NavBar(title = "Subscriptions")
+
+    Ul(
         attrs = {
             style {
-                width(100.percent)
-                height(100.percent)
-                display(DisplayStyle.Flex)
-                flexFlow(FlexDirection.Column, FlexWrap.Nowrap)
             }
         }
     ) {
-        Div(
-            attrs = {
-                style {
-                    width(100.percent)
-                    property("flex", "0 1 auto")
-                }
-            }
-        ) {
-            NavBar(title = "Todo List")
-        }
-
-        Ul(
-            attrs = {
-                style {
-                    width(100.percent)
-                    margin(0.px)
-                    property("flex", "1 1 auto")
-                    property("overflow-y", "scroll")
-                }
-            }
-        ) {
-            items.forEach { item ->
-                Item(
-                    item = item,
-                    onClicked = viewModel::onItemClicked,
-                    onDoneChanged = viewModel::onItemDoneChanged,
-                    onDeleteClicked = viewModel::onItemDeleteClicked
-                )
-            }
-        }
-
-        Div(
-            attrs = {
-                style {
-                    width(100.percent)
-                    property("flex", "0 1 auto")
-                }
-            }
-        ) {
-            TodoInput(
-                text = viewModel.text,
-                onTextChanged = viewModel::onInputTextChanged,
-                onAddClicked = viewModel::onAddItemClicked
+        items.forEach { item ->
+            Item(
+                item = item,
+                onClicked = viewModel::onItemClicked,
+                onDoneChanged = viewModel::onItemDoneChanged,
+                onDeleteClicked = viewModel::onItemDeleteClicked
             )
         }
     }

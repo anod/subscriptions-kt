@@ -23,11 +23,10 @@ fun HTML.index() {
         link("/static/materialize.min.css", rel = "stylesheet", type = "text/css") {
             media = "screen,projection"
         }
+        meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
     }
     body {
-        div {
-            id = "root"
-        }
+        div { id = "root" }
         script(src = "/static/web.js") {}
         script(src = "/static/materialize.min.js") {}
     }

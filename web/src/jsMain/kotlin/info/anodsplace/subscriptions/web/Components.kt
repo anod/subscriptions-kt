@@ -27,6 +27,7 @@ import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.TextArea
 import org.jetbrains.compose.web.dom.Ul
+import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLUListElement
 
 @Composable
@@ -132,9 +133,10 @@ fun MaterialIcon(name: String) {
 @Composable
 fun NavBar(
     title: String,
-    navigationIcon: NavBarIcon? = null
+    navigationIcon: NavBarIcon? = null,
+    attrs: AttrBuilderContext<HTMLElement> = { classes("teal", "darken-2") },
 ) {
-    Nav {
+    Nav(attrs = attrs) {
         Div(attrs = { classes("nav-wrapper") }) {
             if (navigationIcon != null) {
                 Ul(attrs = { classes("left") }) {

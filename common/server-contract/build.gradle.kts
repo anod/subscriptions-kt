@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    jvm("server")
+    jvm()
     js(IR) {
         browser()
     }
