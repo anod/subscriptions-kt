@@ -1,6 +1,7 @@
 package info.anodsplace.subscriptions.app.store
 
 import info.anodsplace.subscriptions.app.AppCoroutineScope
+import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.database.AppDatabase
 import info.anodsplace.subscriptions.database.SubscriptionEntity
 import info.anodsplace.subscriptions.server.contract.LoginRequest
@@ -43,7 +44,8 @@ interface SubscriptionsStore : Store<SubscriptionsState, SubscriptionAction, Sub
 class DefaultSubscriptionsStore(
     private val appDatabase: AppDatabase,
     private val appScope: AppCoroutineScope,
-    private val httpClient: HttpClient
+    private val httpClient: HttpClient,
+    private val graphQLClient: GraphQLClient
 ) : SubscriptionsStore {
     override val state = MutableStateFlow(SubscriptionsState())
     override val sideEffect = MutableSharedFlow<SubscriptionSideEffect>()
@@ -121,6 +123,7 @@ class DefaultSubscriptionsStore(
                 oldState.copy(progress = true)
             }
             is SubscriptionAction.LoggedIn -> {
+                graphQLClient.token = action.graphQlToken
                 oldState.copy(progress = false, graphQlToken = action.graphQlToken)
             }
         }
@@ -148,7 +151,7 @@ class DefaultSubscriptionsStore(
 
     private suspend fun loadSubscriptions() {
         try {
-            val allFeeds = appDatabase.loadSubscriptions()
+            val allFeeds = graphQLClient.loadSubscriptions()
             dispatch(SubscriptionAction.Data(allFeeds))
         } catch (e: Exception) {
             dispatch(SubscriptionAction.Error(e))

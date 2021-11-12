@@ -9,7 +9,6 @@ plugins {
 kotlin {
     js(IR) {
         browser {
-            useCommonJs()
         }
         binaries.executable()
     }
@@ -24,8 +23,8 @@ kotlin {
                 implementation(Deps.Ktor.Client.js)
                 implementation(Deps.Ktor.Client.serialization)
                 implementation(Deps.Koin.core)
-                implementation(npm("graphql-tag", "2.12.6"))
-                implementation(npm("graphql", "16.0.1"))
+                implementation(npm("graphql", "15.7.2"))
+                implementation(npm("@apollo/client", "3.4.17"))
                 implementation(npm("copy-webpack-plugin", "9.0.0"))
                 implementation(npm("@material-ui/icons", "4.11.2"))
             }

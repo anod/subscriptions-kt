@@ -5,8 +5,6 @@ import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import info.anodsplace.subscriptions.database.SubscriptionEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import org.koin.core.component.inject
 
 interface MainViewModel : ViewModel {
     val subscriptions: Flow<List<SubscriptionEntity>>
