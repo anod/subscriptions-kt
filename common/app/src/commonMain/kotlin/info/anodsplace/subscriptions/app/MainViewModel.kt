@@ -1,5 +1,6 @@
 package info.anodsplace.subscriptions.app
 
+import info.anodsplace.subscriptions.app.store.SubscriptionAction
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import info.anodsplace.subscriptions.database.SubscriptionEntity
 import kotlinx.coroutines.CoroutineScope
@@ -15,6 +16,7 @@ interface MainViewModel : ViewModel {
     fun onItemDeleteClicked(id: Long)
     fun onAddItemClicked()
     fun onInputTextChanged(value: String)
+    fun reload()
 }
 
 class CommonMainViewModel(
@@ -45,5 +47,9 @@ class CommonMainViewModel(
 
     override fun onInputTextChanged(value: String) {
 
+    }
+
+    override fun reload() {
+        store.dispatch(SubscriptionAction.Refresh(forceLoad = true))
     }
 }

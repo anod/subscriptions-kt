@@ -5,7 +5,6 @@ import io.ktor.auth.*
 import io.ktor.auth.jwt.*
 import io.ktor.features.*
 import io.ktor.html.respondHtml
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.resources
 import io.ktor.http.content.static
 import io.ktor.request.*
@@ -15,20 +14,22 @@ import io.ktor.serialization.*
 import kotlinx.html.*
 import info.anodsplace.subscriptions.server.contract.LoginRequest
 import info.anodsplace.subscriptions.server.contract.LoginResponse
+import io.ktor.http.*
 
 fun HTML.index() {
     head {
         title("Hello from Ktor!")
-        link("/static/styles.css", rel = "stylesheet", type = "text/css")
-        link("/static/materialize.min.css", rel = "stylesheet", type = "text/css") {
-            media = "screen,projection"
-        }
+//        link("/static/styles.css", rel = "stylesheet", type = "text/css")
+//        link("/static/materialize.min.css", rel = "stylesheet", type = "text/css") {
+//            media = "screen,projection"
+//        }
         meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
     }
     body {
         div { id = "root" }
-        script(src = "/static/web.js") {}
-        script(src = "/static/materialize.min.js") {}
+        script(src = "web.js") {}
+//        script(src = "/static/web.js") {}
+//        script(src = "/static/materialize.min.js") {}
     }
 }
 
@@ -36,6 +37,19 @@ fun Application.module(testing: Boolean = false) {
     val jwtToken = JwtToken(environment)
     install(ContentNegotiation) {
         json()
+    }
+    install(CORS) {
+        method(HttpMethod.Get)
+        method(HttpMethod.Post)
+        method(HttpMethod.Delete)
+        header(HttpHeaders.ContentType)
+        header(HttpHeaders.Authorization)
+        header(HttpHeaders.AccessControlAllowOrigin)
+        allowSameOrigin = true
+        anyHost()
+    }
+    install(Compression) {
+        gzip()
     }
     install(Authentication) {
         jwt("auth-jwt") {
@@ -53,6 +67,9 @@ fun Application.module(testing: Boolean = false) {
     routing {
         get("/") {
             call.respondHtml(HttpStatusCode.OK, HTML::index)
+        }
+        get("/ping") {
+            call.respondText("OK", status = HttpStatusCode.OK,)
         }
         post("/login") {
             val credentials = call.receive<LoginRequest>()

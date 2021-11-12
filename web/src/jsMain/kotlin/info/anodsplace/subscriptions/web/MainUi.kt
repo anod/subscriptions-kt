@@ -1,6 +1,7 @@
 package info.anodsplace.subscriptions.web
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import info.anodsplace.subscriptions.app.MainViewModel
@@ -29,6 +30,10 @@ import org.w3c.dom.HTMLUListElement
 @Composable
 fun MainUi(viewModel: MainViewModel) {
     val items by viewModel.subscriptions.collectAsState(emptyList())
+
+    SideEffect {
+        viewModel.reload()
+    }
 
     NavBar(title = "Subscriptions")
 

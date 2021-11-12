@@ -1,19 +1,12 @@
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.compose.compose
 
 plugins {
     kotlin("multiplatform")
-    application
     id("org.jetbrains.compose")
     kotlin("plugin.serialization")
-    id("co.uzzu.dotenv.gradle") version "1.2.0"
 }
+
 kotlin {
-
-    jvm {
-        withJava()
-    }
-
     js(IR) {
         browser {
             useCommonJs()
@@ -22,19 +15,6 @@ kotlin {
     }
 
     sourceSets {
-        named("jvmMain") {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(project(":common:server-contract"))
-                implementation(Deps.Ktor.Server.core)
-                implementation(Deps.Ktor.Server.netty)
-                implementation(Deps.Ktor.Server.html)
-                implementation(Deps.Ktor.Server.auth)
-                implementation(Deps.Ktor.Server.jwt)
-                implementation(Deps.Ktor.Server.serialization)
-                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
-            }
-        }
         named("jsMain") {
             dependencies {
                 implementation(compose.runtime)
@@ -44,6 +24,8 @@ kotlin {
                 implementation(Deps.Ktor.Client.js)
                 implementation(Deps.Ktor.Client.serialization)
                 implementation(Deps.Koin.core)
+                implementation(npm("graphql-tag", "2.12.6"))
+                implementation(npm("graphql", "16.0.1"))
                 implementation(npm("copy-webpack-plugin", "9.0.0"))
                 implementation(npm("@material-ui/icons", "4.11.2"))
             }
@@ -51,23 +33,17 @@ kotlin {
     }
 }
 
-application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+val browserDist: Configuration by configurations.creating {
+    isCanBeConsumed = true
+    isCanBeResolved = false
 }
 
-tasks.named<Copy>("jvmProcessResources") {
-    val jsBrowserDistribution = tasks.named("jsBrowserDistribution")
-    from(jsBrowserDistribution)
+artifacts {
+    add(browserDist.name, tasks.named("jsBrowserDistribution").map { it.outputs.files.files.single() })
 }
 
-tasks.named<JavaExec>("run") {
-    dependsOn(tasks.named<Jar>("jvmJar"))
-    classpath(tasks.named<Jar>("jvmJar"))
-    doFirst {
-        environment("SBS_JWT_SECRET", env.SBS_JWT_SECRET.value)
-        environment("SBS_JWT_AUDIENCE", env.SBS_JWT_SECRET.value)
-        environment("SBS_ENV", env.SBS_ENV.value)
-        environment("SBS_ENV_DEV", env.SBS_ENV.orNull() == "dev")
-        environment("SBS_WEB_PORT", env.SBS_WEB_PORT.value.toInt())
-    }
+fun isDevEnv(): Boolean = env.SBS_ENV.orNull() == "dev"
+
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class.java) {
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().versions.webpackCli.version = "4.9.0"
 }

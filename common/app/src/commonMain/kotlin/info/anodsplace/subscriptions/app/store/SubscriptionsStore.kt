@@ -64,7 +64,7 @@ class DefaultSubscriptionsStore(
                     appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("In progress"))) }
                     oldState
                 } else {
-                    appScope.launch { loadAllFeeds() }
+                    appScope.launch { loadSubscriptions() }
                     oldState.copy(progress = true)
                 }
             }
@@ -146,7 +146,7 @@ class DefaultSubscriptionsStore(
         }
     }
 
-    private suspend fun loadAllFeeds() {
+    private suspend fun loadSubscriptions() {
         try {
             val allFeeds = appDatabase.loadSubscriptions()
             dispatch(SubscriptionAction.Data(allFeeds))

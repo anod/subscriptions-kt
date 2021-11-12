@@ -4,7 +4,8 @@ include(
     ":common:compose-ui",
     ":android",
     ":desktop",
-    ":web"
+    ":web",
+    ":server",
 )
 
 rootProject.name = "subscriptions-kt"
