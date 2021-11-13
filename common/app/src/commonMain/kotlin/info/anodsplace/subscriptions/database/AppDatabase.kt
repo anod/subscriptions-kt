@@ -8,7 +8,9 @@ interface AppDatabase {
 
     suspend fun select(id: Long): SubscriptionEntity?
 
-    suspend fun upsert (entity: SubscriptionEntity): Long
+    suspend fun upsert(entity: SubscriptionEntity): Long
+
+    suspend fun upsert(entities: List<SubscriptionEntity>)
 
     suspend fun delete(id: Long)
 

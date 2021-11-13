@@ -20,6 +20,7 @@ kotlin {
                 implementation(compose.web.widgets)
                 implementation(project(":common:app"))
                 implementation(Deps.Ktor.Client.core)
+                implementation(Deps.Ktor.Client.logging)
                 implementation(Deps.Ktor.Client.js)
                 implementation(Deps.Ktor.Client.serialization)
                 implementation(Deps.Koin.core)

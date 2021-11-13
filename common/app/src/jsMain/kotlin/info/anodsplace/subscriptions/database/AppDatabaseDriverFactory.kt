@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlin.js.Promise
 
-fun appDatabaseDriverFactory(): Flow<SqlDriver> =
-    initSqlDriver(SubscriptionsDatabase.Schema).asFlow()
+fun appDatabaseDriverFactory(): Promise<SqlDriver> =
+    initSqlDriver(SubscriptionsDatabase.Schema)

@@ -152,6 +152,7 @@ class DefaultSubscriptionsStore(
     private suspend fun loadSubscriptions() {
         try {
             val allFeeds = graphQLClient.loadSubscriptions()
+            appDatabase.upsert(allFeeds)
             dispatch(SubscriptionAction.Data(allFeeds))
         } catch (e: Exception) {
             dispatch(SubscriptionAction.Error(e))

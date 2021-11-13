@@ -9,54 +9,60 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
+import org.koin.core.logger.Level
+import org.koin.core.logger.Logger
 
-class DefaultAppDatabase(driver: Flow<SqlDriver>, scope: CoroutineScope) : AppDatabase {
+class DefaultAppDatabase(driver: SqlDriver) : AppDatabase {
 
-    constructor(driver: SqlDriver, scope: CoroutineScope) : this(flowOf(driver), scope)
-
-    private val db: Flow<SubscriptionsDatabase> = driver.map {
-        SubscriptionsDatabase(
-            driver = it,
-            PeriodAdapter = Period.Adapter(
-                periodAdapter = EnumColumnAdapter()
-            )
+    private val db = SubscriptionsDatabase(
+        driver = driver,
+        PeriodAdapter = Period.Adapter(
+            periodAdapter = EnumColumnAdapter()
         )
-    }
-        .stateIn(scope, started = SharingStarted.Lazily, initialValue = null)
-        .filterNotNull()
+    )
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     override fun observeAll(): Flow<List<SubscriptionEntity>> =
-        db.flatMapLatest { it.subscriptionQueries.selectAll().asFlow() }.mapToList()
+        db.subscriptionQueries.selectAll().asFlow().mapToList()
 
     override suspend fun select(id: Long): SubscriptionEntity? = withContext(Dispatchers.Default) {
-        return@withContext db.single().subscriptionQueries.select(id = id).executeAsOneOrNull()
+        return@withContext db.subscriptionQueries.select(id = id).executeAsOneOrNull()
     }
 
     override suspend fun upsert(entity: SubscriptionEntity): Long = withContext(Dispatchers.Default) {
-        val db = db.single()
         return@withContext db.transactionWithResult {
-            var subscriptionId = entity.id
-            if (subscriptionId == 0L) {
-                db.subscriptionQueries.insert(entity)
-                subscriptionId = db.subscriptionQueries.lastInsertId().executeAsOne()
-            } else {
-                db.subscriptionQueries.delete(id = subscriptionId)
-                db.subscriptionQueries.insert(entity)
+            return@transactionWithResult upsertEntity(entity, db)
+        }
+    }
+
+    override suspend fun upsert(entities: List<SubscriptionEntity>): Unit = withContext(Dispatchers.Default) {
+        db.transactionWithResult {
+            for (entity in entities) {
+                upsertEntity(entity, db)
             }
-            return@transactionWithResult subscriptionId
         }
     }
 
     override suspend fun delete(id: Long): Unit = withContext(Dispatchers.Default) {
-        db.single().subscriptionQueries.delete(id = id)
+        db.subscriptionQueries.delete(id = id)
     }
 
     override suspend fun clear(): Unit = withContext(Dispatchers.Default) {
-        db.single().subscriptionQueries.clear()
+        db.subscriptionQueries.clear()
     }
 
     override suspend fun loadSubscriptions(): List<SubscriptionEntity> = withContext(Dispatchers.Default) {
-        db.single().subscriptionQueries.selectAll().executeAsList()
+        db.subscriptionQueries.selectAll().executeAsList()
+    }
+
+    private fun upsertEntity(entity: SubscriptionEntity, db: SubscriptionsDatabase): Long {
+        var subscriptionId = entity.id
+        if (subscriptionId == 0L) {
+            db.subscriptionQueries.insert(entity)
+            subscriptionId = db.subscriptionQueries.lastInsertId().executeAsOne()
+        } else {
+            db.subscriptionQueries.delete(id = subscriptionId)
+            db.subscriptionQueries.insert(entity)
+        }
+        return subscriptionId
     }
 }

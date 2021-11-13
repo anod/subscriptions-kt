@@ -2,6 +2,8 @@ package info.anodsplace.subscriptions.web.apolloclient
 
 import kotlin.js.Promise
 
+external interface Error
+
 @JsModule("@apollo/client/core")
 @JsNonModule
 external class ApolloClientModule {
@@ -43,6 +45,23 @@ external class ApolloClientModule {
     interface QueryOptions {
         var query: Any
         var context: QueryContext
+    }
+
+    interface ApolloError: Error {
+        val message : String;
+        val graphQLErrors : Array<Any>
+        val clientErrors : Array<Error>
+        val networkError : Any?;
+        val extraInfo : Any
+    }
+
+    class QueryResult<T> {
+        val data: T
+        val loading: Boolean
+        val networkStatus: Int
+        val errors: Any?
+        val error: ApolloError?
+        val partial: Boolean?
     }
 
     class ApolloClient(options: ApolloClientOptions) {
