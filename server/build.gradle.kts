@@ -58,9 +58,10 @@ tasks.named<JavaExec>("run") {
     classpath(tasks.named<Jar>("jvmJar"))
     doFirst {
         environment("SBS_JWT_SECRET", env.SBS_JWT_SECRET.value)
-        environment("SBS_JWT_AUDIENCE", env.SBS_JWT_SECRET.value)
+        environment("SBS_JWT_AUDIENCE", env.SBS_JWT_AUDIENCE.value)
+        environment("SBS_JWT_ISSUER", env.SBS_JWT_ISSUER.value)
         environment("SBS_ENV", env.SBS_ENV.value)
         environment("SBS_ENV_DEV", isDevEnv())
-        environment("SBS_WEB_PORT", env.SBS_WEB_PORT.value.toInt())
+        environment("SBS_SERVER_PORT", env.SBS_SERVER_PORT.value.toInt())
     }
 }

@@ -19,17 +19,16 @@ import io.ktor.http.*
 fun HTML.index() {
     head {
         title("Hello from Ktor!")
-//        link("/static/styles.css", rel = "stylesheet", type = "text/css")
-//        link("/static/materialize.min.css", rel = "stylesheet", type = "text/css") {
-//            media = "screen,projection"
-//        }
+        link("/static/styles.css", rel = "stylesheet", type = "text/css")
+        link("/static/materialize.min.css", rel = "stylesheet", type = "text/css") {
+            media = "screen,projection"
+        }
         meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
     }
     body {
         div { id = "root" }
-        script(src = "web.js") {}
-//        script(src = "/static/web.js") {}
-//        script(src = "/static/materialize.min.js") {}
+        script(src = "/static/web.js") { }
+        script(src = "/static/materialize.min.js") { }
     }
 }
 
