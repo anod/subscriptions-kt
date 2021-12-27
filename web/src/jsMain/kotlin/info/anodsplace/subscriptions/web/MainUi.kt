@@ -26,7 +26,6 @@ import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Ul
 import org.w3c.dom.HTMLUListElement
 
-
 @Composable
 fun MainUi(viewModel: MainViewModel) {
     val items by viewModel.subscriptions.collectAsState(emptyList())
@@ -68,6 +67,7 @@ private fun DOMScope<HTMLUListElement>.Item(
                 display(DisplayStyle.Flex)
                 flexFlow(FlexDirection.Row, FlexWrap.Nowrap)
                 alignItems(AlignItems.Center)
+                property("color", "white")
                 property("padding", "0px 0px 0px 16px")
             }
         }

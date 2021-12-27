@@ -27,8 +27,8 @@ class App : Application() {
                 single { HttpClient(CIO) {
                     install(JsonFeature) { }
                 } } bind HttpClient::class
-                single { DefaultAppDatabase(appDatabaseDriverFactory(context = get()), get<AppCoroutineScope>()) } bind AppDatabase::class
-                single { DefaultSubscriptionsStore(get(), get(), get()) } bind SubscriptionsStore::class
+                single { DefaultAppDatabase(appDatabaseDriverFactory(context = get())) } bind AppDatabase::class
+                single { DefaultSubscriptionsStore(get(), get(), get(), get()) } bind SubscriptionsStore::class
             }))
         }
     }

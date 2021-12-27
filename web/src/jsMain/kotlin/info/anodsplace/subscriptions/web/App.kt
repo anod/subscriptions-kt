@@ -12,18 +12,13 @@ import info.anodsplace.subscriptions.database.appDatabaseDriverFactory
 import kotlinx.browser.document
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.renderComposable
-import org.jetbrains.compose.web.ui.Styles
 import org.w3c.dom.HTMLElement
 import io.ktor.client.*
 import io.ktor.client.engine.js.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.logging.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.stateIn
 import org.koin.core.context.startKoin
-import org.koin.core.logger.KOIN_TAG
 import org.koin.core.logger.Level
 import org.koin.core.logger.Logger
 import org.koin.core.logger.PrintLogger
@@ -63,9 +58,7 @@ fun startApp(driver: SqlDriver, logger: Logger) {
 
     val router = CommonRouter(appCoroutineScope)
     renderComposable(root = rootElement) {
-        Style(Styles)
-
-
+        Style(AppStylesheet)
         TodoRootUi(router)
     }
 }

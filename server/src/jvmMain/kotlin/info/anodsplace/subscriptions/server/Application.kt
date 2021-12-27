@@ -27,7 +27,7 @@ fun HTML.index() {
     }
     body {
         div { id = "root" }
-        script(src = "/static/web.js") { }
+        script(src = "web.js") { }
         script(src = "/static/materialize.min.js") { }
     }
 }

@@ -4,7 +4,6 @@ plugins {
 }
 
 kotlin {
-    jvm("desktop")
     android()
 
     js(IR) {
@@ -24,11 +23,7 @@ kotlin {
                 implementation(Deps.JetBrains.Kotlin.testJunit)
             }
         }
-        named("desktopTest") {
-            dependencies {
-                implementation(Deps.JetBrains.Kotlin.testJunit)
-            }
-        }
+
         named("jsTest") {
             dependencies {
                 implementation(Deps.JetBrains.Kotlin.testJs)

@@ -7,7 +7,6 @@ plugins {
 }
 
 kotlin {
-    jvm("desktop")
     android()
 
     sourceSets {
@@ -21,14 +20,8 @@ kotlin {
 
         named("androidMain") {
             dependencies {
-                implementation("androidx.appcompat:appcompat:1.4.0-rc01")
+                implementation("androidx.appcompat:appcompat:1.4.0")
                 implementation("androidx.core:core-ktx:1.7.0")
-            }
-        }
-
-        named("desktopMain") {
-            dependencies {
-                implementation(compose.desktop.common)
             }
         }
     }

@@ -29,12 +29,6 @@ kotlin {
             }
         }
 
-        desktopMain {
-            dependencies {
-                implementation(Deps.SquareUp.SQLDelight.sqliteDriver)
-            }
-        }
-
         jsMain {
             dependencies {
                 implementation(Deps.SquareUp.SQLDelight.sqljsDriver)

@@ -3,7 +3,6 @@ include(
     ":common:server-contract",
     ":common:compose-ui",
     ":android",
-    ":desktop",
     ":web",
     ":server",
 )

@@ -5,9 +5,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import info.anodsplace.subscriptions.app.Route
 import info.anodsplace.subscriptions.app.Router
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.keywords.auto
-import org.jetbrains.compose.web.dom.Div
 
 @Composable
 fun TodoRootUi(router: Router) {

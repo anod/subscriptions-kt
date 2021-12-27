@@ -3,7 +3,7 @@ object Deps {
     object JetBrains {
         object Kotlin {
             // __KOTLIN_COMPOSE_VERSION__
-            internal const val VERSION = "1.5.31"
+            internal const val VERSION = "1.6.10"
             const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$VERSION"
             const val testCommon = "org.jetbrains.kotlin:kotlin-test-common:$VERSION"
             const val testJunit = "org.jetbrains.kotlin:kotlin-test-junit:$VERSION"
@@ -12,18 +12,18 @@ object Deps {
         }
 
         object Coroutines {
-            private const val VERSION = "1.5.2"
+            private const val VERSION = "1.6.0"
             const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$VERSION"
         }
 
         object Compose {
             // __LATEST_COMPOSE_RELEASE_VERSION__
-            private const val VERSION = "1.0.0-beta5"
+            private const val VERSION = "1.0.1"
             const val gradlePlugin = "org.jetbrains.compose:compose-gradle-plugin:$VERSION"
         }
 
         object Serialization {
-            private const val VERSION = "1.3.0"
+            private const val VERSION = "1.3.2"
             const val gradlePlugin = "org.jetbrains.kotlin:kotlin-serialization:${Kotlin.VERSION}"
             const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$VERSION"
         }
@@ -32,14 +32,14 @@ object Deps {
     object Android {
         object Tools {
             object Build {
-                const val gradlePlugin = "com.android.tools.build:gradle:4.2.0"
+                const val gradlePlugin = "com.android.tools.build:gradle:7.0.4"
             }
         }
     }
 
     object AndroidX {
         object AppCompat {
-            const val appCompat = "androidx.appcompat:appcompat:1.3.0"
+            const val appCompat = "androidx.appcompat:appcompat:1.4.0"
         }
 
         object Activity {
@@ -49,7 +49,7 @@ object Deps {
 
     object SquareUp {
         object SQLDelight {
-            private const val VERSION = "1.5.2"
+            private const val VERSION = "1.5.3"
 
             const val gradlePlugin = "com.squareup.sqldelight:gradle-plugin:$VERSION"
             const val androidDriver = "com.squareup.sqldelight:android-driver:$VERSION"
@@ -61,7 +61,7 @@ object Deps {
     }
 
     object Ktor {
-        private const val VERSION = "1.6.1"
+        private const val VERSION = "1.6.7"
         object Client {
             const val core = "io.ktor:ktor-client-core:$VERSION"
             const val logging = "io.ktor:ktor-client-logging:$VERSION"
@@ -80,7 +80,7 @@ object Deps {
     }
 
     object Koin {
-        private const val VERSION = "3.1.3"
+        private const val VERSION = "3.1.4"
         const val core = "io.insert-koin:koin-core:$VERSION"
     }
 

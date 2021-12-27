@@ -17,7 +17,7 @@ kotlin {
         named("jsMain") {
             dependencies {
                 implementation(compose.runtime)
-                implementation(compose.web.widgets)
+                implementation(compose.web.core)
                 implementation(project(":common:app"))
                 implementation(Deps.Ktor.Client.core)
                 implementation(Deps.Ktor.Client.logging)
@@ -27,7 +27,6 @@ kotlin {
                 implementation(npm("graphql", "15.7.2"))
                 implementation(npm("@apollo/client", "3.4.17"))
                 implementation(npm("copy-webpack-plugin", "9.0.0"))
-                implementation(npm("@material-ui/icons", "4.11.2"))
             }
         }
     }
