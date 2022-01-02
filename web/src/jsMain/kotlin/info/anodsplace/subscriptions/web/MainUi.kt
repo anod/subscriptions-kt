@@ -34,7 +34,7 @@ fun MainUi(viewModel: MainViewModel) {
         viewModel.reload()
     }
 
-    NavBar(title = "Subscriptions")
+    NavBar(title = "Subscriptions", icons = listOf(NavBarIcon(name = "add", onClick = viewModel::onAddItemClicked)))
 
     Ul(
         attrs = {

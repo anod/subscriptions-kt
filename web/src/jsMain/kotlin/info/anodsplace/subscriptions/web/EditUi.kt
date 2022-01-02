@@ -40,7 +40,7 @@ fun EditUi(viewModel: EditViewModel) {
                 title = "Edit todo",
                 navigationIcon = NavBarIcon(
                     name = "arrow_back",
-                    onClick = viewModel::onCloseClicked
+                    onClick = {  }
                 )
             )
         }
@@ -59,8 +59,8 @@ fun EditUi(viewModel: EditViewModel) {
             MaterialTextArea(
                 id = "text_area_edit_todo",
                 label = "",
-                text = viewModel.text,
-                onTextChanged = viewModel::onTextChanged,
+                text = "",
+                onTextChanged = {  },
                 attrs = {
                     style {
                         width(100.percent)
@@ -83,7 +83,7 @@ fun EditUi(viewModel: EditViewModel) {
         ) {
             MaterialCheckbox(
                 checked = false,
-                onCheckedChange = viewModel::onDoneChanged,
+                onCheckedChange = {  },
                 content = {
                     Text(value = "Completed")
                 }

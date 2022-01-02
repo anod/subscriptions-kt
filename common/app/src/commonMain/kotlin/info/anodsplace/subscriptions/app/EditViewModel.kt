@@ -1,8 +1,15 @@
 package info.anodsplace.subscriptions.app
 
+import info.anodsplace.subscriptions.app.store.SubscriptionsStore
+import kotlinx.coroutines.CoroutineScope
+
 interface EditViewModel : ViewModel {
-    val text: String
-    fun onCloseClicked()
-    fun onDoneChanged(value: Boolean)
-    fun onTextChanged(value: String)
+
+}
+
+class CommonEditViewModel(
+    override val store: SubscriptionsStore,
+    override val currentScope: CoroutineScope,
+) : EditViewModel {
+
 }

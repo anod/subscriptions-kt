@@ -24,6 +24,7 @@ fun HTML.index() {
             media = "screen,projection"
         }
         meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
+        link("https://fonts.googleapis.com/icon?family=Material+Icons", rel = "stylesheet", type = "text/css")
     }
     body {
         div { id = "root" }

@@ -1,6 +1,7 @@
 package info.anodsplace.subscriptions.app.store
 
 import info.anodsplace.subscriptions.app.AppCoroutineScope
+import info.anodsplace.subscriptions.app.Route
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.database.AppDatabase
 import info.anodsplace.subscriptions.database.SubscriptionEntity
@@ -34,6 +35,7 @@ sealed class SubscriptionAction : Action {
 sealed class SubscriptionSideEffect : Effect {
     data class Error(val error: Exception) : SubscriptionSideEffect()
     data class Action(val action: SubscriptionAction) : SubscriptionSideEffect()
+    data class Navigate(val route: Route) : SubscriptionSideEffect()
 }
 
 interface SubscriptionsStore : Store<SubscriptionsState, SubscriptionAction, SubscriptionSideEffect> {
@@ -57,7 +59,6 @@ class DefaultSubscriptionsStore(
         get() = state.value.graphQlToken.isNotEmpty()
 
     override fun dispatch(action: SubscriptionAction) {
-        // Napier.d(tag = "FeedStore", message = "Action: $action")
         val oldState = state.value
 
         val newState = when (action) {
@@ -89,12 +90,6 @@ class DefaultSubscriptionsStore(
                 }
             }
             is SubscriptionAction.SelectFeed -> {
-//                if (action.subscription == null || db.contains(action.subscription)) {
-//                    oldState.copy(selected = action.subscription)
-//                } else {
-//                    appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("Unknown feed"))) }
-//                    oldState
-//                }
                 appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("Unknown feed"))) }
                 oldState
             }
@@ -124,6 +119,7 @@ class DefaultSubscriptionsStore(
             }
             is SubscriptionAction.LoggedIn -> {
                 graphQLClient.token = action.graphQlToken
+                navigate(Route.Main)
                 oldState.copy(progress = false, graphQlToken = action.graphQlToken)
             }
         }
@@ -134,6 +130,10 @@ class DefaultSubscriptionsStore(
         }
 
         appScope.launch { sideEffect.emit(SubscriptionSideEffect.Action(action)) }
+    }
+
+    override fun navigate(route: Route) {
+        appScope.launch { sideEffect.emit(SubscriptionSideEffect.Navigate(route)) }
     }
 
     private suspend fun login(action: SubscriptionAction.Login) {

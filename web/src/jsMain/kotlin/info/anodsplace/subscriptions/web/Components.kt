@@ -131,6 +131,7 @@ fun MaterialIcon(name: String) {
 fun NavBar(
     title: String,
     navigationIcon: NavBarIcon? = null,
+    icons: List<NavBarIcon> = emptyList(),
     attrs: AttrBuilderContext<HTMLElement> = { classes("teal", "darken-2") },
 ) {
     Nav(attrs = attrs) {
@@ -150,6 +151,10 @@ fun NavBar(
                 }
             ) {
                 Text(value = title)
+            }
+
+            Ul(attrs = { classes("right") }) {
+                icons.forEach { NavBarIcon(icon = it) }
             }
         }
     }

@@ -5,6 +5,7 @@ import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import info.anodsplace.subscriptions.database.SubscriptionEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 interface MainViewModel : ViewModel {
     val subscriptions: Flow<List<SubscriptionEntity>>
@@ -40,7 +41,9 @@ class CommonMainViewModel(
     }
 
     override fun onAddItemClicked() {
-
+        currentScope.launch {
+            store.navigate(route = Route.Edit)
+        }
     }
 
     override fun onInputTextChanged(value: String) {
