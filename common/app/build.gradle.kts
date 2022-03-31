@@ -1,6 +1,7 @@
+
 plugins {
-    id("multiplatform-setup")
-    id("android-setup")
+    id("com.android.library")
+    id("kotlin-multiplatform")
     id("com.squareup.sqldelight")
 }
 
@@ -10,29 +11,79 @@ sqldelight {
     }
 }
 
-kotlin {
+android {
+    compileSdk = 31
+
+    defaultConfig {
+        minSdk = 23
+        targetSdk = 31
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
     sourceSets {
-        commonMain {
+        named("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            res.srcDirs("src/androidMain/res")
+        }
+    }
+}
+
+kotlin {
+    android()
+
+    js(IR) {
+        browser()
+    }
+
+    sourceSets {
+        named("commonMain") {
             dependencies {
                 implementation(project(":common:server-contract"))
-                implementation(Deps.JetBrains.Coroutines.core)
-                implementation(Deps.Koin.core)
-                implementation(Deps.Ktor.Client.core)
-                implementation(Deps.SquareUp.SQLDelight.coroutines)
+                implementation(libs.coroutines.core)
+                implementation(libs.koin.core)
+                implementation(libs.ktor.client.core)
+                implementation(libs.sqldelight.coroutines)
             }
         }
 
-        androidMain {
+        named("androidMain") {
             dependencies {
-                implementation(Deps.SquareUp.SQLDelight.androidDriver)
-                implementation(Deps.SquareUp.SQLDelight.sqliteDriver)
+                implementation(libs.sqldelight.android)
+                implementation(libs.sqldelight.sqlite)
             }
         }
 
-        jsMain {
+        named("jsMain") {
             dependencies {
-                implementation(Deps.SquareUp.SQLDelight.sqljsDriver)
+                implementation(libs.sqldelight.sqljs)
             }
         }
+
+        named("commonTest") {
+            dependencies {
+                implementation(libs.kotlin.test.common)
+                implementation(libs.kotlin.test.annotations)
+            }
+        }
+
+        named("androidTest") {
+            dependencies {
+                implementation(libs.kotlin.test.junit)
+            }
+        }
+
+        named("jsTest") {
+            dependencies {
+                implementation(libs.kotlin.test.js)
+            }
+        }
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "11"
     }
 }

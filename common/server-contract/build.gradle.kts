@@ -11,9 +11,9 @@ kotlin {
     sourceSets {
         named("commonMain") {
             dependencies {
-                implementation(Deps.JetBrains.Serialization.json)
-                implementation(Deps.Ktor.Client.core)
-                implementation(Deps.Ktor.Client.serialization)
+                implementation(libs.serialization.json)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.serialization)
             }
         }
     }

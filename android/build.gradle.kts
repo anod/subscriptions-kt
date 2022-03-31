@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdk = 31
 
     defaultConfig {
-        minSdkVersion(23)
-        targetSdkVersion(31)
+        minSdk = 23
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
     }
@@ -22,7 +22,7 @@ android {
     }
 
     packagingOptions {
-        exclude("META-INF/*")
+        resources.excludes.add("META-INF/*")
     }
 }
 
@@ -30,10 +30,10 @@ dependencies {
     implementation(project(":common:app"))
     implementation(project(":common:compose-ui"))
     implementation(compose.material)
-    implementation(Deps.AndroidX.AppCompat.appCompat)
-    implementation(Deps.AndroidX.Activity.activityCompose)
-    implementation(Deps.Ktor.Client.core)
-    implementation(Deps.Ktor.Client.cio)
-    implementation(Deps.Ktor.Client.serialization)
-    implementation(Deps.Koin.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.koin.core)
 }

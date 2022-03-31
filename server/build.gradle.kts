@@ -15,13 +15,13 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(project(":common:server-contract"))
-                implementation(Deps.Ktor.Server.core)
-                implementation(Deps.Ktor.Server.netty)
-                implementation(Deps.Ktor.Server.html)
-                implementation(Deps.Ktor.Server.auth)
-                implementation(Deps.Ktor.Server.jwt)
-                implementation(Deps.Ktor.Server.serialization)
-                implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
+                implementation(libs.ktor.server.core)
+                implementation(libs.ktor.server.netty)
+                implementation(libs.ktor.server.html)
+                implementation(libs.ktor.server.auth)
+                implementation(libs.ktor.server.jwt)
+                implementation(libs.ktor.server.serialization)
+                implementation(libs.kotlinx.html)
             }
         }
     }
