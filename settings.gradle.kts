@@ -32,9 +32,10 @@ dependencyResolutionManagement {
 
             version("coroutines", "1.6.0")
             library("coroutines-core","org.jetbrains.kotlinx", "kotlinx-coroutines-core").versionRef("coroutines")
+            library("coroutines-swing","org.jetbrains.kotlinx", "kotlinx-coroutines-swing").versionRef("coroutines")
             library("kotlinx-html", "org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
 
-            version("compose", "1.0.1")
+            version("compose", "1.1.1")
             library("compose-gradle-plugin","org.jetbrains.compose", "compose-gradle-plugin").versionRef("compose")
 
             library("serialization-json","org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
