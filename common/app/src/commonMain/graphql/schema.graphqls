@@ -1,0 +1,2103 @@
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+
+  _gt: Int
+
+  _gte: Int
+
+  _in: [Int!]
+
+  _is_null: Boolean
+
+  _lt: Int
+
+  _lte: Int
+
+  _neq: Int
+
+  _nin: [Int!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+
+  _gt: String
+
+  _gte: String
+
+  """
+  does the column match the given case-insensitive pattern
+  """
+  _ilike: String
+
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+
+  _is_null: Boolean
+
+  """
+  does the column match the given pattern
+  """
+  _like: String
+
+  _lt: String
+
+  _lte: String
+
+  _neq: String
+
+  """
+  does the column NOT match the given case-insensitive pattern
+  """
+  _nilike: String
+
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """
+  does the column NOT match the given pattern
+  """
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """
+  does the column NOT match the given SQL regular expression
+  """
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """
+  does the column match the given SQL regular expression
+  """
+  _similar: String
+}
+
+scalar date
+
+"""
+Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'.
+"""
+input date_comparison_exp {
+  _eq: date
+
+  _gt: date
+
+  _gte: date
+
+  _in: [date!]
+
+  _is_null: Boolean
+
+  _lt: date
+
+  _lte: date
+
+  _neq: date
+
+  _nin: [date!]
+}
+
+"""
+mutation root
+"""
+type mutation_root {
+  """
+  delete data from the table: "payment"
+  """
+  delete_payment("filter the rows which have to be deleted" where: payment_bool_exp!): payment_mutation_response
+
+  """
+  delete single row from the table: "payment"
+  """
+  delete_payment_by_pk(id: Int!): payment
+
+  """
+  delete data from the table: "period"
+  """
+  delete_period("filter the rows which have to be deleted" where: period_bool_exp!): period_mutation_response
+
+  """
+  delete single row from the table: "period"
+  """
+  delete_period_by_pk(period: String!): period
+
+  """
+  delete data from the table: "subscriptions"
+  """
+  delete_subscriptions("filter the rows which have to be deleted" where: subscriptions_bool_exp!): subscriptions_mutation_response
+
+  """
+  delete single row from the table: "subscriptions"
+  """
+  delete_subscriptions_by_pk(id: Int!): subscriptions
+
+  """
+  delete data from the table: "users"
+  """
+  delete_users("filter the rows which have to be deleted" where: users_bool_exp!): users_mutation_response
+
+  """
+  delete single row from the table: "users"
+  """
+  delete_users_by_pk(id: Int!): users
+
+  """
+  insert data into the table: "payment"
+  """
+  insert_payment("the rows to be inserted" objects: [payment_insert_input!]!, "on conflict condition" on_conflict: payment_on_conflict): payment_mutation_response
+
+  """
+  insert a single row into the table: "payment"
+  """
+  insert_payment_one("the row to be inserted" object: payment_insert_input!, "on conflict condition" on_conflict: payment_on_conflict): payment
+
+  """
+  insert data into the table: "period"
+  """
+  insert_period("the rows to be inserted" objects: [period_insert_input!]!, "on conflict condition" on_conflict: period_on_conflict): period_mutation_response
+
+  """
+  insert a single row into the table: "period"
+  """
+  insert_period_one("the row to be inserted" object: period_insert_input!, "on conflict condition" on_conflict: period_on_conflict): period
+
+  """
+  insert data into the table: "subscriptions"
+  """
+  insert_subscriptions("the rows to be inserted" objects: [subscriptions_insert_input!]!, "on conflict condition" on_conflict: subscriptions_on_conflict): subscriptions_mutation_response
+
+  """
+  insert a single row into the table: "subscriptions"
+  """
+  insert_subscriptions_one("the row to be inserted" object: subscriptions_insert_input!, "on conflict condition" on_conflict: subscriptions_on_conflict): subscriptions
+
+  """
+  insert data into the table: "users"
+  """
+  insert_users("the rows to be inserted" objects: [users_insert_input!]!, "on conflict condition" on_conflict: users_on_conflict): users_mutation_response
+
+  """
+  insert a single row into the table: "users"
+  """
+  insert_users_one("the row to be inserted" object: users_insert_input!, "on conflict condition" on_conflict: users_on_conflict): users
+
+  """
+  update data of the table: "payment"
+  """
+  update_payment("increments the numeric columns with given value of the filtered values" _inc: payment_inc_input, "sets the columns of the filtered rows to the given values" _set: payment_set_input, "filter the rows which have to be updated" where: payment_bool_exp!): payment_mutation_response
+
+  """
+  update single row of the table: "payment"
+  """
+  update_payment_by_pk("increments the numeric columns with given value of the filtered values" _inc: payment_inc_input, "sets the columns of the filtered rows to the given values" _set: payment_set_input, pk_columns: payment_pk_columns_input!): payment
+
+  """
+  update data of the table: "period"
+  """
+  update_period("sets the columns of the filtered rows to the given values" _set: period_set_input, "filter the rows which have to be updated" where: period_bool_exp!): period_mutation_response
+
+  """
+  update single row of the table: "period"
+  """
+  update_period_by_pk("sets the columns of the filtered rows to the given values" _set: period_set_input, pk_columns: period_pk_columns_input!): period
+
+  """
+  update data of the table: "subscriptions"
+  """
+  update_subscriptions("increments the numeric columns with given value of the filtered values" _inc: subscriptions_inc_input, "sets the columns of the filtered rows to the given values" _set: subscriptions_set_input, "filter the rows which have to be updated" where: subscriptions_bool_exp!): subscriptions_mutation_response
+
+  """
+  update single row of the table: "subscriptions"
+  """
+  update_subscriptions_by_pk("increments the numeric columns with given value of the filtered values" _inc: subscriptions_inc_input, "sets the columns of the filtered rows to the given values" _set: subscriptions_set_input, pk_columns: subscriptions_pk_columns_input!): subscriptions
+
+  """
+  update data of the table: "users"
+  """
+  update_users("increments the numeric columns with given value of the filtered values" _inc: users_inc_input, "sets the columns of the filtered rows to the given values" _set: users_set_input, "filter the rows which have to be updated" where: users_bool_exp!): users_mutation_response
+
+  """
+  update single row of the table: "users"
+  """
+  update_users_by_pk("increments the numeric columns with given value of the filtered values" _inc: users_inc_input, "sets the columns of the filtered rows to the given values" _set: users_set_input, pk_columns: users_pk_columns_input!): users
+}
+
+scalar numeric
+
+"""
+Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+
+  _gt: numeric
+
+  _gte: numeric
+
+  _in: [numeric!]
+
+  _is_null: Boolean
+
+  _lt: numeric
+
+  _lte: numeric
+
+  _neq: numeric
+
+  _nin: [numeric!]
+}
+
+"""
+column ordering options
+"""
+enum order_by {
+  """
+  in ascending order, nulls last
+  """
+  asc
+
+  """
+  in ascending order, nulls first
+  """
+  asc_nulls_first
+
+  """
+  in ascending order, nulls last
+  """
+  asc_nulls_last
+
+  """
+  in descending order, nulls first
+  """
+  desc
+
+  """
+  in descending order, nulls first
+  """
+  desc_nulls_first
+
+  """
+  in descending order, nulls last
+  """
+  desc_nulls_last
+}
+
+"""
+columns and relationships of "payment"
+"""
+type payment {
+  currency: String!
+
+  date: date!
+
+  id: Int!
+
+  objectId: uuid!
+
+  period: period_enum!
+
+  """
+  An object relationship
+  """
+  periodByPeriod: period!
+
+  price: numeric!
+
+  """
+  An object relationship
+  """
+  subscription: subscriptions!
+
+  subscription_id: Int!
+}
+
+"""
+aggregated selection of "payment"
+"""
+type payment_aggregate {
+  aggregate: payment_aggregate_fields
+
+  nodes: [payment!]!
+}
+
+"""
+aggregate fields of "payment"
+"""
+type payment_aggregate_fields {
+  avg: payment_avg_fields
+
+  count(columns: [payment_select_column!], distinct: Boolean): Int!
+
+  max: payment_max_fields
+
+  min: payment_min_fields
+
+  stddev: payment_stddev_fields
+
+  stddev_pop: payment_stddev_pop_fields
+
+  stddev_samp: payment_stddev_samp_fields
+
+  sum: payment_sum_fields
+
+  var_pop: payment_var_pop_fields
+
+  var_samp: payment_var_samp_fields
+
+  variance: payment_variance_fields
+}
+
+"""
+order by aggregate values of table "payment"
+"""
+input payment_aggregate_order_by {
+  avg: payment_avg_order_by
+
+  count: order_by
+
+  max: payment_max_order_by
+
+  min: payment_min_order_by
+
+  stddev: payment_stddev_order_by
+
+  stddev_pop: payment_stddev_pop_order_by
+
+  stddev_samp: payment_stddev_samp_order_by
+
+  sum: payment_sum_order_by
+
+  var_pop: payment_var_pop_order_by
+
+  var_samp: payment_var_samp_order_by
+
+  variance: payment_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "payment"
+"""
+input payment_arr_rel_insert_input {
+  data: [payment_insert_input!]!
+
+  """
+  on conflict condition
+  """
+  on_conflict: payment_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type payment_avg_fields {
+  id: Float
+
+  price: Float
+
+  subscription_id: Float
+}
+
+"""
+order by avg() on columns of table "payment"
+"""
+input payment_avg_order_by {
+  id: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "payment". All fields are combined with a logical 'AND'.
+"""
+input payment_bool_exp {
+  _and: [payment_bool_exp!]
+
+  _not: payment_bool_exp
+
+  _or: [payment_bool_exp!]
+
+  currency: String_comparison_exp
+
+  date: date_comparison_exp
+
+  id: Int_comparison_exp
+
+  objectId: uuid_comparison_exp
+
+  period: period_enum_comparison_exp
+
+  periodByPeriod: period_bool_exp
+
+  price: numeric_comparison_exp
+
+  subscription: subscriptions_bool_exp
+
+  subscription_id: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "payment"
+"""
+enum payment_constraint {
+  """
+  unique or primary key constraint
+  """
+  payment_objectId_key
+
+  """
+  unique or primary key constraint
+  """
+  payment_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "payment"
+"""
+input payment_inc_input {
+  id: Int
+
+  price: numeric
+
+  subscription_id: Int
+}
+
+"""
+input type for inserting data into table "payment"
+"""
+input payment_insert_input {
+  currency: String
+
+  date: date
+
+  id: Int
+
+  objectId: uuid
+
+  period: period_enum
+
+  periodByPeriod: period_obj_rel_insert_input
+
+  price: numeric
+
+  subscription: subscriptions_obj_rel_insert_input
+
+  subscription_id: Int
+}
+
+"""
+aggregate max on columns
+"""
+type payment_max_fields {
+  currency: String
+
+  date: date
+
+  id: Int
+
+  objectId: uuid
+
+  price: numeric
+
+  subscription_id: Int
+}
+
+"""
+order by max() on columns of table "payment"
+"""
+input payment_max_order_by {
+  currency: order_by
+
+  date: order_by
+
+  id: order_by
+
+  objectId: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type payment_min_fields {
+  currency: String
+
+  date: date
+
+  id: Int
+
+  objectId: uuid
+
+  price: numeric
+
+  subscription_id: Int
+}
+
+"""
+order by min() on columns of table "payment"
+"""
+input payment_min_order_by {
+  currency: order_by
+
+  date: order_by
+
+  id: order_by
+
+  objectId: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+response of any mutation on the table "payment"
+"""
+type payment_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [payment!]!
+}
+
+"""
+on conflict condition type for table "payment"
+"""
+input payment_on_conflict {
+  constraint: payment_constraint!
+
+  update_columns: [payment_update_column!]! = []
+
+  where: payment_bool_exp
+}
+
+"""
+Ordering options when selecting data from "payment".
+"""
+input payment_order_by {
+  currency: order_by
+
+  date: order_by
+
+  id: order_by
+
+  objectId: order_by
+
+  period: order_by
+
+  periodByPeriod: period_order_by
+
+  price: order_by
+
+  subscription: subscriptions_order_by
+
+  subscription_id: order_by
+}
+
+"""
+primary key columns input for table: payment
+"""
+input payment_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "payment"
+"""
+enum payment_select_column {
+  """
+  column name
+  """
+  currency
+
+  """
+  column name
+  """
+  date
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  objectId
+
+  """
+  column name
+  """
+  period
+
+  """
+  column name
+  """
+  price
+
+  """
+  column name
+  """
+  subscription_id
+}
+
+"""
+input type for updating data in table "payment"
+"""
+input payment_set_input {
+  currency: String
+
+  date: date
+
+  id: Int
+
+  objectId: uuid
+
+  period: period_enum
+
+  price: numeric
+
+  subscription_id: Int
+}
+
+"""
+aggregate stddev on columns
+"""
+type payment_stddev_fields {
+  id: Float
+
+  price: Float
+
+  subscription_id: Float
+}
+
+"""
+order by stddev() on columns of table "payment"
+"""
+input payment_stddev_order_by {
+  id: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type payment_stddev_pop_fields {
+  id: Float
+
+  price: Float
+
+  subscription_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "payment"
+"""
+input payment_stddev_pop_order_by {
+  id: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type payment_stddev_samp_fields {
+  id: Float
+
+  price: Float
+
+  subscription_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "payment"
+"""
+input payment_stddev_samp_order_by {
+  id: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+aggregate sum on columns
+"""
+type payment_sum_fields {
+  id: Int
+
+  price: numeric
+
+  subscription_id: Int
+}
+
+"""
+order by sum() on columns of table "payment"
+"""
+input payment_sum_order_by {
+  id: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+update columns of table "payment"
+"""
+enum payment_update_column {
+  """
+  column name
+  """
+  currency
+
+  """
+  column name
+  """
+  date
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  objectId
+
+  """
+  column name
+  """
+  period
+
+  """
+  column name
+  """
+  price
+
+  """
+  column name
+  """
+  subscription_id
+}
+
+"""
+aggregate var_pop on columns
+"""
+type payment_var_pop_fields {
+  id: Float
+
+  price: Float
+
+  subscription_id: Float
+}
+
+"""
+order by var_pop() on columns of table "payment"
+"""
+input payment_var_pop_order_by {
+  id: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type payment_var_samp_fields {
+  id: Float
+
+  price: Float
+
+  subscription_id: Float
+}
+
+"""
+order by var_samp() on columns of table "payment"
+"""
+input payment_var_samp_order_by {
+  id: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type payment_variance_fields {
+  id: Float
+
+  price: Float
+
+  subscription_id: Float
+}
+
+"""
+order by variance() on columns of table "payment"
+"""
+input payment_variance_order_by {
+  id: order_by
+
+  price: order_by
+
+  subscription_id: order_by
+}
+
+"""
+columns and relationships of "period"
+"""
+type period {
+  """
+  An array relationship
+  """
+  payments("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): [payment!]!
+
+  """
+  An aggregate relationship
+  """
+  payments_aggregate("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): payment_aggregate!
+
+  period: String!
+}
+
+"""
+aggregated selection of "period"
+"""
+type period_aggregate {
+  aggregate: period_aggregate_fields
+
+  nodes: [period!]!
+}
+
+"""
+aggregate fields of "period"
+"""
+type period_aggregate_fields {
+  count(columns: [period_select_column!], distinct: Boolean): Int!
+
+  max: period_max_fields
+
+  min: period_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "period". All fields are combined with a logical 'AND'.
+"""
+input period_bool_exp {
+  _and: [period_bool_exp!]
+
+  _not: period_bool_exp
+
+  _or: [period_bool_exp!]
+
+  payments: payment_bool_exp
+
+  period: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "period"
+"""
+enum period_constraint {
+  """
+  unique or primary key constraint
+  """
+  period_pkey
+}
+
+enum period_enum {
+  day
+
+  month
+
+  week
+
+  year
+}
+
+"""
+Boolean expression to compare columns of type "period_enum". All fields are combined with logical 'AND'.
+"""
+input period_enum_comparison_exp {
+  _eq: period_enum
+
+  _in: [period_enum!]
+
+  _is_null: Boolean
+
+  _neq: period_enum
+
+  _nin: [period_enum!]
+}
+
+"""
+input type for inserting data into table "period"
+"""
+input period_insert_input {
+  payments: payment_arr_rel_insert_input
+
+  period: String
+}
+
+"""
+aggregate max on columns
+"""
+type period_max_fields {
+  period: String
+}
+
+"""
+aggregate min on columns
+"""
+type period_min_fields {
+  period: String
+}
+
+"""
+response of any mutation on the table "period"
+"""
+type period_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [period!]!
+}
+
+"""
+input type for inserting object relation for remote table "period"
+"""
+input period_obj_rel_insert_input {
+  data: period_insert_input!
+
+  """
+  on conflict condition
+  """
+  on_conflict: period_on_conflict
+}
+
+"""
+on conflict condition type for table "period"
+"""
+input period_on_conflict {
+  constraint: period_constraint!
+
+  update_columns: [period_update_column!]! = []
+
+  where: period_bool_exp
+}
+
+"""
+Ordering options when selecting data from "period".
+"""
+input period_order_by {
+  payments_aggregate: payment_aggregate_order_by
+
+  period: order_by
+}
+
+"""
+primary key columns input for table: period
+"""
+input period_pk_columns_input {
+  period: String!
+}
+
+"""
+select columns of table "period"
+"""
+enum period_select_column {
+  """
+  column name
+  """
+  period
+}
+
+"""
+input type for updating data in table "period"
+"""
+input period_set_input {
+  period: String
+}
+
+"""
+update columns of table "period"
+"""
+enum period_update_column {
+  """
+  column name
+  """
+  period
+}
+
+type query_root {
+  """
+  fetch data from the table: "payment"
+  """
+  payment("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): [payment!]!
+
+  """
+  fetch aggregated fields from the table: "payment"
+  """
+  payment_aggregate("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): payment_aggregate!
+
+  """
+  fetch data from the table: "payment" using primary key columns
+  """
+  payment_by_pk(id: Int!): payment
+
+  """
+  fetch data from the table: "period"
+  """
+  period("distinct select on columns" distinct_on: [period_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [period_order_by!], "filter the rows returned" where: period_bool_exp): [period!]!
+
+  """
+  fetch aggregated fields from the table: "period"
+  """
+  period_aggregate("distinct select on columns" distinct_on: [period_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [period_order_by!], "filter the rows returned" where: period_bool_exp): period_aggregate!
+
+  """
+  fetch data from the table: "period" using primary key columns
+  """
+  period_by_pk(period: String!): period
+
+  """
+  An array relationship
+  """
+  subscriptions("distinct select on columns" distinct_on: [subscriptions_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscriptions_order_by!], "filter the rows returned" where: subscriptions_bool_exp): [subscriptions!]!
+
+  """
+  An aggregate relationship
+  """
+  subscriptions_aggregate("distinct select on columns" distinct_on: [subscriptions_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscriptions_order_by!], "filter the rows returned" where: subscriptions_bool_exp): subscriptions_aggregate!
+
+  """
+  fetch data from the table: "subscriptions" using primary key columns
+  """
+  subscriptions_by_pk(id: Int!): subscriptions
+
+  """
+  fetch data from the table: "users"
+  """
+  users("distinct select on columns" distinct_on: [users_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [users_order_by!], "filter the rows returned" where: users_bool_exp): [users!]!
+
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  users_aggregate("distinct select on columns" distinct_on: [users_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [users_order_by!], "filter the rows returned" where: users_bool_exp): users_aggregate!
+
+  """
+  fetch data from the table: "users" using primary key columns
+  """
+  users_by_pk(id: Int!): users
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "payment"
+  """
+  payment("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): [payment!]!
+
+  """
+  fetch aggregated fields from the table: "payment"
+  """
+  payment_aggregate("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): payment_aggregate!
+
+  """
+  fetch data from the table: "payment" using primary key columns
+  """
+  payment_by_pk(id: Int!): payment
+
+  """
+  fetch data from the table: "period"
+  """
+  period("distinct select on columns" distinct_on: [period_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [period_order_by!], "filter the rows returned" where: period_bool_exp): [period!]!
+
+  """
+  fetch aggregated fields from the table: "period"
+  """
+  period_aggregate("distinct select on columns" distinct_on: [period_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [period_order_by!], "filter the rows returned" where: period_bool_exp): period_aggregate!
+
+  """
+  fetch data from the table: "period" using primary key columns
+  """
+  period_by_pk(period: String!): period
+
+  """
+  An array relationship
+  """
+  subscriptions("distinct select on columns" distinct_on: [subscriptions_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscriptions_order_by!], "filter the rows returned" where: subscriptions_bool_exp): [subscriptions!]!
+
+  """
+  An aggregate relationship
+  """
+  subscriptions_aggregate("distinct select on columns" distinct_on: [subscriptions_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscriptions_order_by!], "filter the rows returned" where: subscriptions_bool_exp): subscriptions_aggregate!
+
+  """
+  fetch data from the table: "subscriptions" using primary key columns
+  """
+  subscriptions_by_pk(id: Int!): subscriptions
+
+  """
+  fetch data from the table: "users"
+  """
+  users("distinct select on columns" distinct_on: [users_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [users_order_by!], "filter the rows returned" where: users_bool_exp): [users!]!
+
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  users_aggregate("distinct select on columns" distinct_on: [users_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [users_order_by!], "filter the rows returned" where: users_bool_exp): users_aggregate!
+
+  """
+  fetch data from the table: "users" using primary key columns
+  """
+  users_by_pk(id: Int!): users
+}
+
+"""
+columns and relationships of "subscriptions"
+"""
+type subscriptions {
+  created: date!
+
+  id: Int!
+
+  link: String!
+
+  name: String!
+
+  objectId: uuid!
+
+  """
+  An array relationship
+  """
+  payments("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): [payment!]!
+
+  """
+  An aggregate relationship
+  """
+  payments_aggregate("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): payment_aggregate!
+
+  """
+  An object relationship
+  """
+  user: users!
+
+  userId: Int!
+}
+
+"""
+aggregated selection of "subscriptions"
+"""
+type subscriptions_aggregate {
+  aggregate: subscriptions_aggregate_fields
+
+  nodes: [subscriptions!]!
+}
+
+"""
+aggregate fields of "subscriptions"
+"""
+type subscriptions_aggregate_fields {
+  avg: subscriptions_avg_fields
+
+  count(columns: [subscriptions_select_column!], distinct: Boolean): Int!
+
+  max: subscriptions_max_fields
+
+  min: subscriptions_min_fields
+
+  stddev: subscriptions_stddev_fields
+
+  stddev_pop: subscriptions_stddev_pop_fields
+
+  stddev_samp: subscriptions_stddev_samp_fields
+
+  sum: subscriptions_sum_fields
+
+  var_pop: subscriptions_var_pop_fields
+
+  var_samp: subscriptions_var_samp_fields
+
+  variance: subscriptions_variance_fields
+}
+
+"""
+order by aggregate values of table "subscriptions"
+"""
+input subscriptions_aggregate_order_by {
+  avg: subscriptions_avg_order_by
+
+  count: order_by
+
+  max: subscriptions_max_order_by
+
+  min: subscriptions_min_order_by
+
+  stddev: subscriptions_stddev_order_by
+
+  stddev_pop: subscriptions_stddev_pop_order_by
+
+  stddev_samp: subscriptions_stddev_samp_order_by
+
+  sum: subscriptions_sum_order_by
+
+  var_pop: subscriptions_var_pop_order_by
+
+  var_samp: subscriptions_var_samp_order_by
+
+  variance: subscriptions_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "subscriptions"
+"""
+input subscriptions_arr_rel_insert_input {
+  data: [subscriptions_insert_input!]!
+
+  """
+  on conflict condition
+  """
+  on_conflict: subscriptions_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type subscriptions_avg_fields {
+  id: Float
+
+  userId: Float
+}
+
+"""
+order by avg() on columns of table "subscriptions"
+"""
+input subscriptions_avg_order_by {
+  id: order_by
+
+  userId: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "subscriptions". All fields are combined with a logical 'AND'.
+"""
+input subscriptions_bool_exp {
+  _and: [subscriptions_bool_exp!]
+
+  _not: subscriptions_bool_exp
+
+  _or: [subscriptions_bool_exp!]
+
+  created: date_comparison_exp
+
+  id: Int_comparison_exp
+
+  link: String_comparison_exp
+
+  name: String_comparison_exp
+
+  objectId: uuid_comparison_exp
+
+  payments: payment_bool_exp
+
+  user: users_bool_exp
+
+  userId: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "subscriptions"
+"""
+enum subscriptions_constraint {
+  """
+  unique or primary key constraint
+  """
+  subscription_objectId_key
+
+  """
+  unique or primary key constraint
+  """
+  subscription_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "subscriptions"
+"""
+input subscriptions_inc_input {
+  id: Int
+
+  userId: Int
+}
+
+"""
+input type for inserting data into table "subscriptions"
+"""
+input subscriptions_insert_input {
+  created: date
+
+  id: Int
+
+  link: String
+
+  name: String
+
+  objectId: uuid
+
+  payments: payment_arr_rel_insert_input
+
+  user: users_obj_rel_insert_input
+
+  userId: Int
+}
+
+"""
+aggregate max on columns
+"""
+type subscriptions_max_fields {
+  created: date
+
+  id: Int
+
+  link: String
+
+  name: String
+
+  objectId: uuid
+
+  userId: Int
+}
+
+"""
+order by max() on columns of table "subscriptions"
+"""
+input subscriptions_max_order_by {
+  created: order_by
+
+  id: order_by
+
+  link: order_by
+
+  name: order_by
+
+  objectId: order_by
+
+  userId: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type subscriptions_min_fields {
+  created: date
+
+  id: Int
+
+  link: String
+
+  name: String
+
+  objectId: uuid
+
+  userId: Int
+}
+
+"""
+order by min() on columns of table "subscriptions"
+"""
+input subscriptions_min_order_by {
+  created: order_by
+
+  id: order_by
+
+  link: order_by
+
+  name: order_by
+
+  objectId: order_by
+
+  userId: order_by
+}
+
+"""
+response of any mutation on the table "subscriptions"
+"""
+type subscriptions_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [subscriptions!]!
+}
+
+"""
+input type for inserting object relation for remote table "subscriptions"
+"""
+input subscriptions_obj_rel_insert_input {
+  data: subscriptions_insert_input!
+
+  """
+  on conflict condition
+  """
+  on_conflict: subscriptions_on_conflict
+}
+
+"""
+on conflict condition type for table "subscriptions"
+"""
+input subscriptions_on_conflict {
+  constraint: subscriptions_constraint!
+
+  update_columns: [subscriptions_update_column!]! = []
+
+  where: subscriptions_bool_exp
+}
+
+"""
+Ordering options when selecting data from "subscriptions".
+"""
+input subscriptions_order_by {
+  created: order_by
+
+  id: order_by
+
+  link: order_by
+
+  name: order_by
+
+  objectId: order_by
+
+  payments_aggregate: payment_aggregate_order_by
+
+  user: users_order_by
+
+  userId: order_by
+}
+
+"""
+primary key columns input for table: subscriptions
+"""
+input subscriptions_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "subscriptions"
+"""
+enum subscriptions_select_column {
+  """
+  column name
+  """
+  created
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  link
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  objectId
+
+  """
+  column name
+  """
+  userId
+}
+
+"""
+input type for updating data in table "subscriptions"
+"""
+input subscriptions_set_input {
+  created: date
+
+  id: Int
+
+  link: String
+
+  name: String
+
+  objectId: uuid
+
+  userId: Int
+}
+
+"""
+aggregate stddev on columns
+"""
+type subscriptions_stddev_fields {
+  id: Float
+
+  userId: Float
+}
+
+"""
+order by stddev() on columns of table "subscriptions"
+"""
+input subscriptions_stddev_order_by {
+  id: order_by
+
+  userId: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type subscriptions_stddev_pop_fields {
+  id: Float
+
+  userId: Float
+}
+
+"""
+order by stddev_pop() on columns of table "subscriptions"
+"""
+input subscriptions_stddev_pop_order_by {
+  id: order_by
+
+  userId: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type subscriptions_stddev_samp_fields {
+  id: Float
+
+  userId: Float
+}
+
+"""
+order by stddev_samp() on columns of table "subscriptions"
+"""
+input subscriptions_stddev_samp_order_by {
+  id: order_by
+
+  userId: order_by
+}
+
+"""
+aggregate sum on columns
+"""
+type subscriptions_sum_fields {
+  id: Int
+
+  userId: Int
+}
+
+"""
+order by sum() on columns of table "subscriptions"
+"""
+input subscriptions_sum_order_by {
+  id: order_by
+
+  userId: order_by
+}
+
+"""
+update columns of table "subscriptions"
+"""
+enum subscriptions_update_column {
+  """
+  column name
+  """
+  created
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  link
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  objectId
+
+  """
+  column name
+  """
+  userId
+}
+
+"""
+aggregate var_pop on columns
+"""
+type subscriptions_var_pop_fields {
+  id: Float
+
+  userId: Float
+}
+
+"""
+order by var_pop() on columns of table "subscriptions"
+"""
+input subscriptions_var_pop_order_by {
+  id: order_by
+
+  userId: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type subscriptions_var_samp_fields {
+  id: Float
+
+  userId: Float
+}
+
+"""
+order by var_samp() on columns of table "subscriptions"
+"""
+input subscriptions_var_samp_order_by {
+  id: order_by
+
+  userId: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type subscriptions_variance_fields {
+  id: Float
+
+  userId: Float
+}
+
+"""
+order by variance() on columns of table "subscriptions"
+"""
+input subscriptions_variance_order_by {
+  id: order_by
+
+  userId: order_by
+}
+
+"""
+columns and relationships of "users"
+"""
+type users {
+  email: String!
+
+  id: Int!
+
+  name: String!
+
+  objectId: uuid!
+
+  """
+  An array relationship
+  """
+  subscriptions("distinct select on columns" distinct_on: [subscriptions_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscriptions_order_by!], "filter the rows returned" where: subscriptions_bool_exp): [subscriptions!]!
+
+  """
+  An aggregate relationship
+  """
+  subscriptions_aggregate("distinct select on columns" distinct_on: [subscriptions_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscriptions_order_by!], "filter the rows returned" where: subscriptions_bool_exp): subscriptions_aggregate!
+}
+
+"""
+aggregated selection of "users"
+"""
+type users_aggregate {
+  aggregate: users_aggregate_fields
+
+  nodes: [users!]!
+}
+
+"""
+aggregate fields of "users"
+"""
+type users_aggregate_fields {
+  avg: users_avg_fields
+
+  count(columns: [users_select_column!], distinct: Boolean): Int!
+
+  max: users_max_fields
+
+  min: users_min_fields
+
+  stddev: users_stddev_fields
+
+  stddev_pop: users_stddev_pop_fields
+
+  stddev_samp: users_stddev_samp_fields
+
+  sum: users_sum_fields
+
+  var_pop: users_var_pop_fields
+
+  var_samp: users_var_samp_fields
+
+  variance: users_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type users_avg_fields {
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'.
+"""
+input users_bool_exp {
+  _and: [users_bool_exp!]
+
+  _not: users_bool_exp
+
+  _or: [users_bool_exp!]
+
+  email: String_comparison_exp
+
+  id: Int_comparison_exp
+
+  name: String_comparison_exp
+
+  objectId: uuid_comparison_exp
+
+  subscriptions: subscriptions_bool_exp
+}
+
+"""
+unique or primary key constraints on table "users"
+"""
+enum users_constraint {
+  """
+  unique or primary key constraint
+  """
+  users_email_key
+
+  """
+  unique or primary key constraint
+  """
+  users_objectId_key
+
+  """
+  unique or primary key constraint
+  """
+  users_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "users"
+"""
+input users_inc_input {
+  id: Int
+}
+
+"""
+input type for inserting data into table "users"
+"""
+input users_insert_input {
+  email: String
+
+  id: Int
+
+  name: String
+
+  objectId: uuid
+
+  subscriptions: subscriptions_arr_rel_insert_input
+}
+
+"""
+aggregate max on columns
+"""
+type users_max_fields {
+  email: String
+
+  id: Int
+
+  name: String
+
+  objectId: uuid
+}
+
+"""
+aggregate min on columns
+"""
+type users_min_fields {
+  email: String
+
+  id: Int
+
+  name: String
+
+  objectId: uuid
+}
+
+"""
+response of any mutation on the table "users"
+"""
+type users_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [users!]!
+}
+
+"""
+input type for inserting object relation for remote table "users"
+"""
+input users_obj_rel_insert_input {
+  data: users_insert_input!
+
+  """
+  on conflict condition
+  """
+  on_conflict: users_on_conflict
+}
+
+"""
+on conflict condition type for table "users"
+"""
+input users_on_conflict {
+  constraint: users_constraint!
+
+  update_columns: [users_update_column!]! = []
+
+  where: users_bool_exp
+}
+
+"""
+Ordering options when selecting data from "users".
+"""
+input users_order_by {
+  email: order_by
+
+  id: order_by
+
+  name: order_by
+
+  objectId: order_by
+
+  subscriptions_aggregate: subscriptions_aggregate_order_by
+}
+
+"""
+primary key columns input for table: users
+"""
+input users_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "users"
+"""
+enum users_select_column {
+  """
+  column name
+  """
+  email
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  objectId
+}
+
+"""
+input type for updating data in table "users"
+"""
+input users_set_input {
+  email: String
+
+  id: Int
+
+  name: String
+
+  objectId: uuid
+}
+
+"""
+aggregate stddev on columns
+"""
+type users_stddev_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type users_stddev_pop_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type users_stddev_samp_fields {
+  id: Float
+}
+
+"""
+aggregate sum on columns
+"""
+type users_sum_fields {
+  id: Int
+}
+
+"""
+update columns of table "users"
+"""
+enum users_update_column {
+  """
+  column name
+  """
+  email
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  objectId
+}
+
+"""
+aggregate var_pop on columns
+"""
+type users_var_pop_fields {
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type users_var_samp_fields {
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type users_variance_fields {
+  id: Float
+}
+
+scalar uuid
+
+"""
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+
+  _gt: uuid
+
+  _gte: uuid
+
+  _in: [uuid!]
+
+  _is_null: Boolean
+
+  _lt: uuid
+
+  _lte: uuid
+
+  _neq: uuid
+
+  _nin: [uuid!]
+}
+
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}

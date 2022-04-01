@@ -24,8 +24,6 @@ kotlin {
                 implementation(libs.ktor.client.js)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.koin.core)
-                implementation(npm("graphql", "15.7.2"))
-                implementation(npm("@apollo/client", "3.4.17"))
                 implementation(npm("copy-webpack-plugin", "9.0.0"))
             }
         }

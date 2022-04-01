@@ -48,6 +48,8 @@ dependencyResolutionManagement {
             library("sqldelight-coroutines","com.squareup.sqldelight", "coroutines-extensions").versionRef("sqldelight")
 
             library("dotenv","co.uzzu.dotenv:gradle:1.2.0")
+
+            library("apollo-graphql", "com.apollographql.apollo3:apollo-runtime:3.2.0")
         }
     }
 }
@@ -57,6 +59,7 @@ include(
     ":common:server-contract",
     ":common:compose-ui",
     ":android",
+    ":desktop",
     ":web",
     ":server",
 )

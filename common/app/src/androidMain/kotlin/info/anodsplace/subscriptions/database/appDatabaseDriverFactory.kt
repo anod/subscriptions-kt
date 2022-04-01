@@ -9,5 +9,5 @@ fun appDatabaseDriverFactory(context: Context): SqlDriver =
     AndroidSqliteDriver(
         schema = SubscriptionsDatabase.Schema,
         context = context,
-        name = "TodoDatabase.db"
+        name = "SubscriptionsDb.db"
     )

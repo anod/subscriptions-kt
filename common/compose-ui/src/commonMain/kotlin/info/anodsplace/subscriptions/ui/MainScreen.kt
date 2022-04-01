@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,28 +38,36 @@ import info.anodsplace.subscriptions.database.SubscriptionEntity
 fun MainScreen(viewModel: MainViewModel) {
     val subscriptions by viewModel.subscriptions.collectAsState(emptyList())
 
+    SideEffect {
+        viewModel.reload()
+    }
+
     Column {
-        TopAppBar(title = { Text(text = "Todo List") })
+        TopAppBar(
+            title = { Text(text = "Subscriptions") },
+            actions = {
+                IconButton(onClick = {  }) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null
+                    )
+                }
+            }
+        )
 
         Box(Modifier.weight(1F)) {
-            TodoList(
+            SubscriptionsList(
                 items = subscriptions,
                 onItemClicked = viewModel::onItemClicked,
                 onDoneChanged = viewModel::onItemDoneChanged,
                 onDeleteItemClicked = viewModel::onItemDeleteClicked
             )
         }
-
-        TodoInput(
-            text = viewModel.text,
-            onAddClicked = viewModel::onAddItemClicked,
-            onTextChanged = viewModel::onInputTextChanged
-        )
     }
 }
 
 @Composable
-private fun TodoList(
+private fun SubscriptionsList(
     items: List<SubscriptionEntity>,
     onItemClicked: (id: Long) -> Unit,
     onDoneChanged: (id: Long, isDone: Boolean) -> Unit,
@@ -81,14 +89,6 @@ private fun TodoList(
             }
         }
 
-        VerticalScrollbar(
-            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-            adapter = rememberScrollbarAdapter(
-                scrollState = listState,
-                itemCount = items.size,
-                averageItemSize = 37.dp
-            )
-        )
     }
 }
 
@@ -122,34 +122,6 @@ private fun Item(
         IconButton(onClick = { onDeleteItemClicked(item.id) }) {
             Icon(
                 imageVector = Icons.Default.Delete,
-                contentDescription = null
-            )
-        }
-
-        Spacer(modifier = Modifier.width(MARGIN_SCROLLBAR))
-    }
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-private fun TodoInput(
-    text: String,
-    onTextChanged: (String) -> Unit,
-    onAddClicked: () -> Unit
-) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
-        OutlinedTextField(
-            value = text,
-            modifier = Modifier.weight(weight = 1F).onKeyEvent(onKeyUp(Key.Enter, onAddClicked)),
-            onValueChange = onTextChanged,
-            label = { Text(text = "Add a todo") }
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        IconButton(onClick = onAddClicked) {
-            Icon(
-                imageVector = Icons.Default.Add,
                 contentDescription = null
             )
         }

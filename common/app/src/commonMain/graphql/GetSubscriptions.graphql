@@ -1,0 +1,10 @@
+query GetSubscriptions {
+    subscriptions {
+        id
+        objectId
+        created
+        link
+        name
+        userId
+    }
+}

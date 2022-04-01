@@ -27,7 +27,7 @@ fun EditScreen(viewModel: EditViewModel) {
         TopAppBar(
             title = { Text("Edit todo") },
             navigationIcon = {
-                IconButton(onClick = viewModel::onCloseClicked) {
+                IconButton(onClick = {  }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null
@@ -37,8 +37,8 @@ fun EditScreen(viewModel: EditViewModel) {
         )
 
         TextField(
-            value = viewModel.text,
-            onValueChange = viewModel::onTextChanged,
+            value = "",
+            onValueChange = {  },
             modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
             label = { Text("Todo text") },
         )
@@ -50,7 +50,7 @@ fun EditScreen(viewModel: EditViewModel) {
 
             Checkbox(
                 checked = false,
-                onCheckedChange = viewModel::onDoneChanged
+                onCheckedChange = { }
             )
         }
     }

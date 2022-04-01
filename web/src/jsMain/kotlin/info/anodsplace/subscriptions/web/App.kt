@@ -5,6 +5,7 @@ import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.database.AppDatabase
 import info.anodsplace.subscriptions.app.CommonRouter
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
+import info.anodsplace.subscriptions.app.graphql.GraphQlApolloClient
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import info.anodsplace.subscriptions.database.DefaultAppDatabase
@@ -51,7 +52,7 @@ fun startApp(driver: SqlDriver, logger: Logger) {
             single {
                 DefaultAppDatabase(driver = driver)
             } bind AppDatabase::class
-            single { GraphQLJsClient() } bind GraphQLClient::class
+            single { GraphQlApolloClient() } bind GraphQLClient::class
             single { DefaultSubscriptionsStore(get(), get(), get(), get()) } bind SubscriptionsStore::class
         }))
     }

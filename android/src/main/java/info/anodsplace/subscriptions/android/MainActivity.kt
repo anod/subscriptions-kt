@@ -9,6 +9,7 @@ import info.anodsplace.subscriptions.app.AppCoroutineScope
 
 import info.anodsplace.subscriptions.ui.RootScreen
 import info.anodsplace.subscriptions.app.CommonRouter
+import info.anodsplace.subscriptions.ui.ComposeAppTheme
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

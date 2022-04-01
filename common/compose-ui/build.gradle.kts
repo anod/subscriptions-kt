@@ -29,7 +29,7 @@ android {
 
 kotlin {
     android()
-
+    jvm("desktop")
     sourceSets {
         named("commonMain") {
             dependencies {

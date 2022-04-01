@@ -1,4 +1,4 @@
-package info.anodsplace.subscriptions.android
+package info.anodsplace.subscriptions.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

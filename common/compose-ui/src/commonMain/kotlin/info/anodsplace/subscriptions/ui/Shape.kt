@@ -1,4 +1,4 @@
-package info.anodsplace.subscriptions.android
+package info.anodsplace.subscriptions.ui
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
