@@ -2,7 +2,7 @@
 
 Kotlin multi-platform project to manage subscriptions
 
-KMM, Compose, OAuth, GraphQL
+KMM, Compose, OAuth, GraphQL, Ktor
 
 # Running
 
@@ -14,7 +14,13 @@ docker-compose up
 
 ### HASURA Console
 
-open http://localhost:8080/console
+Open http://localhost:8080/console
+
+Update schema
+
+```bash
+./download-graphql-schema.sh
+```
 
 ## Run server
 

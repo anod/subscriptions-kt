@@ -312,6 +312,8 @@ type payment {
 
   date: date!
 
+  date_end: date
+
   id: Int!
 
   objectId: uuid!
@@ -322,6 +324,8 @@ type payment {
   An object relationship
   """
   periodByPeriod: period!
+
+  period_cycle: Int!
 
   price: numeric!
 
@@ -414,6 +418,8 @@ aggregate avg on columns
 type payment_avg_fields {
   id: Float
 
+  period_cycle: Float
+
   price: Float
 
   subscription_id: Float
@@ -424,6 +430,8 @@ order by avg() on columns of table "payment"
 """
 input payment_avg_order_by {
   id: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -444,6 +452,8 @@ input payment_bool_exp {
 
   date: date_comparison_exp
 
+  date_end: date_comparison_exp
+
   id: Int_comparison_exp
 
   objectId: uuid_comparison_exp
@@ -451,6 +461,8 @@ input payment_bool_exp {
   period: period_enum_comparison_exp
 
   periodByPeriod: period_bool_exp
+
+  period_cycle: Int_comparison_exp
 
   price: numeric_comparison_exp
 
@@ -480,6 +492,8 @@ input type for incrementing numeric columns in table "payment"
 input payment_inc_input {
   id: Int
 
+  period_cycle: Int
+
   price: numeric
 
   subscription_id: Int
@@ -493,6 +507,8 @@ input payment_insert_input {
 
   date: date
 
+  date_end: date
+
   id: Int
 
   objectId: uuid
@@ -500,6 +516,8 @@ input payment_insert_input {
   period: period_enum
 
   periodByPeriod: period_obj_rel_insert_input
+
+  period_cycle: Int
 
   price: numeric
 
@@ -516,9 +534,13 @@ type payment_max_fields {
 
   date: date
 
+  date_end: date
+
   id: Int
 
   objectId: uuid
+
+  period_cycle: Int
 
   price: numeric
 
@@ -533,9 +555,13 @@ input payment_max_order_by {
 
   date: order_by
 
+  date_end: order_by
+
   id: order_by
 
   objectId: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -550,9 +576,13 @@ type payment_min_fields {
 
   date: date
 
+  date_end: date
+
   id: Int
 
   objectId: uuid
+
+  period_cycle: Int
 
   price: numeric
 
@@ -567,9 +597,13 @@ input payment_min_order_by {
 
   date: order_by
 
+  date_end: order_by
+
   id: order_by
 
   objectId: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -610,6 +644,8 @@ input payment_order_by {
 
   date: order_by
 
+  date_end: order_by
+
   id: order_by
 
   objectId: order_by
@@ -617,6 +653,8 @@ input payment_order_by {
   period: order_by
 
   periodByPeriod: period_order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -649,6 +687,11 @@ enum payment_select_column {
   """
   column name
   """
+  date_end
+
+  """
+  column name
+  """
   id
 
   """
@@ -660,6 +703,11 @@ enum payment_select_column {
   column name
   """
   period
+
+  """
+  column name
+  """
+  period_cycle
 
   """
   column name
@@ -680,11 +728,15 @@ input payment_set_input {
 
   date: date
 
+  date_end: date
+
   id: Int
 
   objectId: uuid
 
   period: period_enum
+
+  period_cycle: Int
 
   price: numeric
 
@@ -697,6 +749,8 @@ aggregate stddev on columns
 type payment_stddev_fields {
   id: Float
 
+  period_cycle: Float
+
   price: Float
 
   subscription_id: Float
@@ -707,6 +761,8 @@ order by stddev() on columns of table "payment"
 """
 input payment_stddev_order_by {
   id: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -719,6 +775,8 @@ aggregate stddev_pop on columns
 type payment_stddev_pop_fields {
   id: Float
 
+  period_cycle: Float
+
   price: Float
 
   subscription_id: Float
@@ -729,6 +787,8 @@ order by stddev_pop() on columns of table "payment"
 """
 input payment_stddev_pop_order_by {
   id: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -741,6 +801,8 @@ aggregate stddev_samp on columns
 type payment_stddev_samp_fields {
   id: Float
 
+  period_cycle: Float
+
   price: Float
 
   subscription_id: Float
@@ -751,6 +813,8 @@ order by stddev_samp() on columns of table "payment"
 """
 input payment_stddev_samp_order_by {
   id: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -763,6 +827,8 @@ aggregate sum on columns
 type payment_sum_fields {
   id: Int
 
+  period_cycle: Int
+
   price: numeric
 
   subscription_id: Int
@@ -773,6 +839,8 @@ order by sum() on columns of table "payment"
 """
 input payment_sum_order_by {
   id: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -796,6 +864,11 @@ enum payment_update_column {
   """
   column name
   """
+  date_end
+
+  """
+  column name
+  """
   id
 
   """
@@ -807,6 +880,11 @@ enum payment_update_column {
   column name
   """
   period
+
+  """
+  column name
+  """
+  period_cycle
 
   """
   column name
@@ -825,6 +903,8 @@ aggregate var_pop on columns
 type payment_var_pop_fields {
   id: Float
 
+  period_cycle: Float
+
   price: Float
 
   subscription_id: Float
@@ -835,6 +915,8 @@ order by var_pop() on columns of table "payment"
 """
 input payment_var_pop_order_by {
   id: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -847,6 +929,8 @@ aggregate var_samp on columns
 type payment_var_samp_fields {
   id: Float
 
+  period_cycle: Float
+
   price: Float
 
   subscription_id: Float
@@ -857,6 +941,8 @@ order by var_samp() on columns of table "payment"
 """
 input payment_var_samp_order_by {
   id: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
@@ -869,6 +955,8 @@ aggregate variance on columns
 type payment_variance_fields {
   id: Float
 
+  period_cycle: Float
+
   price: Float
 
   subscription_id: Float
@@ -879,6 +967,8 @@ order by variance() on columns of table "payment"
 """
 input payment_variance_order_by {
   id: order_by
+
+  period_cycle: order_by
 
   price: order_by
 
