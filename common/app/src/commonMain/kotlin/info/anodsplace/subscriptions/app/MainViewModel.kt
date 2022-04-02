@@ -7,12 +7,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.koin.core.component.inject
 
 interface MainViewModel : ViewModel {
     val user: GetUserQuery.User
     val subscriptions: Flow<List<Subscription>>
     val total: Flow<Float>
     val text: String
+    fun formatPrice(price: Float, currencyCode: String): String
     fun onItemClicked(id: Long)
     fun onItemDoneChanged(id: Long, isDone: Boolean)
     fun onItemDeleteClicked(id: Long)
@@ -43,6 +45,9 @@ class CommonMainViewModel(
     override val store: SubscriptionsStore,
     override val currentScope: CoroutineScope,
 ) : MainViewModel {
+
+    private val currency: Currency by inject()
+
     private val exchange = mapOf(
         "ILS" to 1f,
         "USD" to 3.20f
@@ -73,6 +78,10 @@ class CommonMainViewModel(
     }
 
     override val text: String = ""
+
+    override fun formatPrice(price: Float, currencyCode: String): String {
+        return currency.format(price, currencyCode)
+    }
 
     override fun onItemClicked(id: Long) {
 

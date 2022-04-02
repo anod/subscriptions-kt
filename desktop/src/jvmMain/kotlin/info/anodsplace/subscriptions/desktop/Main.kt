@@ -7,8 +7,10 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import info.anodsplace.subscriptions.JvmCurrency
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.app.CommonRouter
+import info.anodsplace.subscriptions.app.Currency
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.app.graphql.GraphQlApolloClient
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
@@ -41,6 +43,7 @@ fun main() {
                 install(JsonFeature) { }
             } } bind HttpClient::class
             singleOf(::DefaultSubscriptionsStore) bind SubscriptionsStore::class
+            singleOf(::JvmCurrency) bind Currency::class
         }))
     }
 

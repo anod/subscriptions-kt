@@ -1,7 +1,9 @@
 package info.anodsplace.subscriptions.web
 
+import info.anodsplace.subscriptions.JsCurrency
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.app.CommonRouter
+import info.anodsplace.subscriptions.app.Currency
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.app.graphql.GraphQlApolloClient
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
@@ -49,6 +51,7 @@ fun main() {
                 } } bind HttpClient::class
             single { GraphQlApolloClient(get()) } bind GraphQLClient::class
             singleOf(::DefaultSubscriptionsStore) bind SubscriptionsStore::class
+            singleOf(::JsCurrency) bind Currency::class
         }))
     }
 

@@ -40,15 +40,13 @@ fun MainScreen(viewModel: MainViewModel) {
         Box(Modifier.weight(1F)) {
             SubscriptionsList(
                 items = subscriptions,
-                onItemClicked = viewModel::onItemClicked,
-                onDoneChanged = viewModel::onItemDoneChanged,
-                onDeleteItemClicked = viewModel::onItemDeleteClicked
+                viewModel = viewModel
             )
 
         }
 
         Text(
-            text = "Total: $total ${viewModel.user.currency}",
+            text = "Total: ${viewModel.formatPrice(total, viewModel.user.currency)}",
             modifier = Modifier.padding(16.dp).align(Alignment.End)
         )
     }
@@ -57,9 +55,7 @@ fun MainScreen(viewModel: MainViewModel) {
 @Composable
 private fun SubscriptionsList(
     items: List<Subscription>,
-    onItemClicked: (id: Long) -> Unit,
-    onDoneChanged: (id: Long, isDone: Boolean) -> Unit,
-    onDeleteItemClicked: (id: Long) -> Unit
+    viewModel: MainViewModel
 ) {
     Box {
         val listState = rememberLazyListState()
@@ -68,9 +64,7 @@ private fun SubscriptionsList(
             items(items.size) {
                 Item(
                     item = items[it],
-                    onItemClicked = onItemClicked,
-                    onDoneChanged = onDoneChanged,
-                    onDeleteItemClicked = onDeleteItemClicked
+                    viewModel = viewModel
                 )
 
                 Divider()
@@ -83,13 +77,11 @@ private fun SubscriptionsList(
 @Composable
 private fun Item(
     item: Subscription,
-    onItemClicked: (id: Long) -> Unit,
-    onDoneChanged: (id: Long, isDone: Boolean) -> Unit,
-    onDeleteItemClicked: (id: Long) -> Unit
+    viewModel: MainViewModel
 ) {
     Row(modifier = Modifier
         .fillMaxWidth()
-        .clickable(onClick = { onItemClicked(item.id.toLong()) })
+        .clickable(onClick = { viewModel.onItemClicked(item.id.toLong()) })
     ) {
 
         Column(
@@ -121,11 +113,11 @@ private fun Item(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = AnnotatedString(item.price.format()),
+                    text = AnnotatedString(viewModel.formatPrice(item.price, item.currency)),
                     maxLines = 1,
                 )
                 Text(
-                    text = "${item.originalPrice} ${item.originalCurrency}",
+                    text = viewModel.formatPrice(item.originalPrice, item.originalCurrency),
                     modifier = Modifier.padding(top = 4.dp),
                     style = MaterialTheme.typography.caption,
                     maxLines = 1,
@@ -133,7 +125,7 @@ private fun Item(
             }
         } else {
             Text(
-                text = AnnotatedString(item.price.toString()),
+                text = AnnotatedString(viewModel.formatPrice(item.price, item.currency)),
                 modifier = Modifier
                     .padding(top = 16.dp, bottom = 16.dp, end = 16.dp)
                     .align(Alignment.CenterVertically),
