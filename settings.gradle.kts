@@ -20,7 +20,8 @@ dependencyResolutionManagement {
             library("ktor-server-auth","io.ktor", "ktor-auth").versionRef("ktor")
             library("ktor-server-jwt","io.ktor", "ktor-auth-jwt").versionRef("ktor")
             library("ktor-server-serialization","io.ktor", "ktor-serialization").versionRef("ktor")
-            library("koin-core","io.insert-koin:koin-core:3.1.4")
+
+            library("koin-core","io.insert-koin:koin-core:3.2.0-beta-1")
 
             version("kotlin", "1.6.10")
             library("kotlin-gradle-plugin","org.jetbrains.kotlin", "kotlin-gradle-plugin").versionRef("kotlin")

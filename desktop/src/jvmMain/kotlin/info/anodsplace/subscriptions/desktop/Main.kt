@@ -23,6 +23,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.core.logger.Logger
 import org.koin.core.logger.PrintLogger
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -39,7 +40,7 @@ fun main() {
             single { HttpClient(CIO) {
                 install(JsonFeature) { }
             } } bind HttpClient::class
-            single { DefaultSubscriptionsStore(get(), get(), get()) } bind SubscriptionsStore::class
+            singleOf(::DefaultSubscriptionsStore) bind SubscriptionsStore::class
         }))
     }
 

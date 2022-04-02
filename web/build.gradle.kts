@@ -24,7 +24,6 @@ kotlin {
                 implementation(libs.ktor.client.js)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.koin.core)
-                implementation(npm("copy-webpack-plugin", "9.0.0"))
             }
         }
     }

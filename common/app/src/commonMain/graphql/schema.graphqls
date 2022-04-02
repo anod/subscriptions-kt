@@ -128,6 +128,8 @@ type method {
   name: String!
 
   objectId: uuid!
+
+  userId: Int!
 }
 
 """
@@ -171,6 +173,8 @@ aggregate avg on columns
 """
 type method_avg_fields {
   id: Float
+
+  userId: Float
 }
 
 """
@@ -188,6 +192,8 @@ input method_bool_exp {
   name: String_comparison_exp
 
   objectId: uuid_comparison_exp
+
+  userId: Int_comparison_exp
 }
 
 """
@@ -205,6 +211,8 @@ input type for incrementing numeric columns in table "method"
 """
 input method_inc_input {
   id: Int
+
+  userId: Int
 }
 
 """
@@ -216,6 +224,8 @@ input method_insert_input {
   name: String
 
   objectId: uuid
+
+  userId: Int
 }
 
 """
@@ -227,6 +237,8 @@ type method_max_fields {
   name: String
 
   objectId: uuid
+
+  userId: Int
 }
 
 """
@@ -238,6 +250,8 @@ type method_min_fields {
   name: String
 
   objectId: uuid
+
+  userId: Int
 }
 
 """
@@ -275,6 +289,8 @@ input method_order_by {
   name: order_by
 
   objectId: order_by
+
+  userId: order_by
 }
 
 """
@@ -302,6 +318,11 @@ enum method_select_column {
   column name
   """
   objectId
+
+  """
+  column name
+  """
+  userId
 }
 
 """
@@ -313,6 +334,8 @@ input method_set_input {
   name: String
 
   objectId: uuid
+
+  userId: Int
 }
 
 """
@@ -320,6 +343,8 @@ aggregate stddev on columns
 """
 type method_stddev_fields {
   id: Float
+
+  userId: Float
 }
 
 """
@@ -327,6 +352,8 @@ aggregate stddev_pop on columns
 """
 type method_stddev_pop_fields {
   id: Float
+
+  userId: Float
 }
 
 """
@@ -334,6 +361,8 @@ aggregate stddev_samp on columns
 """
 type method_stddev_samp_fields {
   id: Float
+
+  userId: Float
 }
 
 """
@@ -341,6 +370,8 @@ aggregate sum on columns
 """
 type method_sum_fields {
   id: Int
+
+  userId: Int
 }
 
 """
@@ -361,6 +392,11 @@ enum method_update_column {
   column name
   """
   objectId
+
+  """
+  column name
+  """
+  userId
 }
 
 """
@@ -368,6 +404,8 @@ aggregate var_pop on columns
 """
 type method_var_pop_fields {
   id: Float
+
+  userId: Float
 }
 
 """
@@ -375,6 +413,8 @@ aggregate var_samp on columns
 """
 type method_var_samp_fields {
   id: Float
+
+  userId: Float
 }
 
 """
@@ -382,6 +422,8 @@ aggregate variance on columns
 """
 type method_variance_fields {
   id: Float
+
+  userId: Float
 }
 
 """
@@ -1801,9 +1843,19 @@ type subscription_root {
 columns and relationships of "subscription_tags"
 """
 type subscription_tags {
+  """
+  An object relationship
+  """
+  subscription: subscriptions!
+
   subscription_id: Int!
 
   tag: String!
+
+  """
+  An object relationship
+  """
+  tags: tag!
 }
 
 """
@@ -1905,9 +1957,13 @@ input subscription_tags_bool_exp {
 
   _or: [subscription_tags_bool_exp!]
 
+  subscription: subscriptions_bool_exp
+
   subscription_id: Int_comparison_exp
 
   tag: String_comparison_exp
+
+  tags: tag_bool_exp
 }
 
 """
@@ -1931,9 +1987,13 @@ input subscription_tags_inc_input {
 input type for inserting data into table "subscription_tags"
 """
 input subscription_tags_insert_input {
+  subscription: subscriptions_obj_rel_insert_input
+
   subscription_id: Int
 
   tag: String
+
+  tags: tag_obj_rel_insert_input
 }
 
 """
@@ -2002,9 +2062,13 @@ input subscription_tags_on_conflict {
 Ordering options when selecting data from "subscription_tags".
 """
 input subscription_tags_order_by {
+  subscription: subscriptions_order_by
+
   subscription_id: order_by
 
   tag: order_by
+
+  tags: tag_order_by
 }
 
 """
@@ -2800,6 +2864,18 @@ type tag_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "tag"
+"""
+input tag_obj_rel_insert_input {
+  data: tag_insert_input!
+
+  """
+  on conflict condition
+  """
+  on_conflict: tag_on_conflict
+}
+
+"""
 on conflict condition type for table "tag"
 """
 input tag_on_conflict {
@@ -2855,6 +2931,8 @@ enum tag_update_column {
 columns and relationships of "users"
 """
 type users {
+  currency: String!
+
   email: String!
 
   id: Int!
@@ -2927,6 +3005,8 @@ input users_bool_exp {
 
   _or: [users_bool_exp!]
 
+  currency: String_comparison_exp
+
   email: String_comparison_exp
 
   id: Int_comparison_exp
@@ -2969,6 +3049,8 @@ input users_inc_input {
 input type for inserting data into table "users"
 """
 input users_insert_input {
+  currency: String
+
   email: String
 
   id: Int
@@ -2984,6 +3066,8 @@ input users_insert_input {
 aggregate max on columns
 """
 type users_max_fields {
+  currency: String
+
   email: String
 
   id: Int
@@ -2997,6 +3081,8 @@ type users_max_fields {
 aggregate min on columns
 """
 type users_min_fields {
+  currency: String
+
   email: String
 
   id: Int
@@ -3048,6 +3134,8 @@ input users_on_conflict {
 Ordering options when selecting data from "users".
 """
 input users_order_by {
+  currency: order_by
+
   email: order_by
 
   id: order_by
@@ -3073,6 +3161,11 @@ enum users_select_column {
   """
   column name
   """
+  currency
+
+  """
+  column name
+  """
   email
 
   """
@@ -3095,6 +3188,8 @@ enum users_select_column {
 input type for updating data in table "users"
 """
 input users_set_input {
+  currency: String
+
   email: String
 
   id: Int
@@ -3136,6 +3231,11 @@ type users_sum_fields {
 update columns of table "users"
 """
 enum users_update_column {
+  """
+  column name
+  """
+  currency
+
   """
   column name
   """

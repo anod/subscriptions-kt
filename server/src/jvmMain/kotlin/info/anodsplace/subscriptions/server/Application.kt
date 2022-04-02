@@ -75,7 +75,7 @@ fun Application.module(testing: Boolean = false) {
             val credentials = call.receive<LoginRequest>()
             val user = PasswordAuthenticator(credentials).authenticate()
             val token = jwtToken.forUser(user)
-            call.respond(LoginResponse(token = token))
+            call.respond(LoginResponse(token = token, userId = user.id))
         }
         static("/static") {
             resources()

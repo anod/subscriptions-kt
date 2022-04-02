@@ -30,6 +30,7 @@ import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
     val subscriptions by viewModel.subscriptions.collectAsState(emptyList())
+    val total by viewModel.total.collectAsState(0f)
 
     Column {
         TopAppBar(
@@ -51,7 +52,13 @@ fun MainScreen(viewModel: MainViewModel) {
                 onDoneChanged = viewModel::onItemDoneChanged,
                 onDeleteItemClicked = viewModel::onItemDeleteClicked
             )
+
         }
+
+        Text(
+            text = "Total: $total ${viewModel.user.currency}",
+            modifier = Modifier.padding(16.dp).align(Alignment.End)
+        )
     }
 }
 

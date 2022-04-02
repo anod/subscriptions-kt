@@ -1,0 +1,9 @@
+query GetUser($userId: Int!) {
+    user : users_by_pk(id: $userId) {
+        currency
+        email
+        id
+        name
+        objectId
+    }
+}

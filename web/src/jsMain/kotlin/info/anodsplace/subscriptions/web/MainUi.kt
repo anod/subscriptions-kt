@@ -1,11 +1,10 @@
 package info.anodsplace.subscriptions.web
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import info.anodsplace.subscriptions.app.MainViewModel
-import info.anodsplace.subscriptions.database.SubscriptionEntity
+import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.FlexDirection
@@ -30,10 +29,6 @@ import org.w3c.dom.HTMLUListElement
 fun MainUi(viewModel: MainViewModel) {
     val items by viewModel.subscriptions.collectAsState(emptyList())
 
-    SideEffect {
-        viewModel.reload()
-    }
-
     NavBar(title = "Subscriptions", icons = listOf(NavBarIcon(name = "add", onClick = viewModel::onAddItemClicked)))
 
     Ul(
@@ -55,7 +50,7 @@ fun MainUi(viewModel: MainViewModel) {
 
 @Composable
 private fun DOMScope<HTMLUListElement>.Item(
-    item: SubscriptionEntity,
+    item: GetPaymentsQuery.Payment,
     onClicked: (id: Long) -> Unit,
     onDoneChanged: (id: Long, isDone: Boolean) -> Unit,
     onDeleteClicked: (id: Long) -> Unit
@@ -74,7 +69,7 @@ private fun DOMScope<HTMLUListElement>.Item(
     ) {
         MaterialCheckbox(
             checked = false,
-            onCheckedChange = { onDoneChanged(item.id, !false) },
+            onCheckedChange = { onDoneChanged(item.id.toLong(), !false) },
             attrs = {
                 style {
                     property("flex", "0 1 auto")
@@ -94,14 +89,14 @@ private fun DOMScope<HTMLUListElement>.Item(
                     display(DisplayStyle.Flex)
                     alignItems(AlignItems.Center)
                 }
-                onClick { onClicked(item.id) }
+                onClick { onClicked(item.id.toLong()) }
             }
         ) {
-            Text(value = item.name)
+            Text(value = item.subscription.name)
         }
 
         ImageButton(
-            onClick = { onDeleteClicked(item.id) },
+            onClick = { onDeleteClicked(item.id.toLong()) },
             iconName = "delete",
             attrs = {
                 style {

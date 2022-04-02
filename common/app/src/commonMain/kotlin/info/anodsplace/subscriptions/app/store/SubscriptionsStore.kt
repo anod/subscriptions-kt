@@ -4,6 +4,7 @@ import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.app.Route
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
+import info.anodsplace.subscriptions.graphql.GetUserQuery
 import info.anodsplace.subscriptions.server.contract.LoginRequest
 import info.anodsplace.subscriptions.server.contract.LoginResponse
 import io.ktor.client.*
@@ -11,8 +12,10 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.koin.core.logger.Logger
 
 data class SubscriptionsState(
+    val user: GetUserQuery.User = GetUserQuery.User("", "", 0, "", ""),
     val progress: Boolean = false,
     val graphQlToken: String = "",
     val selected: GetPaymentsQuery.Payment? = null
@@ -20,7 +23,7 @@ data class SubscriptionsState(
 
 sealed class SubscriptionAction : Action {
     data class Login(val username: String, val password: String) : SubscriptionAction()
-    data class LoggedIn(val username: String, val graphQlToken: String) : SubscriptionAction()
+    data class LoggedIn(val username: String, val graphQlToken: String, val user: GetUserQuery.User) : SubscriptionAction()
     data class Add(val subscription: GetPaymentsQuery.Payment) : SubscriptionAction()
     data class Delete(val id: Long) : SubscriptionAction()
     data class SelectFeed(val subscription: GetPaymentsQuery.Payment?) : SubscriptionAction()
@@ -37,12 +40,14 @@ sealed class SubscriptionSideEffect : Effect {
 interface SubscriptionsStore : Store<SubscriptionsState, SubscriptionAction, SubscriptionSideEffect> {
     val subscriptions: Flow<List<GetPaymentsQuery.Payment>>
     val isLoggedIn: Boolean
+    val user: GetUserQuery.User
 }
 
 class DefaultSubscriptionsStore(
     private val appScope: AppCoroutineScope,
     private val httpClient: HttpClient,
-    private val graphQLClient: GraphQLClient
+    private val graphQLClient: GraphQLClient,
+    private val logger: Logger
 ) : SubscriptionsStore {
     override val state = MutableStateFlow(SubscriptionsState())
     override val sideEffect = MutableSharedFlow<SubscriptionSideEffect>()
@@ -51,7 +56,10 @@ class DefaultSubscriptionsStore(
         get() = graphQLClient.observePayments()
 
     override val isLoggedIn: Boolean
-        get() = state.value.graphQlToken.isNotEmpty()
+        get() = state.value.graphQlToken.isNotEmpty() && user.id > 0
+
+    override val user: GetUserQuery.User
+        get() = state.value.user
 
     override fun dispatch(action: SubscriptionAction) {
         val oldState = state.value
@@ -104,9 +112,8 @@ class DefaultSubscriptionsStore(
                 oldState.copy(progress = true)
             }
             is SubscriptionAction.LoggedIn -> {
-                graphQLClient.token = action.graphQlToken
                 navigate(Route.Main)
-                oldState.copy(progress = false, graphQlToken = action.graphQlToken)
+                oldState.copy(progress = false, graphQlToken = action.graphQlToken, user = action.user)
             }
         }
 
@@ -128,8 +135,11 @@ class DefaultSubscriptionsStore(
                 method = HttpMethod.Post
                 body = LoginRequest(username = action.username, password = action.password)
             }
-            dispatch(SubscriptionAction.LoggedIn(username = action.username, graphQlToken = response.token))
+            graphQLClient.token = response.token
+            val user = graphQLClient.loadUser(response.userId)
+            dispatch(SubscriptionAction.LoggedIn(username = action.username, graphQlToken = response.token, user = user))
         } catch (e: Exception) {
+            logger.error("login: ${e.message}")
             dispatch(SubscriptionAction.Error(e))
         }
     }
