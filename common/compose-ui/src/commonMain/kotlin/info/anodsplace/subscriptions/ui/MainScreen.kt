@@ -9,38 +9,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Checkbox
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import info.anodsplace.subscriptions.app.MainViewModel
-import info.anodsplace.subscriptions.database.SubscriptionEntity
+import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
     val subscriptions by viewModel.subscriptions.collectAsState(emptyList())
-
-    SideEffect {
-        viewModel.reload()
-    }
 
     Column {
         TopAppBar(
@@ -68,7 +57,7 @@ fun MainScreen(viewModel: MainViewModel) {
 
 @Composable
 private fun SubscriptionsList(
-    items: List<SubscriptionEntity>,
+    items: List<GetPaymentsQuery.Payment>,
     onItemClicked: (id: Long) -> Unit,
     onDoneChanged: (id: Long, isDone: Boolean) -> Unit,
     onDeleteItemClicked: (id: Long) -> Unit
@@ -94,36 +83,42 @@ private fun SubscriptionsList(
 
 @Composable
 private fun Item(
-    item: SubscriptionEntity,
+    item: GetPaymentsQuery.Payment,
     onItemClicked: (id: Long) -> Unit,
     onDoneChanged: (id: Long, isDone: Boolean) -> Unit,
     onDeleteItemClicked: (id: Long) -> Unit
 ) {
-    Row(modifier = Modifier.clickable(onClick = { onItemClicked(item.id) })) {
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Checkbox(
-            checked = false,
-            modifier = Modifier.align(Alignment.CenterVertically),
-            onCheckedChange = { onDoneChanged(item.id, it) }
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
+    Row(modifier = Modifier
+        .clickable(onClick = { onItemClicked(item.id.toLong()) })
+    ) {
 
         Text(
-            text = AnnotatedString(item.name),
-            modifier = Modifier.weight(1F).align(Alignment.CenterVertically),
+            text = AnnotatedString(item.subscription.name),
+            modifier = Modifier
+                .padding(all = 16.dp)
+                .weight(1F).align(Alignment.CenterVertically),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        IconButton(onClick = { onDeleteItemClicked(item.id) }) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = null
-            )
-        }
+        Text(
+            text = AnnotatedString(item.price.toString()),
+            modifier = Modifier
+                .padding(top = 16.dp, bottom = 16.dp)
+                .weight(0.2F).align(Alignment.CenterVertically),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+
+        Text(
+            text = AnnotatedString(item.currency),
+            modifier = Modifier
+                .padding(top = 16.dp, bottom = 16.dp, end = 16.dp)
+                .weight(0.1F).align(Alignment.CenterVertically),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }

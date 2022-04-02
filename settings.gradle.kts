@@ -40,17 +40,12 @@ dependencyResolutionManagement {
 
             library("serialization-json","org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
-            version("sqldelight", "1.5.3")
-            library("sqldelight-gradle-plugin","com.squareup.sqldelight", "gradle-plugin").versionRef("sqldelight")
-            library("sqldelight-android","com.squareup.sqldelight", "android-driver").versionRef("sqldelight")
-            library("sqldelight-sqlite","com.squareup.sqldelight", "sqlite-driver").versionRef("sqldelight")
-            library("sqldelight-native","com.squareup.sqldelight", "native-driver").versionRef("sqldelight")
-            library("sqldelight-sqljs","com.squareup.sqldelight", "sqljs-driver").versionRef("sqldelight")
-            library("sqldelight-coroutines","com.squareup.sqldelight", "coroutines-extensions").versionRef("sqldelight")
-
             library("dotenv","co.uzzu.dotenv:gradle:1.2.0")
 
-            library("apollo-graphql", "com.apollographql.apollo3:apollo-runtime:3.2.0")
+            version("apollo", "3.2.0")
+            library("apollo-graphql", "com.apollographql.apollo3", "apollo-runtime").versionRef("apollo")
+            library("apollo-normalized-cache", "com.apollographql.apollo3", "apollo-normalized-cache").versionRef("apollo")
+
         }
     }
 }

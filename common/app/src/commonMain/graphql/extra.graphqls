@@ -1,0 +1,4 @@
+
+extend type subscriptions @typePolicy(keyFields: "id")
+
+extend type payment @typePolicy(keyFields: "id")

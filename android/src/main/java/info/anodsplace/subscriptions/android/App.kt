@@ -2,12 +2,9 @@ package info.anodsplace.subscriptions.android
 
 import android.app.Application
 import android.content.Context
-import info.anodsplace.subscriptions.database.DefaultAppDatabase
-import info.anodsplace.subscriptions.database.appDatabaseDriverFactory
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.app.graphql.GraphQlApolloClient
-import info.anodsplace.subscriptions.database.AppDatabase
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import io.ktor.client.*
@@ -29,9 +26,8 @@ class App : Application() {
                 single { HttpClient(CIO) {
                     install(JsonFeature) { }
                 } } bind HttpClient::class
-                single { DefaultAppDatabase(appDatabaseDriverFactory(context = get())) } bind AppDatabase::class
-                single { GraphQlApolloClient() } bind GraphQLClient::class
-                single { DefaultSubscriptionsStore(get(), get(), get(), get()) } bind SubscriptionsStore::class
+                single { GraphQlApolloClient(get()) } bind GraphQLClient::class
+                single { DefaultSubscriptionsStore(get(), get(), get(),) } bind SubscriptionsStore::class
             }))
         }
     }

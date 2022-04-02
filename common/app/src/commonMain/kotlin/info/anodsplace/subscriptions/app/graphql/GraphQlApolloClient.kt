@@ -4,13 +4,29 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.ApolloRequest
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Operation
+import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.interceptor.ApolloInterceptor
 import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
-import info.anodsplace.subscriptions.database.SubscriptionEntity
-import info.anodsplace.subscriptions.graphql.GetSubscriptionsQuery
+import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import org.koin.core.logger.Logger
 
-class GraphQlApolloClient(private val tokenInterceptor: TokenInterceptor, private val apolloClient: ApolloClient) : GraphQLClient {
+class GraphQlApolloClient(
+    private val tokenInterceptor: TokenInterceptor,
+    private val apolloClient: ApolloClient,
+    private val logger: Logger
+) : GraphQLClient {
+
+    companion object {
+        private fun createApolloClient(tokenInterceptor: TokenInterceptor): ApolloClient = ApolloClient.Builder()
+            .serverUrl("http://localhost:8080/v1/graphql")
+            .addInterceptor(tokenInterceptor)
+            .normalizedCache(MemoryCacheFactory(maxSizeBytes = 100 * 1024 * 1024))
+            .build()
+    }
+
     override var token: String
         get() = tokenInterceptor.token
         set(value) { tokenInterceptor.token = value }
@@ -27,26 +43,19 @@ class GraphQlApolloClient(private val tokenInterceptor: TokenInterceptor, privat
         }
     }
 
-    constructor() : this(TokenInterceptor())
+    constructor(logger: Logger) : this(TokenInterceptor(), logger)
 
-    constructor(tokenInterceptor: TokenInterceptor) : this(tokenInterceptor, ApolloClient.Builder()
-        .serverUrl("http://localhost:8080/v1/graphql")
-        .addInterceptor(tokenInterceptor)
-        .build())
+    constructor(tokenInterceptor: TokenInterceptor, logger: Logger)
+            : this(tokenInterceptor, createApolloClient(tokenInterceptor), logger)
 
-    override suspend fun loadSubscriptions(): List<SubscriptionEntity> {
-        val response = apolloClient.query(GetSubscriptionsQuery()).execute()
-        val list = response.data?.subscriptions ?: emptyList()
-        return list.map {
-            SubscriptionEntity(
-                id = it.id.toLong(),
-                objectId = it.objectId,
-                name = it.name,
-                link = it.link,
-                created = 0,
-                userId = it.userId.toLong()
-            )
+    override fun observePayments(): Flow<List<GetPaymentsQuery.Payment>> {
+        return apolloClient.query(GetPaymentsQuery()).toFlow().map { result ->
+            if (result.hasErrors()) {
+                val message = result.errors?.joinToString(";") { e -> e.message }
+                logger.error("Cannot execute GetSubscriptionsQuery: $message")
+                throw IllegalStateException(message)
+            }
+            result.data?.payment ?: emptyList()
         }
     }
-
 }

@@ -1,5 +1,0 @@
-import info.anodsplace.subscriptions.database.SubscriptionPeriod;
-
-CREATE TABLE Period (
-    period TEXT AS SubscriptionPeriod NOT NULL
-);

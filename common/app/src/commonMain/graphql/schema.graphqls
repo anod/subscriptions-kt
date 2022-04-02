@@ -419,6 +419,16 @@ type mutation_root {
   delete_period_by_pk(period: String!): period
 
   """
+  delete data from the table: "subscription_tags"
+  """
+  delete_subscription_tags("filter the rows which have to be deleted" where: subscription_tags_bool_exp!): subscription_tags_mutation_response
+
+  """
+  delete single row from the table: "subscription_tags"
+  """
+  delete_subscription_tags_by_pk(subscription_id: Int!, tag: String!): subscription_tags
+
+  """
   delete data from the table: "subscriptions"
   """
   delete_subscriptions("filter the rows which have to be deleted" where: subscriptions_bool_exp!): subscriptions_mutation_response
@@ -427,6 +437,16 @@ type mutation_root {
   delete single row from the table: "subscriptions"
   """
   delete_subscriptions_by_pk(id: Int!): subscriptions
+
+  """
+  delete data from the table: "tag"
+  """
+  delete_tag("filter the rows which have to be deleted" where: tag_bool_exp!): tag_mutation_response
+
+  """
+  delete single row from the table: "tag"
+  """
+  delete_tag_by_pk(tag: String!): tag
 
   """
   delete data from the table: "users"
@@ -469,6 +489,16 @@ type mutation_root {
   insert_period_one("the row to be inserted" object: period_insert_input!, "on conflict condition" on_conflict: period_on_conflict): period
 
   """
+  insert data into the table: "subscription_tags"
+  """
+  insert_subscription_tags("the rows to be inserted" objects: [subscription_tags_insert_input!]!, "on conflict condition" on_conflict: subscription_tags_on_conflict): subscription_tags_mutation_response
+
+  """
+  insert a single row into the table: "subscription_tags"
+  """
+  insert_subscription_tags_one("the row to be inserted" object: subscription_tags_insert_input!, "on conflict condition" on_conflict: subscription_tags_on_conflict): subscription_tags
+
+  """
   insert data into the table: "subscriptions"
   """
   insert_subscriptions("the rows to be inserted" objects: [subscriptions_insert_input!]!, "on conflict condition" on_conflict: subscriptions_on_conflict): subscriptions_mutation_response
@@ -477,6 +507,16 @@ type mutation_root {
   insert a single row into the table: "subscriptions"
   """
   insert_subscriptions_one("the row to be inserted" object: subscriptions_insert_input!, "on conflict condition" on_conflict: subscriptions_on_conflict): subscriptions
+
+  """
+  insert data into the table: "tag"
+  """
+  insert_tag("the rows to be inserted" objects: [tag_insert_input!]!, "on conflict condition" on_conflict: tag_on_conflict): tag_mutation_response
+
+  """
+  insert a single row into the table: "tag"
+  """
+  insert_tag_one("the row to be inserted" object: tag_insert_input!, "on conflict condition" on_conflict: tag_on_conflict): tag
 
   """
   insert data into the table: "users"
@@ -519,6 +559,16 @@ type mutation_root {
   update_period_by_pk("sets the columns of the filtered rows to the given values" _set: period_set_input, pk_columns: period_pk_columns_input!): period
 
   """
+  update data of the table: "subscription_tags"
+  """
+  update_subscription_tags("increments the numeric columns with given value of the filtered values" _inc: subscription_tags_inc_input, "sets the columns of the filtered rows to the given values" _set: subscription_tags_set_input, "filter the rows which have to be updated" where: subscription_tags_bool_exp!): subscription_tags_mutation_response
+
+  """
+  update single row of the table: "subscription_tags"
+  """
+  update_subscription_tags_by_pk("increments the numeric columns with given value of the filtered values" _inc: subscription_tags_inc_input, "sets the columns of the filtered rows to the given values" _set: subscription_tags_set_input, pk_columns: subscription_tags_pk_columns_input!): subscription_tags
+
+  """
   update data of the table: "subscriptions"
   """
   update_subscriptions("increments the numeric columns with given value of the filtered values" _inc: subscriptions_inc_input, "sets the columns of the filtered rows to the given values" _set: subscriptions_set_input, "filter the rows which have to be updated" where: subscriptions_bool_exp!): subscriptions_mutation_response
@@ -527,6 +577,16 @@ type mutation_root {
   update single row of the table: "subscriptions"
   """
   update_subscriptions_by_pk("increments the numeric columns with given value of the filtered values" _inc: subscriptions_inc_input, "sets the columns of the filtered rows to the given values" _set: subscriptions_set_input, pk_columns: subscriptions_pk_columns_input!): subscriptions
+
+  """
+  update data of the table: "tag"
+  """
+  update_tag("sets the columns of the filtered rows to the given values" _set: tag_set_input, "filter the rows which have to be updated" where: tag_bool_exp!): tag_mutation_response
+
+  """
+  update single row of the table: "tag"
+  """
+  update_tag_by_pk("sets the columns of the filtered rows to the given values" _set: tag_set_input, pk_columns: tag_pk_columns_input!): tag
 
   """
   update data of the table: "users"
@@ -1570,6 +1630,21 @@ type query_root {
   period_by_pk(period: String!): period
 
   """
+  fetch data from the table: "subscription_tags"
+  """
+  subscription_tags("distinct select on columns" distinct_on: [subscription_tags_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscription_tags_order_by!], "filter the rows returned" where: subscription_tags_bool_exp): [subscription_tags!]!
+
+  """
+  fetch aggregated fields from the table: "subscription_tags"
+  """
+  subscription_tags_aggregate("distinct select on columns" distinct_on: [subscription_tags_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscription_tags_order_by!], "filter the rows returned" where: subscription_tags_bool_exp): subscription_tags_aggregate!
+
+  """
+  fetch data from the table: "subscription_tags" using primary key columns
+  """
+  subscription_tags_by_pk(subscription_id: Int!, tag: String!): subscription_tags
+
+  """
   An array relationship
   """
   subscriptions("distinct select on columns" distinct_on: [subscriptions_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscriptions_order_by!], "filter the rows returned" where: subscriptions_bool_exp): [subscriptions!]!
@@ -1583,6 +1658,21 @@ type query_root {
   fetch data from the table: "subscriptions" using primary key columns
   """
   subscriptions_by_pk(id: Int!): subscriptions
+
+  """
+  fetch data from the table: "tag"
+  """
+  tag("distinct select on columns" distinct_on: [tag_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [tag_order_by!], "filter the rows returned" where: tag_bool_exp): [tag!]!
+
+  """
+  fetch aggregated fields from the table: "tag"
+  """
+  tag_aggregate("distinct select on columns" distinct_on: [tag_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [tag_order_by!], "filter the rows returned" where: tag_bool_exp): tag_aggregate!
+
+  """
+  fetch data from the table: "tag" using primary key columns
+  """
+  tag_by_pk(tag: String!): tag
 
   """
   fetch data from the table: "users"
@@ -1647,6 +1737,21 @@ type subscription_root {
   period_by_pk(period: String!): period
 
   """
+  fetch data from the table: "subscription_tags"
+  """
+  subscription_tags("distinct select on columns" distinct_on: [subscription_tags_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscription_tags_order_by!], "filter the rows returned" where: subscription_tags_bool_exp): [subscription_tags!]!
+
+  """
+  fetch aggregated fields from the table: "subscription_tags"
+  """
+  subscription_tags_aggregate("distinct select on columns" distinct_on: [subscription_tags_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscription_tags_order_by!], "filter the rows returned" where: subscription_tags_bool_exp): subscription_tags_aggregate!
+
+  """
+  fetch data from the table: "subscription_tags" using primary key columns
+  """
+  subscription_tags_by_pk(subscription_id: Int!, tag: String!): subscription_tags
+
+  """
   An array relationship
   """
   subscriptions("distinct select on columns" distinct_on: [subscriptions_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscriptions_order_by!], "filter the rows returned" where: subscriptions_bool_exp): [subscriptions!]!
@@ -1662,6 +1767,21 @@ type subscription_root {
   subscriptions_by_pk(id: Int!): subscriptions
 
   """
+  fetch data from the table: "tag"
+  """
+  tag("distinct select on columns" distinct_on: [tag_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [tag_order_by!], "filter the rows returned" where: tag_bool_exp): [tag!]!
+
+  """
+  fetch aggregated fields from the table: "tag"
+  """
+  tag_aggregate("distinct select on columns" distinct_on: [tag_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [tag_order_by!], "filter the rows returned" where: tag_bool_exp): tag_aggregate!
+
+  """
+  fetch data from the table: "tag" using primary key columns
+  """
+  tag_by_pk(tag: String!): tag
+
+  """
   fetch data from the table: "users"
   """
   users("distinct select on columns" distinct_on: [users_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [users_order_by!], "filter the rows returned" where: users_bool_exp): [users!]!
@@ -1675,6 +1795,362 @@ type subscription_root {
   fetch data from the table: "users" using primary key columns
   """
   users_by_pk(id: Int!): users
+}
+
+"""
+columns and relationships of "subscription_tags"
+"""
+type subscription_tags {
+  subscription_id: Int!
+
+  tag: String!
+}
+
+"""
+aggregated selection of "subscription_tags"
+"""
+type subscription_tags_aggregate {
+  aggregate: subscription_tags_aggregate_fields
+
+  nodes: [subscription_tags!]!
+}
+
+"""
+aggregate fields of "subscription_tags"
+"""
+type subscription_tags_aggregate_fields {
+  avg: subscription_tags_avg_fields
+
+  count(columns: [subscription_tags_select_column!], distinct: Boolean): Int!
+
+  max: subscription_tags_max_fields
+
+  min: subscription_tags_min_fields
+
+  stddev: subscription_tags_stddev_fields
+
+  stddev_pop: subscription_tags_stddev_pop_fields
+
+  stddev_samp: subscription_tags_stddev_samp_fields
+
+  sum: subscription_tags_sum_fields
+
+  var_pop: subscription_tags_var_pop_fields
+
+  var_samp: subscription_tags_var_samp_fields
+
+  variance: subscription_tags_variance_fields
+}
+
+"""
+order by aggregate values of table "subscription_tags"
+"""
+input subscription_tags_aggregate_order_by {
+  avg: subscription_tags_avg_order_by
+
+  count: order_by
+
+  max: subscription_tags_max_order_by
+
+  min: subscription_tags_min_order_by
+
+  stddev: subscription_tags_stddev_order_by
+
+  stddev_pop: subscription_tags_stddev_pop_order_by
+
+  stddev_samp: subscription_tags_stddev_samp_order_by
+
+  sum: subscription_tags_sum_order_by
+
+  var_pop: subscription_tags_var_pop_order_by
+
+  var_samp: subscription_tags_var_samp_order_by
+
+  variance: subscription_tags_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "subscription_tags"
+"""
+input subscription_tags_arr_rel_insert_input {
+  data: [subscription_tags_insert_input!]!
+
+  """
+  on conflict condition
+  """
+  on_conflict: subscription_tags_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type subscription_tags_avg_fields {
+  subscription_id: Float
+}
+
+"""
+order by avg() on columns of table "subscription_tags"
+"""
+input subscription_tags_avg_order_by {
+  subscription_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "subscription_tags". All fields are combined with a logical 'AND'.
+"""
+input subscription_tags_bool_exp {
+  _and: [subscription_tags_bool_exp!]
+
+  _not: subscription_tags_bool_exp
+
+  _or: [subscription_tags_bool_exp!]
+
+  subscription_id: Int_comparison_exp
+
+  tag: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "subscription_tags"
+"""
+enum subscription_tags_constraint {
+  """
+  unique or primary key constraint
+  """
+  subscription_tags_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "subscription_tags"
+"""
+input subscription_tags_inc_input {
+  subscription_id: Int
+}
+
+"""
+input type for inserting data into table "subscription_tags"
+"""
+input subscription_tags_insert_input {
+  subscription_id: Int
+
+  tag: String
+}
+
+"""
+aggregate max on columns
+"""
+type subscription_tags_max_fields {
+  subscription_id: Int
+
+  tag: String
+}
+
+"""
+order by max() on columns of table "subscription_tags"
+"""
+input subscription_tags_max_order_by {
+  subscription_id: order_by
+
+  tag: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type subscription_tags_min_fields {
+  subscription_id: Int
+
+  tag: String
+}
+
+"""
+order by min() on columns of table "subscription_tags"
+"""
+input subscription_tags_min_order_by {
+  subscription_id: order_by
+
+  tag: order_by
+}
+
+"""
+response of any mutation on the table "subscription_tags"
+"""
+type subscription_tags_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [subscription_tags!]!
+}
+
+"""
+on conflict condition type for table "subscription_tags"
+"""
+input subscription_tags_on_conflict {
+  constraint: subscription_tags_constraint!
+
+  update_columns: [subscription_tags_update_column!]! = []
+
+  where: subscription_tags_bool_exp
+}
+
+"""
+Ordering options when selecting data from "subscription_tags".
+"""
+input subscription_tags_order_by {
+  subscription_id: order_by
+
+  tag: order_by
+}
+
+"""
+primary key columns input for table: subscription_tags
+"""
+input subscription_tags_pk_columns_input {
+  subscription_id: Int!
+
+  tag: String!
+}
+
+"""
+select columns of table "subscription_tags"
+"""
+enum subscription_tags_select_column {
+  """
+  column name
+  """
+  subscription_id
+
+  """
+  column name
+  """
+  tag
+}
+
+"""
+input type for updating data in table "subscription_tags"
+"""
+input subscription_tags_set_input {
+  subscription_id: Int
+
+  tag: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type subscription_tags_stddev_fields {
+  subscription_id: Float
+}
+
+"""
+order by stddev() on columns of table "subscription_tags"
+"""
+input subscription_tags_stddev_order_by {
+  subscription_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type subscription_tags_stddev_pop_fields {
+  subscription_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "subscription_tags"
+"""
+input subscription_tags_stddev_pop_order_by {
+  subscription_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type subscription_tags_stddev_samp_fields {
+  subscription_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "subscription_tags"
+"""
+input subscription_tags_stddev_samp_order_by {
+  subscription_id: order_by
+}
+
+"""
+aggregate sum on columns
+"""
+type subscription_tags_sum_fields {
+  subscription_id: Int
+}
+
+"""
+order by sum() on columns of table "subscription_tags"
+"""
+input subscription_tags_sum_order_by {
+  subscription_id: order_by
+}
+
+"""
+update columns of table "subscription_tags"
+"""
+enum subscription_tags_update_column {
+  """
+  column name
+  """
+  subscription_id
+
+  """
+  column name
+  """
+  tag
+}
+
+"""
+aggregate var_pop on columns
+"""
+type subscription_tags_var_pop_fields {
+  subscription_id: Float
+}
+
+"""
+order by var_pop() on columns of table "subscription_tags"
+"""
+input subscription_tags_var_pop_order_by {
+  subscription_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type subscription_tags_var_samp_fields {
+  subscription_id: Float
+}
+
+"""
+order by var_samp() on columns of table "subscription_tags"
+"""
+input subscription_tags_var_samp_order_by {
+  subscription_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type subscription_tags_variance_fields {
+  subscription_id: Float
+}
+
+"""
+order by variance() on columns of table "subscription_tags"
+"""
+input subscription_tags_variance_order_by {
+  subscription_id: order_by
 }
 
 """
@@ -1700,6 +2176,16 @@ type subscriptions {
   An aggregate relationship
   """
   payments_aggregate("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): payment_aggregate!
+
+  """
+  An array relationship
+  """
+  tags("distinct select on columns" distinct_on: [subscription_tags_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscription_tags_order_by!], "filter the rows returned" where: subscription_tags_bool_exp): [subscription_tags!]!
+
+  """
+  An aggregate relationship
+  """
+  tags_aggregate("distinct select on columns" distinct_on: [subscription_tags_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [subscription_tags_order_by!], "filter the rows returned" where: subscription_tags_bool_exp): subscription_tags_aggregate!
 
   """
   An object relationship
@@ -1824,6 +2310,8 @@ input subscriptions_bool_exp {
 
   payments: payment_bool_exp
 
+  tags: subscription_tags_bool_exp
+
   user: users_bool_exp
 
   userId: Int_comparison_exp
@@ -1868,6 +2356,8 @@ input subscriptions_insert_input {
   objectId: uuid
 
   payments: payment_arr_rel_insert_input
+
+  tags: subscription_tags_arr_rel_insert_input
 
   user: users_obj_rel_insert_input
 
@@ -1995,6 +2485,8 @@ input subscriptions_order_by {
   objectId: order_by
 
   payments_aggregate: payment_aggregate_order_by
+
+  tags_aggregate: subscription_tags_aggregate_order_by
 
   user: users_order_by
 
@@ -2219,6 +2711,144 @@ input subscriptions_variance_order_by {
   id: order_by
 
   userId: order_by
+}
+
+"""
+columns and relationships of "tag"
+"""
+type tag {
+  tag: String!
+}
+
+"""
+aggregated selection of "tag"
+"""
+type tag_aggregate {
+  aggregate: tag_aggregate_fields
+
+  nodes: [tag!]!
+}
+
+"""
+aggregate fields of "tag"
+"""
+type tag_aggregate_fields {
+  count(columns: [tag_select_column!], distinct: Boolean): Int!
+
+  max: tag_max_fields
+
+  min: tag_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "tag". All fields are combined with a logical 'AND'.
+"""
+input tag_bool_exp {
+  _and: [tag_bool_exp!]
+
+  _not: tag_bool_exp
+
+  _or: [tag_bool_exp!]
+
+  tag: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "tag"
+"""
+enum tag_constraint {
+  """
+  unique or primary key constraint
+  """
+  tag_pkey
+}
+
+"""
+input type for inserting data into table "tag"
+"""
+input tag_insert_input {
+  tag: String
+}
+
+"""
+aggregate max on columns
+"""
+type tag_max_fields {
+  tag: String
+}
+
+"""
+aggregate min on columns
+"""
+type tag_min_fields {
+  tag: String
+}
+
+"""
+response of any mutation on the table "tag"
+"""
+type tag_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [tag!]!
+}
+
+"""
+on conflict condition type for table "tag"
+"""
+input tag_on_conflict {
+  constraint: tag_constraint!
+
+  update_columns: [tag_update_column!]! = []
+
+  where: tag_bool_exp
+}
+
+"""
+Ordering options when selecting data from "tag".
+"""
+input tag_order_by {
+  tag: order_by
+}
+
+"""
+primary key columns input for table: tag
+"""
+input tag_pk_columns_input {
+  tag: String!
+}
+
+"""
+select columns of table "tag"
+"""
+enum tag_select_column {
+  """
+  column name
+  """
+  tag
+}
+
+"""
+input type for updating data in table "tag"
+"""
+input tag_set_input {
+  tag: String
+}
+
+"""
+update columns of table "tag"
+"""
+enum tag_update_column {
+  """
+  column name
+  """
+  tag
 }
 
 """

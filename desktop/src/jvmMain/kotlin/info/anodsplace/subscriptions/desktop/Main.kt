@@ -13,9 +13,6 @@ import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.app.graphql.GraphQlApolloClient
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
-import info.anodsplace.subscriptions.database.AppDatabase
-import info.anodsplace.subscriptions.database.DefaultAppDatabase
-import info.anodsplace.subscriptions.database.appDatabaseDriverFactory
 import info.anodsplace.subscriptions.ui.ComposeAppTheme
 import info.anodsplace.subscriptions.ui.RootScreen
 import io.ktor.client.*
@@ -38,12 +35,11 @@ fun main() {
         koin.loadModules(listOf(module {
             single { logger } bind Logger::class
             single { appCoroutineScope } bind AppCoroutineScope::class
-            single { GraphQlApolloClient() } bind GraphQLClient::class
+            single { GraphQlApolloClient(get()) } bind GraphQLClient::class
             single { HttpClient(CIO) {
                 install(JsonFeature) { }
             } } bind HttpClient::class
-            single { DefaultAppDatabase(appDatabaseDriverFactory()) } bind AppDatabase::class
-            single { DefaultSubscriptionsStore(get(), get(), get(), get()) } bind SubscriptionsStore::class
+            single { DefaultSubscriptionsStore(get(), get(), get()) } bind SubscriptionsStore::class
         }))
     }
 

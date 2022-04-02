@@ -1,21 +1,19 @@
 package info.anodsplace.subscriptions.app
 
-import info.anodsplace.subscriptions.app.store.SubscriptionAction
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
-import info.anodsplace.subscriptions.database.SubscriptionEntity
+import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 interface MainViewModel : ViewModel {
-    val subscriptions: Flow<List<SubscriptionEntity>>
+    val subscriptions: Flow<List<GetPaymentsQuery.Payment>>
     val text: String
     fun onItemClicked(id: Long)
     fun onItemDoneChanged(id: Long, isDone: Boolean)
     fun onItemDeleteClicked(id: Long)
     fun onAddItemClicked()
     fun onInputTextChanged(value: String)
-    fun reload()
 }
 
 class CommonMainViewModel(
@@ -23,7 +21,7 @@ class CommonMainViewModel(
     override val currentScope: CoroutineScope,
 ) : MainViewModel {
 
-    override val subscriptions: Flow<List<SubscriptionEntity>>
+    override val subscriptions: Flow<List<GetPaymentsQuery.Payment>>
         get() = store.subscriptions
 
     override val text: String = ""
@@ -48,9 +46,5 @@ class CommonMainViewModel(
 
     override fun onInputTextChanged(value: String) {
 
-    }
-
-    override fun reload() {
-        store.dispatch(SubscriptionAction.Refresh(forceLoad = true))
     }
 }

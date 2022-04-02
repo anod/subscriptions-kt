@@ -2,20 +2,14 @@
 plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
-    id("com.squareup.sqldelight")
     id("com.apollographql.apollo3").version("3.2.0")
-}
-
-sqldelight {
-    database("SubscriptionsDatabase") {
-        packageName = "info.anodsplace.subscriptions.database"
-    }
 }
 
 apollo {
     packageName.set("info.anodsplace.subscriptions.graphql")
     mapScalarToKotlinString("uuid")
     mapScalarToKotlinString("date")
+    mapScalarToKotlinFloat("numeric")
 }
 
 android {
@@ -53,27 +47,23 @@ kotlin {
                 implementation(libs.coroutines.core)
                 implementation(libs.koin.core)
                 implementation(libs.ktor.client.core)
-                implementation(libs.sqldelight.coroutines)
                 implementation(libs.apollo.graphql)
+                implementation(libs.apollo.normalized.cache)
             }
         }
 
         named("androidMain") {
             dependencies {
-                implementation(libs.sqldelight.android)
-                implementation(libs.sqldelight.sqlite)
             }
         }
 
         named("desktopMain") {
             dependencies {
-                implementation(libs.sqldelight.sqlite)
             }
         }
 
         named("jsMain") {
             dependencies {
-                implementation(libs.sqldelight.sqljs)
             }
         }
 

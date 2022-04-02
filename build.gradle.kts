@@ -25,6 +25,5 @@ buildscript {
         classpath(libs.kotlin.gradle.plugin)
         classpath(libs.kotlin.serialization.gradle.plugin)
         classpath(libs.android.gradle.plugin)
-        classpath(libs.sqldelight.gradle.plugin)
     }
 }

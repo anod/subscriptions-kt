@@ -3,32 +3,28 @@ package info.anodsplace.subscriptions.app.store
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.app.Route
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
-import info.anodsplace.subscriptions.database.AppDatabase
-import info.anodsplace.subscriptions.database.SubscriptionEntity
+import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 import info.anodsplace.subscriptions.server.contract.LoginRequest
 import info.anodsplace.subscriptions.server.contract.LoginResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 data class SubscriptionsState(
     val progress: Boolean = false,
     val graphQlToken: String = "",
-    val selected: SubscriptionEntity? = null
+    val selected: GetPaymentsQuery.Payment? = null
 ) : State
 
 sealed class SubscriptionAction : Action {
     data class Login(val username: String, val password: String) : SubscriptionAction()
     data class LoggedIn(val username: String, val graphQlToken: String) : SubscriptionAction()
-    data class Refresh(val forceLoad: Boolean) : SubscriptionAction()
-    data class Add(val subscription: SubscriptionEntity) : SubscriptionAction()
+    data class Add(val subscription: GetPaymentsQuery.Payment) : SubscriptionAction()
     data class Delete(val id: Long) : SubscriptionAction()
-    data class SelectFeed(val subscription: SubscriptionEntity?) : SubscriptionAction()
-    data class Data(val subscription: List<SubscriptionEntity>) : SubscriptionAction()
+    data class SelectFeed(val subscription: GetPaymentsQuery.Payment?) : SubscriptionAction()
+    data class Data(val subscription: List<GetPaymentsQuery.Payment>) : SubscriptionAction()
     data class Error(val error: Exception) : SubscriptionAction()
 }
 
@@ -39,12 +35,11 @@ sealed class SubscriptionSideEffect : Effect {
 }
 
 interface SubscriptionsStore : Store<SubscriptionsState, SubscriptionAction, SubscriptionSideEffect> {
-    val subscriptions: Flow<List<SubscriptionEntity>>
+    val subscriptions: Flow<List<GetPaymentsQuery.Payment>>
     val isLoggedIn: Boolean
 }
 
 class DefaultSubscriptionsStore(
-    private val appDatabase: AppDatabase,
     private val appScope: AppCoroutineScope,
     private val httpClient: HttpClient,
     private val graphQLClient: GraphQLClient
@@ -52,8 +47,8 @@ class DefaultSubscriptionsStore(
     override val state = MutableStateFlow(SubscriptionsState())
     override val sideEffect = MutableSharedFlow<SubscriptionSideEffect>()
 
-    override val subscriptions: Flow<List<SubscriptionEntity>>
-        get() = appDatabase.observeAll()
+    override val subscriptions: Flow<List<GetPaymentsQuery.Payment>>
+        get() = graphQLClient.observePayments()
 
     override val isLoggedIn: Boolean
         get() = state.value.graphQlToken.isNotEmpty()
@@ -62,21 +57,12 @@ class DefaultSubscriptionsStore(
         val oldState = state.value
 
         val newState = when (action) {
-            is SubscriptionAction.Refresh -> {
-                if (oldState.progress) {
-                    appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("In progress"))) }
-                    oldState
-                } else {
-                    appScope.launch { loadSubscriptions() }
-                    oldState.copy(progress = true)
-                }
-            }
             is SubscriptionAction.Add -> {
                 if (oldState.progress) {
                     appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("In progress"))) }
                     oldState
                 } else {
-                    appScope.launch { addSubscription(action.subscription) }
+                   // appScope.launch { addSubscription(action.subscription) }
                     SubscriptionsState(progress = true)
                 }
             }
@@ -85,7 +71,7 @@ class DefaultSubscriptionsStore(
                     appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("In progress"))) }
                     oldState
                 } else {
-                    appScope.launch { deleteFeed(action.id) }
+                    // appScope.launch { deleteFeed(action.id) }
                     SubscriptionsState(progress = true)
                 }
             }
@@ -125,7 +111,6 @@ class DefaultSubscriptionsStore(
         }
 
         if (newState != oldState) {
-            // Napier.d(tag = "FeedStore", message = "NewState: $newState")
             state.value = newState
         }
 
@@ -144,36 +129,6 @@ class DefaultSubscriptionsStore(
                 body = LoginRequest(username = action.username, password = action.password)
             }
             dispatch(SubscriptionAction.LoggedIn(username = action.username, graphQlToken = response.token))
-        } catch (e: Exception) {
-            dispatch(SubscriptionAction.Error(e))
-        }
-    }
-
-    private suspend fun loadSubscriptions() {
-        try {
-            val allFeeds = graphQLClient.loadSubscriptions()
-            appDatabase.upsert(allFeeds)
-            dispatch(SubscriptionAction.Data(allFeeds))
-        } catch (e: Exception) {
-            dispatch(SubscriptionAction.Error(e))
-        }
-    }
-
-    private suspend fun addSubscription(subscription: SubscriptionEntity) {
-        try {
-            appDatabase.upsert(subscription)
-            val allFeeds = appDatabase.loadSubscriptions()
-            dispatch(SubscriptionAction.Data(allFeeds))
-        } catch (e: Exception) {
-            dispatch(SubscriptionAction.Error(e))
-        }
-    }
-
-    private suspend fun deleteFeed(id: Long) {
-        try {
-            appDatabase.delete(id)
-            val allFeeds = appDatabase.loadSubscriptions()
-            dispatch(SubscriptionAction.Data(allFeeds))
         } catch (e: Exception) {
             dispatch(SubscriptionAction.Error(e))
         }

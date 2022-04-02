@@ -1,8 +1,9 @@
 package info.anodsplace.subscriptions.app.graphql
 
-import info.anodsplace.subscriptions.database.SubscriptionEntity
+import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
+import kotlinx.coroutines.flow.Flow
 
 interface GraphQLClient {
     var token: String
-    suspend fun loadSubscriptions(): List<SubscriptionEntity>
+    fun observePayments(): Flow<List<GetPaymentsQuery.Payment>>
 }

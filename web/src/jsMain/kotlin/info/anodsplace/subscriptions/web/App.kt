@@ -1,15 +1,11 @@
 package info.anodsplace.subscriptions.web
 
-import com.squareup.sqldelight.db.SqlDriver
 import info.anodsplace.subscriptions.app.AppCoroutineScope
-import info.anodsplace.subscriptions.database.AppDatabase
 import info.anodsplace.subscriptions.app.CommonRouter
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.app.graphql.GraphQlApolloClient
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
-import info.anodsplace.subscriptions.database.DefaultAppDatabase
-import info.anodsplace.subscriptions.database.appDatabaseDriverFactory
 import kotlinx.browser.document
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.renderComposable
@@ -32,7 +28,8 @@ class KoinKtorLoggerBridge(private val koinLogger: Logger) : io.ktor.client.feat
     }
 }
 
-fun startApp(driver: SqlDriver, logger: Logger) {
+fun main() {
+    val logger = PrintLogger(Level.INFO)
     val rootElement = document.getElementById("root") as HTMLElement
     val appCoroutineScope = AppCoroutineScope(Dispatchers.Main.immediate)
     logger.info("Start app")
@@ -49,11 +46,8 @@ fun startApp(driver: SqlDriver, logger: Logger) {
                         this.logger = KoinKtorLoggerBridge(koinLogger)
                     }
                 } } bind HttpClient::class
-            single {
-                DefaultAppDatabase(driver = driver)
-            } bind AppDatabase::class
-            single { GraphQlApolloClient() } bind GraphQLClient::class
-            single { DefaultSubscriptionsStore(get(), get(), get(), get()) } bind SubscriptionsStore::class
+            single { GraphQlApolloClient(get()) } bind GraphQLClient::class
+            single { DefaultSubscriptionsStore(get(), get(), get()) } bind SubscriptionsStore::class
         }))
     }
 
@@ -61,15 +55,5 @@ fun startApp(driver: SqlDriver, logger: Logger) {
     renderComposable(root = rootElement) {
         Style(AppStylesheet)
         TodoRootUi(router)
-    }
-}
-
-fun main() {
-    val sqlDriverFactory = appDatabaseDriverFactory()
-    val logger = PrintLogger(Level.INFO)
-    logger.info("Request SqlDriver")
-    sqlDriverFactory.then { driver ->
-        logger.info("SqlDriver fetched")
-        startApp(driver, logger)
     }
 }
