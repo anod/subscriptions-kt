@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import info.anodsplace.subscriptions.app.MainViewModel
+import info.anodsplace.subscriptions.app.Subscription
 import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.DisplayStyle
@@ -50,7 +51,7 @@ fun MainUi(viewModel: MainViewModel) {
 
 @Composable
 private fun DOMScope<HTMLUListElement>.Item(
-    item: GetPaymentsQuery.Payment,
+    item: Subscription,
     onClicked: (id: Long) -> Unit,
     onDoneChanged: (id: Long, isDone: Boolean) -> Unit,
     onDeleteClicked: (id: Long) -> Unit
@@ -92,7 +93,7 @@ private fun DOMScope<HTMLUListElement>.Item(
                 onClick { onClicked(item.id.toLong()) }
             }
         ) {
-            Text(value = item.subscription.name)
+            Text(value = item.name)
         }
 
         ImageButton(

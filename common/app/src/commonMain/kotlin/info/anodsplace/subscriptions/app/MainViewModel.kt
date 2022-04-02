@@ -6,12 +6,11 @@ import info.anodsplace.subscriptions.graphql.GetUserQuery
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 
 interface MainViewModel : ViewModel {
     val user: GetUserQuery.User
-    val subscriptions: Flow<List<GetPaymentsQuery.Payment>>
+    val subscriptions: Flow<List<Subscription>>
     val total: Flow<Float>
     val text: String
     fun onItemClicked(id: Long)
@@ -19,6 +18,25 @@ interface MainViewModel : ViewModel {
     fun onItemDeleteClicked(id: Long)
     fun onAddItemClicked()
     fun onInputTextChanged(value: String)
+}
+
+class Subscription(
+    private val payment: GetPaymentsQuery.Payment,
+    val price: Float,
+    val currency: String
+) {
+    val id: Int
+        get() = payment.id
+    val name: String
+        get() = payment.subscription.name
+    val method: String
+        get() = payment.method.name
+    val originalPrice: Float
+        get() = payment.price
+    val originalCurrency: String
+        get() = payment.currency
+    val isConverted: Boolean
+        get() = payment.currency != currency
 }
 
 class CommonMainViewModel(
@@ -33,15 +51,23 @@ class CommonMainViewModel(
     override val user: GetUserQuery.User
         get() = store.user
 
-    override val subscriptions: Flow<List<GetPaymentsQuery.Payment>>
-        get() = store.subscriptions
-
-    override val total: Flow<Float>
-        get() = store.subscriptions.map {
-           it.map { p -> calcFinal(p.price, p.currency) }.sum()
+    override val subscriptions: Flow<List<Subscription>>
+        get() = store.subscriptions.map { list ->
+            list.map { p ->
+                Subscription(
+                    payment = p,
+                    price = if (p.currency == user.currency) p.price else convertPrice(p.price, p.currency),
+                    currency = user.currency
+                )
+            }
         }
 
-    private fun calcFinal(price: Float, currency: String): Float {
+    override val total: Flow<Float>
+        get() = subscriptions.map {
+           it.map { p -> convertPrice(p.price, p.currency) }.sum()
+        }
+
+    private fun convertPrice(price: Float, currency: String): Float {
         val rate = exchange[currency] ?: throw IllegalStateException("No exchange rate for $currency")
         return price * rate
     }

@@ -6,7 +6,11 @@ query GetPayments {
         currency
         date
         date_end
-        method
+        method {
+            id
+            name
+            objectId
+        }
         period
         period_cycle
         subscription {

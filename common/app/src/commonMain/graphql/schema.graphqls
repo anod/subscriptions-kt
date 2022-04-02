@@ -270,6 +270,18 @@ type method_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "method"
+"""
+input method_obj_rel_insert_input {
+  data: method_insert_input!
+
+  """
+  on conflict condition
+  """
+  on_conflict: method_on_conflict
+}
+
+"""
 on conflict condition type for table "method"
 """
 input method_on_conflict {
@@ -713,7 +725,12 @@ type payment {
 
   id: Int!
 
-  method: Int!
+  """
+  An object relationship
+  """
+  method: method!
+
+  method_id: Int!
 
   objectId: uuid!
 
@@ -817,7 +834,7 @@ aggregate avg on columns
 type payment_avg_fields {
   id: Float
 
-  method: Float
+  method_id: Float
 
   period_cycle: Float
 
@@ -832,7 +849,7 @@ order by avg() on columns of table "payment"
 input payment_avg_order_by {
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   period_cycle: order_by
 
@@ -859,7 +876,9 @@ input payment_bool_exp {
 
   id: Int_comparison_exp
 
-  method: Int_comparison_exp
+  method: method_bool_exp
+
+  method_id: Int_comparison_exp
 
   objectId: uuid_comparison_exp
 
@@ -897,7 +916,7 @@ input type for incrementing numeric columns in table "payment"
 input payment_inc_input {
   id: Int
 
-  method: Int
+  method_id: Int
 
   period_cycle: Int
 
@@ -918,7 +937,9 @@ input payment_insert_input {
 
   id: Int
 
-  method: Int
+  method: method_obj_rel_insert_input
+
+  method_id: Int
 
   objectId: uuid
 
@@ -947,7 +968,7 @@ type payment_max_fields {
 
   id: Int
 
-  method: Int
+  method_id: Int
 
   objectId: uuid
 
@@ -970,7 +991,7 @@ input payment_max_order_by {
 
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   objectId: order_by
 
@@ -993,7 +1014,7 @@ type payment_min_fields {
 
   id: Int
 
-  method: Int
+  method_id: Int
 
   objectId: uuid
 
@@ -1016,7 +1037,7 @@ input payment_min_order_by {
 
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   objectId: order_by
 
@@ -1065,7 +1086,9 @@ input payment_order_by {
 
   id: order_by
 
-  method: order_by
+  method: method_order_by
+
+  method_id: order_by
 
   objectId: order_by
 
@@ -1116,7 +1139,7 @@ enum payment_select_column {
   """
   column name
   """
-  method
+  method_id
 
   """
   column name
@@ -1156,7 +1179,7 @@ input payment_set_input {
 
   id: Int
 
-  method: Int
+  method_id: Int
 
   objectId: uuid
 
@@ -1175,7 +1198,7 @@ aggregate stddev on columns
 type payment_stddev_fields {
   id: Float
 
-  method: Float
+  method_id: Float
 
   period_cycle: Float
 
@@ -1190,7 +1213,7 @@ order by stddev() on columns of table "payment"
 input payment_stddev_order_by {
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   period_cycle: order_by
 
@@ -1205,7 +1228,7 @@ aggregate stddev_pop on columns
 type payment_stddev_pop_fields {
   id: Float
 
-  method: Float
+  method_id: Float
 
   period_cycle: Float
 
@@ -1220,7 +1243,7 @@ order by stddev_pop() on columns of table "payment"
 input payment_stddev_pop_order_by {
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   period_cycle: order_by
 
@@ -1235,7 +1258,7 @@ aggregate stddev_samp on columns
 type payment_stddev_samp_fields {
   id: Float
 
-  method: Float
+  method_id: Float
 
   period_cycle: Float
 
@@ -1250,7 +1273,7 @@ order by stddev_samp() on columns of table "payment"
 input payment_stddev_samp_order_by {
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   period_cycle: order_by
 
@@ -1265,7 +1288,7 @@ aggregate sum on columns
 type payment_sum_fields {
   id: Int
 
-  method: Int
+  method_id: Int
 
   period_cycle: Int
 
@@ -1280,7 +1303,7 @@ order by sum() on columns of table "payment"
 input payment_sum_order_by {
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   period_cycle: order_by
 
@@ -1316,7 +1339,7 @@ enum payment_update_column {
   """
   column name
   """
-  method
+  method_id
 
   """
   column name
@@ -1350,7 +1373,7 @@ aggregate var_pop on columns
 type payment_var_pop_fields {
   id: Float
 
-  method: Float
+  method_id: Float
 
   period_cycle: Float
 
@@ -1365,7 +1388,7 @@ order by var_pop() on columns of table "payment"
 input payment_var_pop_order_by {
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   period_cycle: order_by
 
@@ -1380,7 +1403,7 @@ aggregate var_samp on columns
 type payment_var_samp_fields {
   id: Float
 
-  method: Float
+  method_id: Float
 
   period_cycle: Float
 
@@ -1395,7 +1418,7 @@ order by var_samp() on columns of table "payment"
 input payment_var_samp_order_by {
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   period_cycle: order_by
 
@@ -1410,7 +1433,7 @@ aggregate variance on columns
 type payment_variance_fields {
   id: Float
 
-  method: Float
+  method_id: Float
 
   period_cycle: Float
 
@@ -1425,7 +1448,7 @@ order by variance() on columns of table "payment"
 input payment_variance_order_by {
   id: order_by
 
-  method: order_by
+  method_id: order_by
 
   period_cycle: order_by
 
