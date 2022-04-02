@@ -1,8 +1,11 @@
 #!/bin/sh
 
-if [ ! -f .env ]
-then
-  export $(cat .env | xargs)
-fi
+read_var(){
+  echo $(grep -v '^#' .env | grep -e "$1" | sed -e 's/.*=//')
+}
 
- ./gradlew downloadApolloSchema --endpoint="http://localhost:8080/v1/graphql" --schema "./common/app/src/commonMain/graphql/schema.graphqls" --header "X-Hasura-Admin-Secret: $HASURA_GRAPHQL_ADMIN_SECRET"
+SECRET=$(read_var "HASURA_GRAPHQL_ADMIN_SECRET")
+
+echo "HASURA_GRAPHQL_ADMIN_SECRET: $SECRET"
+
+ ./gradlew downloadApolloSchema --endpoint="http://localhost:8080/v1/graphql" --schema "./common/app/src/commonMain/graphql/schema.graphqls" --header "X-Hasura-Admin-Secret: $SECRET"

@@ -120,9 +120,284 @@ input date_comparison_exp {
 }
 
 """
+columns and relationships of "method"
+"""
+type method {
+  id: Int!
+
+  name: String!
+
+  objectId: uuid!
+}
+
+"""
+aggregated selection of "method"
+"""
+type method_aggregate {
+  aggregate: method_aggregate_fields
+
+  nodes: [method!]!
+}
+
+"""
+aggregate fields of "method"
+"""
+type method_aggregate_fields {
+  avg: method_avg_fields
+
+  count(columns: [method_select_column!], distinct: Boolean): Int!
+
+  max: method_max_fields
+
+  min: method_min_fields
+
+  stddev: method_stddev_fields
+
+  stddev_pop: method_stddev_pop_fields
+
+  stddev_samp: method_stddev_samp_fields
+
+  sum: method_sum_fields
+
+  var_pop: method_var_pop_fields
+
+  var_samp: method_var_samp_fields
+
+  variance: method_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type method_avg_fields {
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "method". All fields are combined with a logical 'AND'.
+"""
+input method_bool_exp {
+  _and: [method_bool_exp!]
+
+  _not: method_bool_exp
+
+  _or: [method_bool_exp!]
+
+  id: Int_comparison_exp
+
+  name: String_comparison_exp
+
+  objectId: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "method"
+"""
+enum method_constraint {
+  """
+  unique or primary key constraint
+  """
+  method_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "method"
+"""
+input method_inc_input {
+  id: Int
+}
+
+"""
+input type for inserting data into table "method"
+"""
+input method_insert_input {
+  id: Int
+
+  name: String
+
+  objectId: uuid
+}
+
+"""
+aggregate max on columns
+"""
+type method_max_fields {
+  id: Int
+
+  name: String
+
+  objectId: uuid
+}
+
+"""
+aggregate min on columns
+"""
+type method_min_fields {
+  id: Int
+
+  name: String
+
+  objectId: uuid
+}
+
+"""
+response of any mutation on the table "method"
+"""
+type method_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [method!]!
+}
+
+"""
+on conflict condition type for table "method"
+"""
+input method_on_conflict {
+  constraint: method_constraint!
+
+  update_columns: [method_update_column!]! = []
+
+  where: method_bool_exp
+}
+
+"""
+Ordering options when selecting data from "method".
+"""
+input method_order_by {
+  id: order_by
+
+  name: order_by
+
+  objectId: order_by
+}
+
+"""
+primary key columns input for table: method
+"""
+input method_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "method"
+"""
+enum method_select_column {
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  objectId
+}
+
+"""
+input type for updating data in table "method"
+"""
+input method_set_input {
+  id: Int
+
+  name: String
+
+  objectId: uuid
+}
+
+"""
+aggregate stddev on columns
+"""
+type method_stddev_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type method_stddev_pop_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type method_stddev_samp_fields {
+  id: Float
+}
+
+"""
+aggregate sum on columns
+"""
+type method_sum_fields {
+  id: Int
+}
+
+"""
+update columns of table "method"
+"""
+enum method_update_column {
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  objectId
+}
+
+"""
+aggregate var_pop on columns
+"""
+type method_var_pop_fields {
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type method_var_samp_fields {
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type method_variance_fields {
+  id: Float
+}
+
+"""
 mutation root
 """
 type mutation_root {
+  """
+  delete data from the table: "method"
+  """
+  delete_method("filter the rows which have to be deleted" where: method_bool_exp!): method_mutation_response
+
+  """
+  delete single row from the table: "method"
+  """
+  delete_method_by_pk(id: Int!): method
+
   """
   delete data from the table: "payment"
   """
@@ -164,6 +439,16 @@ type mutation_root {
   delete_users_by_pk(id: Int!): users
 
   """
+  insert data into the table: "method"
+  """
+  insert_method("the rows to be inserted" objects: [method_insert_input!]!, "on conflict condition" on_conflict: method_on_conflict): method_mutation_response
+
+  """
+  insert a single row into the table: "method"
+  """
+  insert_method_one("the row to be inserted" object: method_insert_input!, "on conflict condition" on_conflict: method_on_conflict): method
+
+  """
   insert data into the table: "payment"
   """
   insert_payment("the rows to be inserted" objects: [payment_insert_input!]!, "on conflict condition" on_conflict: payment_on_conflict): payment_mutation_response
@@ -202,6 +487,16 @@ type mutation_root {
   insert a single row into the table: "users"
   """
   insert_users_one("the row to be inserted" object: users_insert_input!, "on conflict condition" on_conflict: users_on_conflict): users
+
+  """
+  update data of the table: "method"
+  """
+  update_method("increments the numeric columns with given value of the filtered values" _inc: method_inc_input, "sets the columns of the filtered rows to the given values" _set: method_set_input, "filter the rows which have to be updated" where: method_bool_exp!): method_mutation_response
+
+  """
+  update single row of the table: "method"
+  """
+  update_method_by_pk("increments the numeric columns with given value of the filtered values" _inc: method_inc_input, "sets the columns of the filtered rows to the given values" _set: method_set_input, pk_columns: method_pk_columns_input!): method
 
   """
   update data of the table: "payment"
@@ -316,6 +611,8 @@ type payment {
 
   id: Int!
 
+  method: Int!
+
   objectId: uuid!
 
   period: period_enum!
@@ -418,6 +715,8 @@ aggregate avg on columns
 type payment_avg_fields {
   id: Float
 
+  method: Float
+
   period_cycle: Float
 
   price: Float
@@ -430,6 +729,8 @@ order by avg() on columns of table "payment"
 """
 input payment_avg_order_by {
   id: order_by
+
+  method: order_by
 
   period_cycle: order_by
 
@@ -455,6 +756,8 @@ input payment_bool_exp {
   date_end: date_comparison_exp
 
   id: Int_comparison_exp
+
+  method: Int_comparison_exp
 
   objectId: uuid_comparison_exp
 
@@ -492,6 +795,8 @@ input type for incrementing numeric columns in table "payment"
 input payment_inc_input {
   id: Int
 
+  method: Int
+
   period_cycle: Int
 
   price: numeric
@@ -510,6 +815,8 @@ input payment_insert_input {
   date_end: date
 
   id: Int
+
+  method: Int
 
   objectId: uuid
 
@@ -538,6 +845,8 @@ type payment_max_fields {
 
   id: Int
 
+  method: Int
+
   objectId: uuid
 
   period_cycle: Int
@@ -558,6 +867,8 @@ input payment_max_order_by {
   date_end: order_by
 
   id: order_by
+
+  method: order_by
 
   objectId: order_by
 
@@ -580,6 +891,8 @@ type payment_min_fields {
 
   id: Int
 
+  method: Int
+
   objectId: uuid
 
   period_cycle: Int
@@ -600,6 +913,8 @@ input payment_min_order_by {
   date_end: order_by
 
   id: order_by
+
+  method: order_by
 
   objectId: order_by
 
@@ -647,6 +962,8 @@ input payment_order_by {
   date_end: order_by
 
   id: order_by
+
+  method: order_by
 
   objectId: order_by
 
@@ -697,6 +1014,11 @@ enum payment_select_column {
   """
   column name
   """
+  method
+
+  """
+  column name
+  """
   objectId
 
   """
@@ -732,6 +1054,8 @@ input payment_set_input {
 
   id: Int
 
+  method: Int
+
   objectId: uuid
 
   period: period_enum
@@ -749,6 +1073,8 @@ aggregate stddev on columns
 type payment_stddev_fields {
   id: Float
 
+  method: Float
+
   period_cycle: Float
 
   price: Float
@@ -761,6 +1087,8 @@ order by stddev() on columns of table "payment"
 """
 input payment_stddev_order_by {
   id: order_by
+
+  method: order_by
 
   period_cycle: order_by
 
@@ -775,6 +1103,8 @@ aggregate stddev_pop on columns
 type payment_stddev_pop_fields {
   id: Float
 
+  method: Float
+
   period_cycle: Float
 
   price: Float
@@ -787,6 +1117,8 @@ order by stddev_pop() on columns of table "payment"
 """
 input payment_stddev_pop_order_by {
   id: order_by
+
+  method: order_by
 
   period_cycle: order_by
 
@@ -801,6 +1133,8 @@ aggregate stddev_samp on columns
 type payment_stddev_samp_fields {
   id: Float
 
+  method: Float
+
   period_cycle: Float
 
   price: Float
@@ -813,6 +1147,8 @@ order by stddev_samp() on columns of table "payment"
 """
 input payment_stddev_samp_order_by {
   id: order_by
+
+  method: order_by
 
   period_cycle: order_by
 
@@ -827,6 +1163,8 @@ aggregate sum on columns
 type payment_sum_fields {
   id: Int
 
+  method: Int
+
   period_cycle: Int
 
   price: numeric
@@ -839,6 +1177,8 @@ order by sum() on columns of table "payment"
 """
 input payment_sum_order_by {
   id: order_by
+
+  method: order_by
 
   period_cycle: order_by
 
@@ -874,6 +1214,11 @@ enum payment_update_column {
   """
   column name
   """
+  method
+
+  """
+  column name
+  """
   objectId
 
   """
@@ -903,6 +1248,8 @@ aggregate var_pop on columns
 type payment_var_pop_fields {
   id: Float
 
+  method: Float
+
   period_cycle: Float
 
   price: Float
@@ -915,6 +1262,8 @@ order by var_pop() on columns of table "payment"
 """
 input payment_var_pop_order_by {
   id: order_by
+
+  method: order_by
 
   period_cycle: order_by
 
@@ -929,6 +1278,8 @@ aggregate var_samp on columns
 type payment_var_samp_fields {
   id: Float
 
+  method: Float
+
   period_cycle: Float
 
   price: Float
@@ -941,6 +1292,8 @@ order by var_samp() on columns of table "payment"
 """
 input payment_var_samp_order_by {
   id: order_by
+
+  method: order_by
 
   period_cycle: order_by
 
@@ -955,6 +1308,8 @@ aggregate variance on columns
 type payment_variance_fields {
   id: Float
 
+  method: Float
+
   period_cycle: Float
 
   price: Float
@@ -967,6 +1322,8 @@ order by variance() on columns of table "payment"
 """
 input payment_variance_order_by {
   id: order_by
+
+  method: order_by
 
   period_cycle: order_by
 
@@ -1168,6 +1525,21 @@ enum period_update_column {
 
 type query_root {
   """
+  fetch data from the table: "method"
+  """
+  method("distinct select on columns" distinct_on: [method_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [method_order_by!], "filter the rows returned" where: method_bool_exp): [method!]!
+
+  """
+  fetch aggregated fields from the table: "method"
+  """
+  method_aggregate("distinct select on columns" distinct_on: [method_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [method_order_by!], "filter the rows returned" where: method_bool_exp): method_aggregate!
+
+  """
+  fetch data from the table: "method" using primary key columns
+  """
+  method_by_pk(id: Int!): method
+
+  """
   fetch data from the table: "payment"
   """
   payment("distinct select on columns" distinct_on: [payment_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [payment_order_by!], "filter the rows returned" where: payment_bool_exp): [payment!]!
@@ -1229,6 +1601,21 @@ type query_root {
 }
 
 type subscription_root {
+  """
+  fetch data from the table: "method"
+  """
+  method("distinct select on columns" distinct_on: [method_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [method_order_by!], "filter the rows returned" where: method_bool_exp): [method!]!
+
+  """
+  fetch aggregated fields from the table: "method"
+  """
+  method_aggregate("distinct select on columns" distinct_on: [method_select_column!], "limit the number of rows returned" limit: Int, "skip the first n rows. Use only with order_by" offset: Int, "sort the rows by one or more columns" order_by: [method_order_by!], "filter the rows returned" where: method_bool_exp): method_aggregate!
+
+  """
+  fetch data from the table: "method" using primary key columns
+  """
+  method_by_pk(id: Int!): method
+
   """
   fetch data from the table: "payment"
   """
