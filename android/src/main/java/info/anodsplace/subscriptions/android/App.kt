@@ -11,7 +11,8 @@ import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
-import io.ktor.client.features.json.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
@@ -28,7 +29,9 @@ class App : Application() {
                 single<Application> { this@App }
                 single { appCoroutineScope } bind AppCoroutineScope::class
                 single { HttpClient(CIO) {
-                    install(JsonFeature) { }
+                    install(ContentNegotiation) {
+                        json()
+                    }
                 } } bind HttpClient::class
                 single { GraphQlApolloClient(get()) } bind GraphQLClient::class
                 single { AndroidCurrency() } bind Currency::class

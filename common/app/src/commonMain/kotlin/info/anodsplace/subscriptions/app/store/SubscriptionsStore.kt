@@ -8,9 +8,12 @@ import info.anodsplace.subscriptions.graphql.GetUserQuery
 import info.anodsplace.subscriptions.server.contract.LoginRequest
 import info.anodsplace.subscriptions.server.contract.LoginResponse
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.logger.Logger
 
@@ -130,11 +133,11 @@ class DefaultSubscriptionsStore(
 
     private suspend fun login(action: SubscriptionAction.Login) {
         try {
-            val response = httpClient.request<LoginResponse>("http://localhost:9090/login") {
-                contentType(ContentType.Application.Json)
-                method = HttpMethod.Post
-                body = LoginRequest(username = action.username, password = action.password)
-            }
+            val response: LoginResponse = httpClient.post {
+                 url("http://localhost:9090/login")
+                 contentType(ContentType.Application.Json)
+                 setBody(LoginRequest(username = action.username, password = action.password))
+            }.body()
             graphQLClient.token = response.token
             val user = graphQLClient.loadUser(response.userId)
             dispatch(SubscriptionAction.LoggedIn(username = action.username, graphQlToken = response.token, user = user))

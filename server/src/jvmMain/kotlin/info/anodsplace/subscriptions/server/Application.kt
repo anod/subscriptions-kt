@@ -1,20 +1,21 @@
 package info.anodsplace.subscriptions.server
 
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.auth.jwt.*
-import io.ktor.features.*
-import io.ktor.html.respondHtml
-import io.ktor.http.content.resources
-import io.ktor.http.content.static
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.serialization.*
-import kotlinx.html.*
 import info.anodsplace.subscriptions.server.contract.LoginRequest
 import info.anodsplace.subscriptions.server.contract.LoginResponse
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
+import io.ktor.server.html.*
+import io.ktor.server.http.content.*
+import io.ktor.server.plugins.compression.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import kotlinx.html.*
 
 fun HTML.index() {
     head {
@@ -39,12 +40,12 @@ fun Application.module(testing: Boolean = false) {
         json()
     }
     install(CORS) {
-        method(HttpMethod.Get)
-        method(HttpMethod.Post)
-        method(HttpMethod.Delete)
-        header(HttpHeaders.ContentType)
-        header(HttpHeaders.Authorization)
-        header(HttpHeaders.AccessControlAllowOrigin)
+        allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Post)
+        allowMethod(HttpMethod.Delete)
+        allowHeader(HttpHeaders.ContentType)
+        allowHeader(HttpHeaders.Authorization)
+        allowHeader(HttpHeaders.AccessControlAllowOrigin)
         allowSameOrigin = true
         anyHost()
     }

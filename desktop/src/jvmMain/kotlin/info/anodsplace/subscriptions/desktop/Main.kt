@@ -19,7 +19,8 @@ import info.anodsplace.subscriptions.ui.ComposeAppTheme
 import info.anodsplace.subscriptions.ui.RootScreen
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
-import io.ktor.client.features.json.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
@@ -40,7 +41,9 @@ fun main() {
             single { appCoroutineScope } bind AppCoroutineScope::class
             single { GraphQlApolloClient(get()) } bind GraphQLClient::class
             single { HttpClient(CIO) {
-                install(JsonFeature) { }
+                install(ContentNegotiation) {
+                    json()
+                }
             } } bind HttpClient::class
             singleOf(::DefaultSubscriptionsStore) bind SubscriptionsStore::class
             singleOf(::JvmCurrency) bind Currency::class

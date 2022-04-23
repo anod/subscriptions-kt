@@ -23,19 +23,11 @@ kotlin {
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.client.js)
                 implementation(libs.ktor.client.serialization)
+                implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.koin.core)
             }
         }
     }
-}
-
-val browserDist: Configuration by configurations.creating {
-    isCanBeConsumed = true
-    isCanBeResolved = false
-}
-
-artifacts {
-    add(browserDist.name, tasks.named("jsBrowserDistribution").map { it.outputs.files.files.single() })
 }
 
 fun isDevEnv(): Boolean = env.SBS_ENV.orNull() == "dev"

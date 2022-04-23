@@ -3,7 +3,7 @@ package info.anodsplace.subscriptions.server
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.JWTVerifier
-import io.ktor.application.*
+import io.ktor.server.application.*
 
 class JwtToken(
     private val secret: String,

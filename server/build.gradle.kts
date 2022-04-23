@@ -20,6 +20,9 @@ kotlin {
                 implementation(libs.ktor.server.html)
                 implementation(libs.ktor.server.auth)
                 implementation(libs.ktor.server.jwt)
+                implementation(libs.ktor.server.cors)
+                implementation(libs.ktor.server.compression)
+                implementation(libs.ktor.server.content.negotiation)
                 implementation(libs.ktor.server.serialization)
                 implementation(libs.kotlinx.html)
             }
@@ -29,26 +32,6 @@ kotlin {
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
-}
-
-val browserDist: Configuration by configurations.creating {
-    isCanBeConsumed = false
-    isCanBeResolved = true
-}
-
-dependencies {
-    browserDist(
-        project(
-            mapOf(
-                "path" to ":web",
-                "configuration" to "browserDist"
-            )
-        )
-    )
-}
-
-tasks.withType<Copy>().named("processResources") {
-    from(browserDist)
 }
 
 fun isDevEnv(): Boolean = env.SBS_ENV.orNull() == "dev"

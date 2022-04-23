@@ -10,7 +10,7 @@ android {
     compileSdk = 31
 
     defaultConfig {
-        minSdk = 23
+        minSdk = 29
         targetSdk = 31
         versionCode = 1
         versionName = "1.0"
@@ -35,5 +35,6 @@ dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.content.negotiation)
     implementation(libs.koin.core)
 }
