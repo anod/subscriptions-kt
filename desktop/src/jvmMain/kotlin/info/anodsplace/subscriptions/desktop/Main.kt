@@ -10,7 +10,8 @@ import androidx.compose.ui.window.rememberWindowState
 import info.anodsplace.subscriptions.JvmCurrency
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.app.CommonRouter
-import info.anodsplace.subscriptions.app.Currency
+import info.anodsplace.subscriptions.app.createCommonAppModule
+import info.anodsplace.subscriptions.app.currency.Currency
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.app.graphql.GraphQlApolloClient
 import info.anodsplace.subscriptions.app.store.DefaultSubscriptionsStore
@@ -36,18 +37,25 @@ fun main() {
     logger.info("Start app")
     startKoin {
         logger(logger)
-        koin.loadModules(listOf(module {
-            single { logger } bind Logger::class
-            single { appCoroutineScope } bind AppCoroutineScope::class
-            single { GraphQlApolloClient(get()) } bind GraphQLClient::class
-            single { HttpClient(CIO) {
-                install(ContentNegotiation) {
-                    json()
-                }
-            } } bind HttpClient::class
-            singleOf(::DefaultSubscriptionsStore) bind SubscriptionsStore::class
-            singleOf(::JvmCurrency) bind Currency::class
-        }))
+        koin.loadModules(
+            listOf(
+                module {
+                    single { logger } bind Logger::class
+                    single { appCoroutineScope } bind AppCoroutineScope::class
+                    single { GraphQlApolloClient(get()) } bind GraphQLClient::class
+                    single {
+                        HttpClient(CIO) {
+                            install(ContentNegotiation) {
+                                json()
+                            }
+                        }
+                    } bind HttpClient::class
+                    singleOf(::DefaultSubscriptionsStore) bind SubscriptionsStore::class
+                    singleOf(::JvmCurrency) bind Currency::class
+                },
+                createCommonAppModule()
+            )
+        )
     }
 
     application {

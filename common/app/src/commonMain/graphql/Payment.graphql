@@ -1,0 +1,25 @@
+fragment GQPayment on payment {
+    id
+    objectId
+    price
+    currency
+    date
+    dateEnd: date_end
+    method {
+        id
+        name
+        objectId
+    }
+    period
+    periodCycle: period_cycle
+    subscription {
+        id
+        objectId
+        created
+        link
+        name
+        tags {
+            tag
+        }
+    }
+}

@@ -1,28 +1,5 @@
 query GetPayments {
     payment {
-        id
-        objectId
-        price
-        currency
-        date
-        date_end
-        method {
-            id
-            name
-            objectId
-        }
-        period
-        period_cycle
-        subscription {
-            id
-            objectId
-            created
-            link
-            name
-
-            tags {
-                tag
-            }
-        }
+        ...GQPayment
     }
 }

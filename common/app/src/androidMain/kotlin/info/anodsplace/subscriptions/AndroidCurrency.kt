@@ -1,7 +1,7 @@
 package info.anodsplace.subscriptions
 
 import android.icu.util.CurrencyAmount
-import info.anodsplace.subscriptions.app.Currency
+import info.anodsplace.subscriptions.app.currency.Currency
 
 class AndroidCurrency : Currency {
     override fun getSymbol(code: String): String {

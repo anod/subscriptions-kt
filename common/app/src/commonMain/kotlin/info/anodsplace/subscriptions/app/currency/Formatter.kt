@@ -1,4 +1,4 @@
-package info.anodsplace.subscriptions.app
+package info.anodsplace.subscriptions.app.currency
 
 interface Currency {
     fun getSymbol(code: String) : String

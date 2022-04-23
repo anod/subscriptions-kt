@@ -1,6 +1,6 @@
 package info.anodsplace.subscriptions
 
-import info.anodsplace.subscriptions.app.Currency
+import info.anodsplace.subscriptions.app.currency.Currency
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.NumberFormat

@@ -1,0 +1,7 @@
+query GetPayment($subscription_id: Int!) {
+    payment(
+        where: { subscription_id : {_eq: $subscription_id } }
+    ) {
+        ...GQPayment
+    }
+}

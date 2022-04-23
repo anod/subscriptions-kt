@@ -1,10 +1,18 @@
 package info.anodsplace.subscriptions.app
 
-import info.anodsplace.subscriptions.app.store.SubscriptionsStore
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import org.koin.core.component.KoinComponent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlin.coroutines.CoroutineContext
 
-interface ViewModel : KoinComponent {
-    val store: SubscriptionsStore
-    val currentScope: CoroutineScope
+class ViewModelScope(context: CoroutineContext) : CoroutineScope {
+    constructor(dispatcher: CoroutineDispatcher = Dispatchers.Main)
+            : this(SupervisorJob() + dispatcher)
+
+    override val coroutineContext: CoroutineContext = context
+}
+
+interface ViewModel {
+    val viewModelScope: ViewModelScope
 }

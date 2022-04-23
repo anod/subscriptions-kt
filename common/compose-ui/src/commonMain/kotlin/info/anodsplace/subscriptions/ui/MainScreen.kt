@@ -16,8 +16,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import info.anodsplace.subscriptions.app.MainViewModel
-import info.anodsplace.subscriptions.app.Subscription
-import info.anodsplace.subscriptions.app.format
+import info.anodsplace.subscriptions.app.store.Subscription
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {

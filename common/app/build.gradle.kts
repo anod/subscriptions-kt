@@ -7,6 +7,7 @@ plugins {
 
 apollo {
     packageName.set("info.anodsplace.subscriptions.graphql")
+    codegenModels.set("responseBased")
     mapScalarToKotlinString("uuid")
     mapScalarToKotlinString("date")
     mapScalarToKotlinFloat("numeric")

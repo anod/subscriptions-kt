@@ -8,8 +8,11 @@ import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.interceptor.ApolloInterceptor
 import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
+import info.anodsplace.subscriptions.graphql.GetPaymentQuery
 import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 import info.anodsplace.subscriptions.graphql.GetUserQuery
+import info.anodsplace.subscriptions.graphql.fragment.GQPayment
+import info.anodsplace.subscriptions.graphql.fragment.GQUser
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.koin.core.logger.Logger
@@ -53,7 +56,7 @@ class GraphQlApolloClient(
         get() = tokenInterceptor.token
         set(value) { tokenInterceptor.token = value }
 
-    override suspend fun loadUser(userId: Int): GetUserQuery.User {
+    override suspend fun loadUser(userId: Int): GQUser {
         val result = apolloClient.query(GetUserQuery(userId = userId)).execute()
         if (result.hasErrors()) {
             val message = errorMessage(result.errors!!, "GetUserQuery")
@@ -63,7 +66,7 @@ class GraphQlApolloClient(
         return result.data?.user ?: throw IllegalStateException("Cannot be null")
     }
 
-    override fun observePayments(): Flow<List<GetPaymentsQuery.Payment>> {
+    override fun observePayments(): Flow<List<GQPayment>> {
         return apolloClient.query(GetPaymentsQuery()).toFlow().map { result ->
             if (result.hasErrors()) {
                 val message = errorMessage(result.errors!!, "GetPaymentsQuery")
@@ -74,4 +77,14 @@ class GraphQlApolloClient(
         }
     }
 
+
+    override suspend fun loadPayment(id: Long): GQPayment {
+        val result = apolloClient.query(GetPaymentQuery(subscription_id = id.toInt())).execute()
+        if (result.hasErrors()) {
+            val message = errorMessage(result.errors!!, "GetPaymentQuery")
+            logger.error(message)
+            throw IllegalStateException(message)
+        }
+        return result.data?.payment?.first() ?: throw IllegalStateException("Cannot be null")
+    }
 }

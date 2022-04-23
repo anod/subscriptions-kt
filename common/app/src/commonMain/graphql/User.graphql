@@ -1,0 +1,7 @@
+fragment GQUser on users {
+    currency
+    email
+    id
+    name
+    objectId
+}

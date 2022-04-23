@@ -1,6 +1,6 @@
 package info.anodsplace.subscriptions
 
-import info.anodsplace.subscriptions.app.Currency
+import info.anodsplace.subscriptions.app.currency.Currency
 
 class JsCurrency : Currency {
     override fun getSymbol(code: String): String {
