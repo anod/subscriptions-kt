@@ -16,7 +16,7 @@ services:
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
   graphql-engine:
-    image: hasura/graphql-engine:v2.7.0
+    image: hasura/graphql-engine:v2.11.2
     ports:
     - "8080:8080"
     depends_on:

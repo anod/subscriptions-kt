@@ -2,7 +2,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
-    id("com.apollographql.apollo3").version("3.2.2")
+    id("com.apollographql.apollo3").version("3.6.0")
 }
 
 apollo {
@@ -14,11 +14,11 @@ apollo {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         minSdk = 29
-        targetSdk = 31
+        targetSdk = 32
     }
 
     compileOptions {

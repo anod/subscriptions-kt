@@ -2,12 +2,12 @@
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            library("androidx-appcompat", "androidx.appcompat:appcompat:1.4.2")
-            library("androidx-activity-compose", "androidx.activity:activity-compose:1.4.0")
-            library("androidx-core", "androidx.core:core-ktx:1.7.0")
-            library("android-gradle-plugin", "com.android.tools.build:gradle:7.0.4")
+            library("androidx-appcompat", "androidx.appcompat:appcompat:1.5.1")
+            library("androidx-activity-compose", "androidx.activity:activity-compose:1.5.1")
+            library("androidx-core", "androidx.core:core-ktx:1.8.0")
+            library("android-gradle-plugin", "com.android.tools.build:gradle:7.2.0")
 
-            version("ktor", "2.0.2")
+            version("ktor", "2.1.1")
             library("ktor-client-core", "io.ktor", "ktor-client-core").versionRef("ktor")
             library("ktor-client-logging", "io.ktor", "ktor-client-logging").versionRef("ktor")
             library("ktor-client-js", "io.ktor", "ktor-client-js").versionRef("ktor")
@@ -25,9 +25,9 @@ dependencyResolutionManagement {
             library("ktor-server-compression", "io.ktor", "ktor-server-compression").versionRef("ktor")
             library("ktor-server-cors", "io.ktor", "ktor-server-cors").versionRef("ktor")
 
-            library("koin-core", "io.insert-koin:koin-core:3.2.0")
+            library("koin-core", "io.insert-koin:koin-core:3.2.1")
 
-            version("kotlin", "1.6.21")
+            version("kotlin", "1.7.10")
             library("kotlin-gradle-plugin", "org.jetbrains.kotlin", "kotlin-gradle-plugin").versionRef("kotlin")
             library("kotlin-test-common", "org.jetbrains.kotlin", "kotlin-test-common").versionRef("kotlin")
             library("kotlin-test-junit", "org.jetbrains.kotlin", "kotlin-test-junit").versionRef("kotlin")
@@ -43,19 +43,19 @@ dependencyResolutionManagement {
                 "kotlin-serialization"
             ).versionRef("kotlin")
 
-            version("coroutines", "1.6.2")
+            version("coroutines", "1.6.4")
             library("coroutines-core", "org.jetbrains.kotlinx", "kotlinx-coroutines-core").versionRef("coroutines")
             library("coroutines-swing", "org.jetbrains.kotlinx", "kotlinx-coroutines-swing").versionRef("coroutines")
-            library("kotlinx-html", "org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.5")
+            library("kotlinx-html", "org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
 
-            version("compose", "1.2.0-alpha01-dev686")
+            version("compose", "1.2.0-beta01")
             library("compose-gradle-plugin", "org.jetbrains.compose", "compose-gradle-plugin").versionRef("compose")
 
             library("serialization-json", "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
             library("dotenv", "co.uzzu.dotenv:gradle:1.2.0")
 
-            version("apollo", "3.2.2")
+            version("apollo", "3.6.0")
             library("apollo-graphql", "com.apollographql.apollo3", "apollo-runtime").versionRef("apollo")
             library("apollo-normalized-cache", "com.apollographql.apollo3", "apollo-normalized-cache").versionRef("apollo")
 
