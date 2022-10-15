@@ -1,6 +1,6 @@
 package info.anodsplace.subscriptions.app
 
-import info.anodsplace.subscriptions.app.store.SubscriptionSideEffect
+import info.anodsplace.subscriptions.app.store.SubscriptionAction
 import info.anodsplace.subscriptions.app.store.SubscriptionsStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,26 +20,26 @@ sealed interface Route {
 
 interface Router {
     val route: StateFlow<Route>
-    fun createViewModel(route: Route): ViewModel
+    fun createViewModel(route: Route): ViewModel<*, *, *>
 }
 
 class CommonRouter(appScope: AppCoroutineScope) : Router, KoinComponent {
     private val store: SubscriptionsStore by inject()
     override val route: MutableStateFlow<Route> = MutableStateFlow(
-        if (store.isLoggedIn) Route.Main() else Route.LogIn()
+        if (store.state.isLoggedIn) Route.Main() else Route.LogIn()
     )
 
     init {
         appScope.launch {
-            store.sideEffect
-                .filterIsInstance<SubscriptionSideEffect.Navigate>()
+            store.actions
+                .filterIsInstance<SubscriptionAction.Navigate>()
                 .collect {
                     route.value = it.route
                 }
         }
     }
 
-    override fun createViewModel(route: Route): ViewModel {
+    override fun createViewModel(route: Route): ViewModel<*, *, *> {
         return when (route) {
             is Route.LogIn -> get<LoginViewModel>()
             is Route.Main -> get<MainViewModel>()

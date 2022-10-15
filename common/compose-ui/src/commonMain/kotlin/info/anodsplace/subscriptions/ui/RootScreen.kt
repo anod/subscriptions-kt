@@ -10,15 +10,28 @@ fun RootScreen(router: Router) {
         is Route.Initial -> {}
         is Route.Main -> {
             val viewModel by remember { mutableStateOf(router.createViewModel(route) as MainViewModel) }
-            MainScreen(viewModel)
+            val state by viewModel.states.collectAsState(viewModel.state)
+            MainScreen(
+                state = state,
+                onEvent = { viewModel.handleEvent(it)},
+                formatPrice = { price, currencyCode -> viewModel.formatPrice(price, currencyCode)
+            })
         }
         is Route.Edit -> {
             val viewModel by remember { mutableStateOf(router.createViewModel(route) as EditViewModel) }
-            EditScreen(viewModel)
+            val state by viewModel.states.collectAsState(viewModel.state)
+            EditScreen(
+                state = state,
+                onEvent = { viewModel.handleEvent(it) }
+            )
         }
         is Route.LogIn -> {
             val viewModel by remember { mutableStateOf(router.createViewModel(route) as LoginViewModel) }
-            LogInScreen(viewModel)
+            val state by viewModel.states.collectAsState(viewModel.state)
+            LogInScreen(
+                state = state,
+                onEvent = { viewModel.handleEvent(it) }
+            )
         }
     }
 }

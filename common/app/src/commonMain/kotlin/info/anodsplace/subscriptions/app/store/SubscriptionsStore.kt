@@ -11,8 +11,6 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.logger.Logger
 
@@ -28,111 +26,104 @@ data class SubscriptionsState(
     val user: GQUser = EmptyUser(),
     val progress: Boolean = false,
     val graphQlToken: String = "",
-) : State
-
-sealed class SubscriptionAction : Action {
-    data class Login(val username: String, val password: String) : SubscriptionAction()
-    data class LoggedIn(val username: String, val graphQlToken: String, val user: GQUser) :
-        SubscriptionAction()
-
-    data class Add(val subscription: GQPayment) : SubscriptionAction()
-    data class Delete(val id: Long) : SubscriptionAction()
-    data class SelectFeed(val subscription: GQPayment?) : SubscriptionAction()
-    data class Data(val subscription: List<GQPayment>) : SubscriptionAction()
-    data class Error(val error: Exception) : SubscriptionAction()
-}
-
-sealed class SubscriptionSideEffect : Effect {
-    data class Error(val error: Exception) : SubscriptionSideEffect()
-    data class Action(val action: SubscriptionAction) : SubscriptionSideEffect()
-    data class Navigate(val route: Route) : SubscriptionSideEffect()
-}
-
-interface SubscriptionsStore : Store<SubscriptionsState, SubscriptionAction, SubscriptionSideEffect> {
+) : StoreState {
     val isLoggedIn: Boolean
-    val user: GQUser
+        get() = graphQlToken.isNotEmpty() && user.id > 0
 }
+
+sealed class SubscriptionEvent : StoreEvent {
+    data class Login(val username: String, val password: String) : SubscriptionEvent()
+    data class LoggedIn(val username: String, val graphQlToken: String, val user: GQUser) :
+        SubscriptionEvent()
+
+    data class Add(val subscription: GQPayment) : SubscriptionEvent()
+    data class Delete(val id: Long) : SubscriptionEvent()
+    data class SelectFeed(val subscription: GQPayment?) : SubscriptionEvent()
+    data class Data(val subscription: List<GQPayment>) : SubscriptionEvent()
+    data class Error(val error: Exception) : SubscriptionEvent()
+    data class Navigate(val route: Route) : SubscriptionEvent()
+}
+
+sealed class SubscriptionAction : StoreAction {
+    data class Error(val error: Exception) : SubscriptionAction()
+    data class Navigate(val route: Route) : SubscriptionAction()
+}
+
+interface SubscriptionsStore : Store<SubscriptionsState, SubscriptionEvent, SubscriptionAction>
 
 class DefaultSubscriptionsStore(
     private val appScope: AppCoroutineScope,
     private val httpClient: HttpClient,
     private val graphQLClient: GraphQLClient,
     private val logger: Logger
-) : SubscriptionsStore {
-    override val state = MutableStateFlow(SubscriptionsState())
-    override val sideEffect = MutableSharedFlow<SubscriptionSideEffect>()
+) : BaseStore<SubscriptionsState, SubscriptionEvent, SubscriptionAction>(storeScope = appScope), SubscriptionsStore {
 
-    override val isLoggedIn: Boolean
-        get() = state.value.graphQlToken.isNotEmpty() && user.id > 0
+    init {
+        state = SubscriptionsState()
+    }
 
-    override val user: GQUser
-        get() = state.value.user
+    override fun handleEvent(event: SubscriptionEvent) {
+        val oldState = state
 
-    override fun dispatch(action: SubscriptionAction) {
-        val oldState = state.value
-
-        val newState = when (action) {
-            is SubscriptionAction.Add -> {
+        val newState = when (event) {
+            is SubscriptionEvent.Add -> {
                 if (oldState.progress) {
-                    appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("In progress"))) }
+                    emitAction(SubscriptionAction.Error(Exception("In progress")))
                     oldState
                 } else {
-                   // appScope.launch { addSubscription(action.subscription) }
                     SubscriptionsState(progress = true)
                 }
             }
-            is SubscriptionAction.Delete -> {
+            is SubscriptionEvent.Delete -> {
                 if (oldState.progress) {
-                    appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("In progress"))) }
+                    emitAction(SubscriptionAction.Error(Exception("In progress")))
                     oldState
                 } else {
-                    // appScope.launch { deleteFeed(action.id) }
                     SubscriptionsState(progress = true)
                 }
             }
-            is SubscriptionAction.SelectFeed -> {
-                appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("Unknown feed"))) }
+            is SubscriptionEvent.SelectFeed -> {
+                emitAction(SubscriptionAction.Error(Exception("Unknown feed")))
                 oldState
             }
-            is SubscriptionAction.Data -> {
+            is SubscriptionEvent.Data -> {
                 if (oldState.progress) {
                     SubscriptionsState(progress = false)
                 } else {
-                    appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("Unexpected action"))) }
+                    emitAction(SubscriptionAction.Error(Exception("Unexpected action")))
                     oldState
                 }
             }
-            is SubscriptionAction.Error -> {
+            is SubscriptionEvent.Error -> {
                 if (oldState.progress) {
-                    appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(action.error)) }
+                    emitAction(SubscriptionAction.Error(event.error))
                     SubscriptionsState(progress = false)
                 } else {
-                    appScope.launch { sideEffect.emit(SubscriptionSideEffect.Error(Exception("Unexpected action"))) }
+                    emitAction(SubscriptionAction.Error(Exception("Unexpected action")))
                     oldState
                 }
             }
-            is SubscriptionAction.Login -> {
-                appScope.launch { login(action) }
+            is SubscriptionEvent.Login -> {
+                appScope.launch { login(event) }
                 oldState.copy(progress = true)
             }
-            is SubscriptionAction.LoggedIn -> {
-                navigate(Route.Main())
-                oldState.copy(progress = false, graphQlToken = action.graphQlToken, user = action.user)
+            is SubscriptionEvent.LoggedIn -> {
+                emitAction(SubscriptionAction.Navigate(Route.Main()))
+                oldState.copy(progress = false, graphQlToken = event.graphQlToken, user = event.user)
+            }
+
+            is SubscriptionEvent.Navigate -> {
+                emitAction(SubscriptionAction.Navigate(event.route))
+                oldState
             }
         }
 
         if (newState != oldState) {
-            state.value = newState
+            state = newState
         }
-
-        appScope.launch { sideEffect.emit(SubscriptionSideEffect.Action(action)) }
     }
 
-    override fun navigate(route: Route) {
-        appScope.launch { sideEffect.emit(SubscriptionSideEffect.Navigate(route)) }
-    }
-
-    private suspend fun login(action: SubscriptionAction.Login) {
+    private suspend fun login(action: SubscriptionEvent.Login) {
         try {
             val response: LoginResponse = httpClient.post {
                  url("http://localhost:9090/login")
@@ -141,10 +132,10 @@ class DefaultSubscriptionsStore(
             }.body()
             graphQLClient.token = response.token
             val user = graphQLClient.loadUser(response.userId)
-            dispatch(SubscriptionAction.LoggedIn(username = action.username, graphQlToken = response.token, user = user))
+            handleEvent(SubscriptionEvent.LoggedIn(username = action.username, graphQlToken = response.token, user = user))
         } catch (e: Exception) {
             logger.error("login: ${e.message}")
-            dispatch(SubscriptionAction.Error(e))
+            handleEvent(SubscriptionEvent.Error(e))
         }
     }
 }

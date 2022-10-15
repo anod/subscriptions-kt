@@ -1,19 +1,32 @@
 package info.anodsplace.subscriptions.app
 
-import info.anodsplace.subscriptions.app.store.SubscriptionAction
-import info.anodsplace.subscriptions.app.store.SubscriptionsStore
+import info.anodsplace.subscriptions.app.store.*
 
-interface LoginViewModel : ViewModel {
-    fun login(username: String)
+data class LoginViewState(
+    val username: String = "alex"
+) : StoreState
+
+sealed interface LoginViewEvent : StoreEvent {
+    object Login: LoginViewEvent
 }
+
+sealed interface LoginViewAction : StoreAction
+
+interface LoginViewModel : ViewModel<LoginViewState, LoginViewEvent, LoginViewAction>
 
 class CommonLoginViewModel(
     private val store: SubscriptionsStore,
     override val viewModelScope: ViewModelScope,
-) : LoginViewModel {
+) : LoginViewModel, BaseStore<LoginViewState, LoginViewEvent, LoginViewAction>(storeScope = viewModelScope) {
 
-    override fun login(username: String) {
-        store.dispatch(SubscriptionAction.Login(username, username))
+   init {
+       state = LoginViewState()
+   }
+
+    override fun handleEvent(event: LoginViewEvent) {
+        when (event) {
+            LoginViewEvent.Login -> store.handleEvent(SubscriptionEvent.Login(state.username, state.username))
+        }
     }
 
 }

@@ -15,13 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import info.anodsplace.subscriptions.app.MainViewEvent
 import info.anodsplace.subscriptions.app.MainViewModel
+import info.anodsplace.subscriptions.app.MainViewState
 import info.anodsplace.subscriptions.app.store.Subscription
 
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
-    val subscriptions by viewModel.subscriptions.collectAsState(emptyList())
-    val total by viewModel.total.collectAsState(0f)
+fun MainScreen(state: MainViewState, onEvent: (MainViewEvent) -> Unit, formatPrice: (price: Float, currencyCode: String) -> String) {
 
     Column {
         TopAppBar(
@@ -38,14 +38,15 @@ fun MainScreen(viewModel: MainViewModel) {
 
         Box(Modifier.weight(1F)) {
             SubscriptionsList(
-                items = subscriptions,
-                viewModel = viewModel
+                items = state.subscriptions,
+                onEvent = onEvent,
+                formatPrice = formatPrice
             )
 
         }
 
         Text(
-            text = "Total: ${viewModel.formatPrice(total, viewModel.user.currency)}",
+            text = "Total: ${formatPrice(state.total, state.userCurrency)}",
             modifier = Modifier.padding(16.dp).align(Alignment.End)
         )
     }
@@ -54,7 +55,8 @@ fun MainScreen(viewModel: MainViewModel) {
 @Composable
 private fun SubscriptionsList(
     items: List<Subscription>,
-    viewModel: MainViewModel
+    onEvent: (MainViewEvent) -> Unit,
+    formatPrice: (price: Float, currencyCode: String) -> String
 ) {
     Box {
         val listState = rememberLazyListState()
@@ -63,7 +65,8 @@ private fun SubscriptionsList(
             items(items.size) {
                 Item(
                     item = items[it],
-                    viewModel = viewModel
+                    onEvent = onEvent,
+                    formatPrice = formatPrice
                 )
 
                 Divider()
@@ -76,11 +79,12 @@ private fun SubscriptionsList(
 @Composable
 private fun Item(
     item: Subscription,
-    viewModel: MainViewModel
+    onEvent: (MainViewEvent) -> Unit,
+    formatPrice: (price: Float, currencyCode: String) -> String
 ) {
     Row(modifier = Modifier
         .fillMaxWidth()
-        .clickable(onClick = { viewModel.onItemClicked(item.id.toLong()) })
+        .clickable(onClick = { onEvent(MainViewEvent.ItemClicked(item.id.toLong())) })
     ) {
 
         Column(
@@ -112,11 +116,11 @@ private fun Item(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = AnnotatedString(viewModel.formatPrice(item.price, item.currency)),
+                    text = AnnotatedString(formatPrice(item.price, item.currency)),
                     maxLines = 1,
                 )
                 Text(
-                    text = viewModel.formatPrice(item.originalPrice, item.originalCurrency),
+                    text = formatPrice(item.originalPrice, item.originalCurrency),
                     modifier = Modifier.padding(top = 4.dp),
                     style = MaterialTheme.typography.caption,
                     maxLines = 1,
@@ -124,7 +128,7 @@ private fun Item(
             }
         } else {
             Text(
-                text = AnnotatedString(viewModel.formatPrice(item.price, item.currency)),
+                text = AnnotatedString(formatPrice(item.price, item.currency)),
                 modifier = Modifier
                     .padding(top = 16.dp, bottom = 16.dp, end = 16.dp)
                     .align(Alignment.CenterVertically),
