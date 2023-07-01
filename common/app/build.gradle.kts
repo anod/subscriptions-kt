@@ -2,15 +2,17 @@
 plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
-    id("com.apollographql.apollo3").version("3.6.2")
+    id("com.apollographql.apollo3").version("3.8.2")
 }
 
 apollo {
-    packageName.set("info.anodsplace.subscriptions.graphql")
-    codegenModels.set("responseBased")
-    mapScalarToKotlinString("uuid")
-    mapScalarToKotlinString("date")
-    mapScalarToKotlinFloat("numeric")
+    service("service") {
+        packageName.set("info.anodsplace.subscriptions.graphql")
+        codegenModels.set("responseBased")
+        mapScalarToKotlinString("uuid")
+        mapScalarToKotlinString("date")
+        mapScalarToKotlinFloat("numeric")
+    }
 }
 
 android {
@@ -75,7 +77,7 @@ kotlin {
             }
         }
 
-        named("androidTest") {
+        named("androidUnitTest") {
             dependencies {
                 implementation(libs.kotlin.test.junit)
             }
