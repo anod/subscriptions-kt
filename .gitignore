@@ -20,3 +20,6 @@ buildSrc/buildSrc/.gradle/buildOutputCleanup/buildOutputCleanup.lock
 buildSrc/buildSrc/.gradle/buildOutputCleanup/outputFiles.bin
 .env
 local.properties
+backup/*.zip
+backup/*.json
+backup/*.sql

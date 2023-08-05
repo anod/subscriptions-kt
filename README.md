@@ -9,7 +9,7 @@ KMM, Compose, OAuth, GraphQL, Ktor
 ## Run database
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 ### HASURA Console
