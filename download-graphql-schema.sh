@@ -5,7 +5,9 @@ read_var(){
 }
 
 SECRET=$(read_var "HASURA_GRAPHQL_ADMIN_SECRET")
+ENDPOINT=$(read_var "HASURA_GRAPHQL_ENDPOINT")
 
+echo "HASURA_GRAPHQL_ENDPOINT: $ENDPOINT"
 echo "HASURA_GRAPHQL_ADMIN_SECRET: $SECRET"
 
-./gradlew downloadApolloSchema --endpoint="http://localhost:8080/v1/graphql" --schema "./common/app/src/commonMain/graphql/schema.graphqls" --header "X-Hasura-Admin-Secret: $SECRET"
+./gradlew downloadApolloSchema --endpoint="$ENDPOINT" --schema "./common/app/src/commonMain/graphql/schema.graphqls" --header "X-Hasura-Admin-Secret: $SECRET"
