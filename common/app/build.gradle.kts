@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     id("kotlin-multiplatform")
     id("com.apollographql.apollo3").version("3.8.2")
+    id("com.google.devtools.ksp")
 }
 
 apollo {
@@ -93,4 +94,18 @@ kotlin {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
     }
+}
+
+
+dependencies {
+    add("kspCommonMainMetadata", project(":ksp-dotenv"))
+    add("kspDesktop", project(":ksp-dotenv"))
+    add("kspJs", project(":ksp-dotenv"))
+    add("kspAndroid", project(":ksp-dotenv"))
+
+}
+
+ksp {
+    arg("info.anodsplace.dotenv.path", project.rootDir.toString())
+    arg("info.anodsplace.dotenv.includeKeys", "*ENDPOINT;SBS_SERVER_PORT;HASURA_PORT")
 }

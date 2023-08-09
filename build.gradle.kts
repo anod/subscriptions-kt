@@ -1,6 +1,7 @@
 plugins {
     `kotlin-dsl`
     id("co.uzzu.dotenv.gradle") version "2.0.0"
+    id("com.google.devtools.ksp") version "1.8.20-1.0.11" apply false
 }
 
 allprojects {

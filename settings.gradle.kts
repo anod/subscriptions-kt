@@ -63,6 +63,7 @@ dependencyResolutionManagement {
 }
 
 include(
+    ":ksp-dotenv",
     ":common:app",
     ":common:server-contract",
     ":common:compose-ui",
