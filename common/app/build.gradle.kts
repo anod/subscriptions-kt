@@ -102,10 +102,10 @@ dependencies {
     add("kspDesktop", project(":ksp-dotenv"))
     add("kspJs", project(":ksp-dotenv"))
     add("kspAndroid", project(":ksp-dotenv"))
-
 }
 
 ksp {
     arg("info.anodsplace.dotenv.path", project.rootDir.toString())
-    arg("info.anodsplace.dotenv.includeKeys", "*ENDPOINT;SBS_SERVER_PORT;HASURA_PORT")
+    arg("info.anodsplace.dotenv.allowedKeys", "*ENDPOINT;SBS_ENV")
+    arg("info.anodsplace.dotenv.camelCase", "true")
 }

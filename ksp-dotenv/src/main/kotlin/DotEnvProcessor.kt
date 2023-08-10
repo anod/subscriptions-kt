@@ -9,44 +9,57 @@ import java.io.File
 class DotEnvProcessor(
     environment: SymbolProcessorEnvironment,
 ) : SymbolProcessor {
+    private var invoked = false
     private val codeGenerator = environment.codeGenerator
-    private val options = environment.options
+    private val options = Options(environment.options)
     private val logger: KSPLogger = DelegateLogger(environment.logger)
 
-    companion object {
-        const val optPath = "info.anodsplace.dotenv.path"
-        const val optIncludeKeys = "info.anodsplace.dotenv.includeKeys"
-        const val defaultFile = ".env"
-    }
-
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        val file = resolveFile(options[optPath])
+        if (invoked) {
+            return emptyList()
+        }
+        val file = resolveFile(options.path)
         logger.info("Resolved file: $file")
         val entries = Dotenv.configure()
             .directory(file.absolutePath)
             .load()
             .entries(Dotenv.Filter.DECLARED_IN_ENV_FILE)
-        genFile(
+            .let { filterKeys(it) }
+            .let { adjustKeyCase(it) }
+        generateFile(
             entries = entries
         ).writeTo(codeGenerator, Dependencies(true))
+        invoked = true
         return emptyList()
     }
 
-    private fun resolveFile(configPath: String?): File {
-        if (configPath.isNullOrEmpty()) {
-            return File(defaultFile)
+    private fun filterKeys(entries: Collection<DotenvEntry>): Collection<DotenvEntry> {
+        return if (options.allowedKeys.isEmpty()) {
+            entries
+        } else {
+            entries.filter { entry -> options.allowedKeys.firstOrNull { pattern -> isMatch(entry.key, pattern) } != null }
         }
+    }
 
+    private fun adjustKeyCase(entries: Collection<DotenvEntry>): Collection<DotenvEntry> {
+        return if (options.camelCase) {
+            entries.map { DotenvEntry(it.key.camelcase(), it.value) }
+        } else {
+            entries
+        }
+    }
+
+    private fun resolveFile(configPath: String): File {
         val file = File(configPath)
         if (file.isFile) {
             return file
         } else if (file.isDirectory) {
-            return File(file, defaultFile)
+            return File(file, Options.defaultFile)
         }
-        return File(defaultFile)
+        return File(Options.defaultFile)
     }
 
-    private fun genFile(entries: Set<DotenvEntry>): FileSpec {
+    private fun generateFile(entries: Collection<DotenvEntry>): FileSpec {
         val properties = entries.map { entry ->
             logger.info("  ${entry.key}=${entry.value}")
             PropertySpec.builder(entry.key, String::class)
@@ -56,7 +69,7 @@ class DotEnvProcessor(
                 .build()
         }
 
-        return FileSpec.builder("info.anodsplace.dotenv.generated", "DotEnv")
+        return FileSpec.builder(options.packageName, options.className)
             .addType(
                 TypeSpec.objectBuilder("DotEnv")
                     .addProperties(properties)
@@ -68,9 +81,10 @@ class DotEnvProcessor(
 
 private class DelegateLogger(val delegate: KSPLogger) : KSPLogger {
     var hasError = false
+        private set
     override fun error(message: String, symbol: KSNode?) {
         hasError = true
-        delegate.error(message, symbol)
+        delegate.error(prefix(message), symbol)
     }
     override fun exception(e: Throwable) {
         hasError = true
@@ -78,15 +92,15 @@ private class DelegateLogger(val delegate: KSPLogger) : KSPLogger {
     }
 
     override fun info(message: String, symbol: KSNode?) {
-        delegate.info(message, symbol)
+        delegate.info(prefix(message), symbol)
     }
 
     override fun logging(message: String, symbol: KSNode?) {
-        delegate.logging(message, symbol)
+        delegate.logging(prefix(message), symbol)
     }
 
     override fun warn(message: String, symbol: KSNode?) {
-        delegate.warn(message, symbol)
+        delegate.warn(prefix(message), symbol)
     }
 
     private fun prefix(message: String) = "[info.anodsplace.dotenv] $message"
