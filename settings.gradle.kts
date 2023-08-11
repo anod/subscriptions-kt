@@ -8,11 +8,6 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            library("androidx-appcompat", "androidx.appcompat:appcompat:1.5.1")
-            library("androidx-activity-compose", "androidx.activity:activity-compose:1.6.0")
-            library("androidx-core", "androidx.core:core-ktx:1.9.0")
-            library("android-gradle-plugin", "com.android.tools.build:gradle:7.4.2")
-
             version("ktor", "2.3.2")
             library("ktor-client-core", "io.ktor", "ktor-client-core").versionRef("ktor")
             library("ktor-client-logging", "io.ktor", "ktor-client-logging").versionRef("ktor")
@@ -82,10 +77,6 @@ pluginManagement {
         kotlin("multiplatform").version("1.9.0") apply false
         kotlin("android").version("1.9.0") apply false
         kotlin("plugin.serialization").version("1.9.0") apply false
-
-        id("com.android.application").version("7.4.2") apply false
-        id("com.android.library").version("7.4.2") apply false
-
         id("org.jetbrains.compose").version("1.4.3") apply false
     }
 }
@@ -95,9 +86,7 @@ include(
     ":common:app",
     ":common:server-contract",
     ":common:compose-ui",
-    ":android",
     ":desktop",
-    //  ":web", // disabled due to FATAL ERROR: Could not find "io.ktor:ktor-http-cio"
     ":server",
 )
 

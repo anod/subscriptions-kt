@@ -16,41 +16,11 @@ apollo {
     }
 }
 
-android {
-    compileSdk = 33
-    namespace = "info.anodsplace.subscriptions.app"
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-
-    defaultConfig {
-        minSdk = 29
-        targetSdk = 33
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    sourceSets {
-        named("main") {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
-            res.srcDirs("src/androidMain/res")
-        }
-    }
-}
-
 kotlin {
-    androidTarget()
     jvm("desktop")
-    js(IR) {
-        browser()
-    }
 
     sourceSets {
-        named("commonMain") {
+        val commonMain by getting {
             dependencies {
                 implementation(project(":common:server-contract"))
                 implementation(libs.coroutines.core)
@@ -60,39 +30,8 @@ kotlin {
                 implementation(libs.apollo.normalized.cache)
             }
         }
-
-        named("androidMain") {
-            dependencies {
-            }
-        }
-
-        named("desktopMain") {
-            dependencies {
-            }
-        }
-
-        named("jsMain") {
-            dependencies {
-            }
-        }
-
-        named("commonTest") {
-            dependencies {
-                implementation(libs.kotlin.test.common)
-                implementation(libs.kotlin.test.annotations)
-            }
-        }
-
-        named("androidUnitTest") {
-            dependencies {
-                implementation(libs.kotlin.test.junit)
-            }
-        }
-
-        named("jsTest") {
-            dependencies {
-                implementation(libs.kotlin.test.js)
-            }
+        val desktopMain by getting {
+            kotlin.srcDir("build/generated/ksp/desktop/desktopMain/kotlin")
         }
     }
 
@@ -100,7 +39,6 @@ kotlin {
         kotlinOptions.jvmTarget = "11"
     }
 }
-
 
 dependencies {
     add("kspCommonMainMetadata", project(":ksp-dotenv"))

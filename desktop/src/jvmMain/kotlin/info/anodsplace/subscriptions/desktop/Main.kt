@@ -32,19 +32,6 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-class Config(
-    override val graphQlEndpoint: String,
-    override val serverEndpoint: String,
-    override val env: String
-) : Config {
-//    constructor() : this(
-//        graphQlEndpoint = DotEnv.hasuraGraphqlEndpoint,
-//        serverEndpoint = DotEnv.sbsServerEndpoint,
-//        env = DotEnv.sbsEnv
-//    )
-}
-
-
 fun main() {
     val logger = PrintLogger(Level.INFO)
     val appCoroutineScope = AppCoroutineScope(Dispatchers.Main.immediate)
