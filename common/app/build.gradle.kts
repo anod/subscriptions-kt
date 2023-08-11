@@ -1,7 +1,7 @@
 
 plugins {
     kotlin("multiplatform")
-    id("com.apollographql.apollo3").version("3.8.2")
+    alias(libs.plugins.apollo)
     id("com.google.devtools.ksp")
 }
 
@@ -38,8 +38,8 @@ kotlin {
 }
 
 dependencies {
-    add("kspCommonMainMetadata", project(":ksp-dotenv"))
-    add("kspDesktop", project(":ksp-dotenv"))
+    add("kspCommonMainMetadata", libs.ksp.dotenv)
+    add("kspDesktop", libs.ksp.dotenv)
 }
 
 ksp {

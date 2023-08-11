@@ -4,6 +4,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     versionCatalogs {
@@ -50,7 +51,7 @@ dependencyResolutionManagement {
             library("kotlinx-html", "org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
 
             version("compose", "1.4.3")
-            library("compose-gradle-plugin", "org.jetbrains.compose", "compose-gradle-plugin").versionRef("compose")
+            plugin("jetbrains-compose","org.jetbrains.compose").versionRef("compose")
 
             library("serialization-json", "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
@@ -59,30 +60,26 @@ dependencyResolutionManagement {
             version("apollo", "3.8.2")
             library("apollo-graphql", "com.apollographql.apollo3", "apollo-runtime").versionRef("apollo")
             library("apollo-normalized-cache", "com.apollographql.apollo3", "apollo-normalized-cache").versionRef("apollo")
-            plugin("apollo", "com.apollographql.apollo3").version("apollo")
+            plugin("apollo", "com.apollographql.apollo3").versionRef("apollo")
+
+            library("ksp-dotenv", "info.anodsplace.dotenv", "ksp-dotenv").version("0.1.0")
+
+            plugin("dotenv-gradle", "co.uzzu.dotenv.gradle").version("2.0.0")
         }
     }
 }
 
 pluginManagement {
-    repositories {        mavenLocal()
+    repositories {
+        mavenLocal()
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         gradlePluginPortal()
     }
-    plugins {
-        id("com.google.devtools.ksp") version "1.9.0-1.0.13" apply false
-        kotlin("jvm").version("1.9.0") apply false
-        kotlin("multiplatform").version("1.9.0") apply false
-        kotlin("android").version("1.9.0") apply false
-        kotlin("plugin.serialization").version("1.9.0") apply false
-        id("org.jetbrains.compose").version("1.4.3") apply false
-    }
 }
 
 include(
-    ":ksp-dotenv",
     ":common:app",
     ":common:server-contract",
     ":common:compose-ui",
