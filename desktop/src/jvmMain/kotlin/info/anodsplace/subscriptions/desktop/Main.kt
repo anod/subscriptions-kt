@@ -10,6 +10,7 @@ import androidx.compose.ui.window.rememberWindowState
 import info.anodsplace.subscriptions.JvmCurrency
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.app.CommonRouter
+import info.anodsplace.subscriptions.app.Config
 import info.anodsplace.subscriptions.app.createCommonAppModule
 import info.anodsplace.subscriptions.app.currency.Currency
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
@@ -30,6 +31,19 @@ import org.koin.core.logger.PrintLogger
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
+
+class Config(
+    override val graphQlEndpoint: String,
+    override val serverEndpoint: String,
+    override val env: String
+) : Config {
+//    constructor() : this(
+//        graphQlEndpoint = DotEnv.hasuraGraphqlEndpoint,
+//        serverEndpoint = DotEnv.sbsServerEndpoint,
+//        env = DotEnv.sbsEnv
+//    )
+}
+
 
 fun main() {
     val logger = PrintLogger(Level.INFO)

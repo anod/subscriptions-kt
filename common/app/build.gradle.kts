@@ -1,7 +1,7 @@
 
 plugins {
     id("com.android.library")
-    id("kotlin-multiplatform")
+    kotlin("multiplatform")
     id("com.apollographql.apollo3").version("3.8.2")
     id("com.google.devtools.ksp")
 }
@@ -18,6 +18,11 @@ apollo {
 
 android {
     compileSdk = 33
+    namespace = "info.anodsplace.subscriptions.app"
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
         minSdk = 29
@@ -38,7 +43,7 @@ android {
 }
 
 kotlin {
-    android()
+    androidTarget()
     jvm("desktop")
     js(IR) {
         browser()

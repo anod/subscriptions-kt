@@ -1,10 +1,17 @@
+
 dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
     versionCatalogs {
         create("libs") {
             library("androidx-appcompat", "androidx.appcompat:appcompat:1.5.1")
             library("androidx-activity-compose", "androidx.activity:activity-compose:1.6.0")
             library("androidx-core", "androidx.core:core-ktx:1.9.0")
-            library("android-gradle-plugin", "com.android.tools.build:gradle:7.4.1")
+            library("android-gradle-plugin", "com.android.tools.build:gradle:7.4.2")
 
             version("ktor", "2.3.2")
             library("ktor-client-core", "io.ktor", "ktor-client-core").versionRef("ktor")
@@ -26,7 +33,7 @@ dependencyResolutionManagement {
 
             library("koin-core", "io.insert-koin:koin-core:3.4.2")
 
-            version("kotlin", "1.8.20")
+            version("kotlin", "1.9.0")
             library("kotlin-gradle-plugin", "org.jetbrains.kotlin", "kotlin-gradle-plugin").versionRef("kotlin")
             library("kotlin-test-common", "org.jetbrains.kotlin", "kotlin-test-common").versionRef("kotlin")
             library("kotlin-test-junit", "org.jetbrains.kotlin", "kotlin-test-junit").versionRef("kotlin")
@@ -47,7 +54,7 @@ dependencyResolutionManagement {
             library("coroutines-swing", "org.jetbrains.kotlinx", "kotlinx-coroutines-swing").versionRef("coroutines")
             library("kotlinx-html", "org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
 
-            version("compose", "1.4.1")
+            version("compose", "1.4.3")
             library("compose-gradle-plugin", "org.jetbrains.compose", "compose-gradle-plugin").versionRef("compose")
 
             library("serialization-json", "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
@@ -59,6 +66,27 @@ dependencyResolutionManagement {
             library("apollo-normalized-cache", "com.apollographql.apollo3", "apollo-normalized-cache").versionRef("apollo")
             plugin("apollo", "com.apollographql.apollo3").version("apollo")
         }
+    }
+}
+
+pluginManagement {
+    repositories {        mavenLocal()
+        google()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        gradlePluginPortal()
+    }
+    plugins {
+        id("com.google.devtools.ksp") version "1.9.0-1.0.13" apply false
+        kotlin("jvm").version("1.9.0") apply false
+        kotlin("multiplatform").version("1.9.0") apply false
+        kotlin("android").version("1.9.0") apply false
+        kotlin("plugin.serialization").version("1.9.0") apply false
+
+        id("com.android.application").version("7.4.2") apply false
+        id("com.android.library").version("7.4.2") apply false
+
+        id("org.jetbrains.compose").version("1.4.3") apply false
     }
 }
 

@@ -1,13 +1,10 @@
 plugins {
-    id("kotlin-multiplatform")
+    kotlin("multiplatform")
     kotlin("plugin.serialization")
 }
 
 kotlin {
     jvm()
-    js(IR) {
-        browser()
-    }
     sourceSets {
         named("commonMain") {
             dependencies {
