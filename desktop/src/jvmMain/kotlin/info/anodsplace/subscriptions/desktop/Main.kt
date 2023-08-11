@@ -7,6 +7,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import info.anodsplace.subscriptions.DesktopConfig
 import info.anodsplace.subscriptions.JvmCurrency
 import info.anodsplace.subscriptions.app.AppCoroutineScope
 import info.anodsplace.subscriptions.app.CommonRouter
@@ -43,7 +44,8 @@ fun main() {
                 module {
                     single { logger } bind Logger::class
                     single { appCoroutineScope } bind AppCoroutineScope::class
-                    single { GraphQlApolloClient(get()) } bind GraphQLClient::class
+                    single { DesktopConfig() } bind Config::class
+                    single { GraphQlApolloClient(get(), get()) } bind GraphQLClient::class
                     single {
                         HttpClient(CIO) {
                             install(ContentNegotiation) {

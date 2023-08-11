@@ -78,8 +78,6 @@ fun Application.module(testing: Boolean = false) {
             val token = jwtToken.forUser(user)
             call.respond(LoginResponse(token = token, userId = user.id))
         }
-        static("/static") {
-            resources()
-        }
+        staticResources("/static", "resources")
     }
 }

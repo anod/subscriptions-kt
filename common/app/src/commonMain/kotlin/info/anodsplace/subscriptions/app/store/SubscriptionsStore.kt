@@ -1,6 +1,7 @@
 package info.anodsplace.subscriptions.app.store
 
 import info.anodsplace.subscriptions.app.AppCoroutineScope
+import info.anodsplace.subscriptions.app.Config
 import info.anodsplace.subscriptions.app.Route
 import info.anodsplace.subscriptions.app.graphql.GraphQLClient
 import info.anodsplace.subscriptions.graphql.fragment.GQPayment
@@ -55,7 +56,8 @@ class DefaultSubscriptionsStore(
     private val appScope: AppCoroutineScope,
     private val httpClient: HttpClient,
     private val graphQLClient: GraphQLClient,
-    private val logger: Logger
+    private val logger: Logger,
+    private val config: Config
 ) : BaseStore<SubscriptionsState, SubscriptionEvent, SubscriptionAction>(storeScope = appScope), SubscriptionsStore {
 
     init {
@@ -126,7 +128,7 @@ class DefaultSubscriptionsStore(
     private suspend fun login(action: SubscriptionEvent.Login) {
         try {
             val response: LoginResponse = httpClient.post {
-                 url("http://localhost:9090/login")
+                 url("${config.serverEndpoint}/login")
                  contentType(ContentType.Application.Json)
                  setBody(LoginRequest(username = action.username, password = action.password))
             }.body()

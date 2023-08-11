@@ -4,7 +4,7 @@ data class Options(
     val allowedKeys: Collection<String>,
     val packageName: String,
     val className: String,
-    val camelCase: Boolean
+    val camelCase: Boolean,
 ) {
     companion object {
         const val optPath = "info.anodsplace.dotenv.path"

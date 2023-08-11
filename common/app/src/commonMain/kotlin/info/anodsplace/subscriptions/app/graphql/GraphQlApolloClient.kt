@@ -8,6 +8,7 @@ import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
 import com.apollographql.apollo3.cache.normalized.normalizedCache
 import com.apollographql.apollo3.interceptor.ApolloInterceptor
 import com.apollographql.apollo3.interceptor.ApolloInterceptorChain
+import info.anodsplace.subscriptions.app.Config
 import info.anodsplace.subscriptions.graphql.GetPaymentQuery
 import info.anodsplace.subscriptions.graphql.GetPaymentsQuery
 import info.anodsplace.subscriptions.graphql.GetUserQuery
@@ -36,8 +37,8 @@ class GraphQlApolloClient(
     }
 
     companion object {
-        private fun createApolloClient(tokenInterceptor: TokenInterceptor): ApolloClient = ApolloClient.Builder()
-            .serverUrl("http://localhost:8080/v1/graphql")
+        private fun createApolloClient(tokenInterceptor: TokenInterceptor, config: Config): ApolloClient = ApolloClient.Builder()
+            .serverUrl(config.graphQlEndpoint)
             .addInterceptor(tokenInterceptor)
             .normalizedCache(MemoryCacheFactory(maxSizeBytes = 100 * 1024 * 1024))
             .build()
@@ -47,10 +48,10 @@ class GraphQlApolloClient(
             return "Cannot execute $query: $message"
         }
     }
-    constructor(logger: Logger) : this(TokenInterceptor(), logger)
+    constructor(logger: Logger, config: Config) : this(TokenInterceptor(), logger, config)
 
-    constructor(tokenInterceptor: TokenInterceptor, logger: Logger)
-            : this(tokenInterceptor, createApolloClient(tokenInterceptor), logger)
+    constructor(tokenInterceptor: TokenInterceptor, logger: Logger, config: Config)
+            : this(tokenInterceptor, createApolloClient(tokenInterceptor, config), logger)
 
     override var token: String
         get() = tokenInterceptor.token

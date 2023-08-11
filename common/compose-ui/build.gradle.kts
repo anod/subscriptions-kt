@@ -6,22 +6,11 @@ plugins {
 kotlin {
     jvm("desktop")
     sourceSets {
-        named("commonMain") {
+        val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
-            }
-        }
-
-        named("androidMain") {
-            dependencies {
-                implementation(libs.androidx.appcompat)
-                implementation(libs.androidx.core)
-            }
-        }
-        named("commonMain") {
-            dependencies {
                 implementation(project(":common:app"))
                 implementation(libs.coroutines.core)
                 implementation(libs.koin.core)

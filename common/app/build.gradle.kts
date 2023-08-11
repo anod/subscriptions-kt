@@ -1,6 +1,5 @@
 
 plugins {
-    id("com.android.library")
     kotlin("multiplatform")
     id("com.apollographql.apollo3").version("3.8.2")
     id("com.google.devtools.ksp")
@@ -30,9 +29,7 @@ kotlin {
                 implementation(libs.apollo.normalized.cache)
             }
         }
-        val desktopMain by getting {
-            kotlin.srcDir("build/generated/ksp/desktop/desktopMain/kotlin")
-        }
+        val desktopMain by getting
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -43,12 +40,12 @@ kotlin {
 dependencies {
     add("kspCommonMainMetadata", project(":ksp-dotenv"))
     add("kspDesktop", project(":ksp-dotenv"))
-    add("kspJs", project(":ksp-dotenv"))
-    add("kspAndroid", project(":ksp-dotenv"))
 }
 
 ksp {
     arg("info.anodsplace.dotenv.path", project.rootDir.toString())
     arg("info.anodsplace.dotenv.allowedKeys", "*ENDPOINT;SBS_ENV")
     arg("info.anodsplace.dotenv.camelCase", "true")
+    arg("info.anodsplace.dotenv.package", "info.anodsplace.subscriptions")
+    arg("info.anodsplace.dotenv.class", "DotEnvClient")
 }

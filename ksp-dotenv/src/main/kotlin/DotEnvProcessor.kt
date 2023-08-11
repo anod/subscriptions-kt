@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ksp.writeTo
 import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.dotenv.DotenvEntry
 import java.io.File
+import java.util.function.Consumer
 
 class DotEnvProcessor(
     environment: SymbolProcessorEnvironment,
@@ -26,9 +27,9 @@ class DotEnvProcessor(
             .entries(Dotenv.Filter.DECLARED_IN_ENV_FILE)
             .let { filterKeys(it) }
             .let { adjustKeyCase(it) }
-        generateFile(
-            entries = entries
-        ).writeTo(codeGenerator, Dependencies(true))
+
+        generateFile(entries = entries)
+            .writeTo(codeGenerator, Dependencies(true))
         invoked = true
         return emptyList()
     }
@@ -71,7 +72,7 @@ class DotEnvProcessor(
 
         return FileSpec.builder(options.packageName, options.className)
             .addType(
-                TypeSpec.objectBuilder("DotEnv")
+                TypeSpec.objectBuilder(options.className)
                     .addProperties(properties)
                 .build()
             )
