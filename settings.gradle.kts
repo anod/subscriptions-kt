@@ -6,6 +6,15 @@ dependencyResolutionManagement {
         mavenCentral()
         mavenLocal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven {
+            val GITHUB_TOKEN: String by settings
+            url = uri("https://maven.pkg.github.com/anod/ksp-dotenv")
+            name = "ksp-dotenv"
+            credentials {
+                username = "anod"
+                password = GITHUB_TOKEN
+            }
+        }
     }
     versionCatalogs {
         create("libs") {
@@ -62,7 +71,7 @@ dependencyResolutionManagement {
             library("apollo-normalized-cache", "com.apollographql.apollo3", "apollo-normalized-cache").versionRef("apollo")
             plugin("apollo", "com.apollographql.apollo3").versionRef("apollo")
 
-            library("ksp-dotenv", "info.anodsplace.dotenv", "ksp-dotenv").version("0.1.0")
+            library("ksp-dotenv", "info.anodsplace.dotenv", "ksp-dotenv-jvm").version("0.1.0")
 
             plugin("dotenv-gradle", "co.uzzu.dotenv.gradle").version("2.0.0")
         }
@@ -75,6 +84,15 @@ pluginManagement {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven {
+            val GITHUB_TOKEN: String by settings
+            url = uri("https://maven.pkg.github.com/anod/ksp-dotenv")
+            name = "ksp-dotenv"
+            credentials {
+                username = "anod"
+                password = GITHUB_TOKEN
+            }
+        }
         gradlePluginPortal()
     }
 }
