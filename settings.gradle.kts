@@ -18,7 +18,7 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            version("ktor", "2.3.2")
+            version("ktor", "2.3.4")
             library("ktor-client-core", "io.ktor", "ktor-client-core").versionRef("ktor")
             library("ktor-client-logging", "io.ktor", "ktor-client-logging").versionRef("ktor")
             library("ktor-client-js", "io.ktor", "ktor-client-js").versionRef("ktor")
@@ -36,9 +36,9 @@ dependencyResolutionManagement {
             library("ktor-server-compression", "io.ktor", "ktor-server-compression").versionRef("ktor")
             library("ktor-server-cors", "io.ktor", "ktor-server-cors").versionRef("ktor")
 
-            library("koin-core", "io.insert-koin:koin-core:3.4.2")
+            library("koin-core", "io.insert-koin:koin-core:3.5.0")
 
-            version("kotlin", "1.9.0")
+            version("kotlin", "1.9.10")
             library("kotlin-gradle-plugin", "org.jetbrains.kotlin", "kotlin-gradle-plugin").versionRef("kotlin")
             library("kotlin-test-common", "org.jetbrains.kotlin", "kotlin-test-common").versionRef("kotlin")
             library("kotlin-test-junit", "org.jetbrains.kotlin", "kotlin-test-junit").versionRef("kotlin")
@@ -54,12 +54,12 @@ dependencyResolutionManagement {
                 "kotlin-serialization"
             ).versionRef("kotlin")
 
-            version("coroutines", "1.7.2")
+            version("coroutines", "1.7.3")
             library("coroutines-core", "org.jetbrains.kotlinx", "kotlinx-coroutines-core").versionRef("coroutines")
             library("coroutines-swing", "org.jetbrains.kotlinx", "kotlinx-coroutines-swing").versionRef("coroutines")
             library("kotlinx-html", "org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
 
-            version("compose", "1.4.3")
+            version("compose", "1.5.1")
             plugin("jetbrains-compose","org.jetbrains.compose").versionRef("compose")
 
             library("serialization-json", "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
